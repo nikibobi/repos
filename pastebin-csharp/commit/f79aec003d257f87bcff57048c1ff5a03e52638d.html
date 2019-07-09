@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Optimized Paste - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/f79aec003d257f87bcff57048c1ff5a03e52638d.html">f79aec003d257f87bcff57048c1ff5a03e52638d</a>
+<b>parent</b> <a href="../commit/c1acaac712e57b0cf31097f6504c157fb6ebbf32.html">c1acaac712e57b0cf31097f6504c157fb6ebbf32</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Tue, 20 Aug 2013 19:24:00 +0300
+
+Optimized Paste
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Paste.cs</a></td><td> | </td><td class="num">30</td><td><span class="i">+++++++++++</span><span class="d">-------------------</span></td></tr>
+</table></pre><pre>1 file changed, 11 insertions(+), 19 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a> b/<a href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -26,28 +26,20 @@ internal static Paste FromXML(XElement xpaste)
+</a>              */
+             var paste = new Paste();
+             paste.Key = xpaste.Element(&quot;paste_key&quot;).Value;
+<a href="#h0-0-3" id="h0-0-3" class="d">-            paste.CreateDate = Utills.GetDate(long.Parse(xpaste.Element(&quot;paste_date&quot;).Value));
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+            paste.CreateDate = Utills.GetDate((long)xpaste.Element(&quot;paste_date&quot;));
+</a>             paste.Title = xpaste.Element(&quot;paste_title&quot;).Value;
+<a href="#h0-0-6" id="h0-0-6" class="d">-            paste.Size = int.Parse(xpaste.Element(&quot;paste_size&quot;).Value);
+</a><a href="#h0-0-7" id="h0-0-7" class="d">-            var expTicks = long.Parse(xpaste.Element(&quot;paste_expire_date&quot;).Value);
+</a><a href="#h0-0-8" id="h0-0-8" class="d">-            if (expTicks != 0)
+</a><a href="#h0-0-9" id="h0-0-9" class="d">-            {
+</a><a href="#h0-0-10" id="h0-0-10" class="d">-                paste.ExpireDate = Utills.GetDate(expTicks);
+</a><a href="#h0-0-11" id="h0-0-11" class="d">-                paste.Expiration = Expiration.FromTimeSpan(paste.ExpireDate - paste.CreateDate);
+</a><a href="#h0-0-12" id="h0-0-12" class="d">-            }
+</a><a href="#h0-0-13" id="h0-0-13" class="d">-            else
+</a><a href="#h0-0-14" id="h0-0-14" class="d">-            {
+</a><a href="#h0-0-15" id="h0-0-15" class="d">-                paste.ExpireDate = DateTime.MaxValue;
+</a><a href="#h0-0-16" id="h0-0-16" class="d">-                paste.Expiration = Expiration.Never;
+</a><a href="#h0-0-17" id="h0-0-17" class="d">-            }
+</a><a href="#h0-0-18" id="h0-0-18" class="d">-            paste.Visibility = (Visibility)int.Parse(xpaste.Element(&quot;paste_private&quot;).Value);
+</a><a href="#h0-0-19" id="h0-0-19" class="i">+            paste.Size = (int)xpaste.Element(&quot;paste_size&quot;);
+</a><a href="#h0-0-20" id="h0-0-20" class="i">+            var exdate = (long)xpaste.Element(&quot;paste_expire_date&quot;);
+</a><a href="#h0-0-21" id="h0-0-21" class="i">+            paste.ExpireDate = exdate != 0 ? Utills.GetDate(exdate) : paste.CreateDate;
+</a><a href="#h0-0-22" id="h0-0-22" class="i">+            paste.Expiration = Expiration.FromTimeSpan(paste.ExpireDate - paste.CreateDate);
+</a><a href="#h0-0-23" id="h0-0-23" class="i">+            paste.Visibility = (Visibility)(int)xpaste.Element(&quot;paste_private&quot;);
+</a>             paste.Language = Language.Parse(xpaste.Element(&quot;paste_format_short&quot;).Value);
+             paste.Url = xpaste.Element(&quot;paste_url&quot;).Value;
+<a href="#h0-0-26" id="h0-0-26" class="d">-            paste.Hits = int.Parse(xpaste.Element(&quot;paste_hits&quot;).Value);
+</a><a href="#h0-0-27" id="h0-0-27" class="i">+            paste.Hits = (int)xpaste.Element(&quot;paste_hits&quot;);
+</a>             return paste;
+         }
+ 
+<a href="#h0-0-31" id="h0-0-31" class="d">-        internal static Paste Create(string userKey, string text, string title = &quot;&quot;, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a><a href="#h0-0-32" id="h0-0-32" class="i">+        internal static Paste Create(string userKey, string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a>         {
+             var result = Utills.PostRequest(Utills.URL_API,
+                                             //required parameters
+<a href="#h0-1" id="h0-1" class="h">@@ -56,7 +48,7 @@ internal static Paste Create(string userKey, string text, string title = &quot;&quot;, Lan
+</a>                                             &quot;api_paste_code=&quot; + Uri.EscapeDataString(text),
+                                             //optional parameters
+                                             &quot;api_user_key=&quot; + userKey,
+<a href="#h0-1-3" id="h0-1-3" class="d">-                                            &quot;api_paste_name=&quot; + Uri.EscapeDataString(title),
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+                                            &quot;api_paste_name=&quot; + Uri.EscapeDataString(title ?? &quot;Untitled&quot;),
+</a>                                             &quot;api_paste_format=&quot; + (language ?? Language.Default),
+                                             &quot;api_paste_private=&quot; + (int)visibility,
+                                             &quot;api_paste_expire_date=&quot; + (expiration ?? Expiration.Default));
+<a href="#h0-2" id="h0-2" class="h">@@ -65,7 +57,7 @@ internal static Paste Create(string userKey, string text, string title = &quot;&quot;, Lan
+</a>                 throw new PastebinException(result);
+ 
+             var paste = new Paste();
+<a href="#h0-2-3" id="h0-2-3" class="d">-            paste.Key = result.Replace(Utills.URL, &quot;&quot;);
+</a><a href="#h0-2-4" id="h0-2-4" class="i">+            paste.Key = result.Replace(Utills.URL, string.Empty);
+</a>             paste.CreateDate = DateTime.Now;
+             paste.Title = title;
+             paste.Size = Encoding.UTF8.GetByteCount(text);
+<a href="#h0-3" id="h0-3" class="h">@@ -84,7 +76,7 @@ internal static Paste Create(string userKey, string text, string title = &quot;&quot;, Lan
+</a>         /// Creates a new paste anonymously and uploads it to pastebin
+         /// &lt;/summary&gt;
+         /// &lt;returns&gt;Paste object containing the Url given from Pastebin&lt;/returns&gt;
+<a href="#h0-3-3" id="h0-3-3" class="d">-        public static Paste Create(string text, string title = &quot;&quot;, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a><a href="#h0-3-4" id="h0-3-4" class="i">+        public static Paste Create(string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a>         {
+             return Create(&quot;&quot;, text, title, language, visibility, expiration);
+         }
+</pre>
+</div>
+</body>
+</html>

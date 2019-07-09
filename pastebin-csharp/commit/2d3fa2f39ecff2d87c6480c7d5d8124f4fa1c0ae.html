@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>convert library to use async await change WebRequest to HttpClient for requests - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/2d3fa2f39ecff2d87c6480c7d5d8124f4fa1c0ae.html">2d3fa2f39ecff2d87c6480c7d5d8124f4fa1c0ae</a>
+<b>parent</b> <a href="../commit/e12971cc59b5b4783b5e769524e333db87d8b69c.html">e12971cc59b5b4783b5e769524e333db87d8b69c</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Fri,  9 Mar 2018 20:34:37 +0200
+
+convert library to use async await
+change WebRequest to HttpClient for requests
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">Example/Example.cs</a></td><td> | </td><td class="num">22</td><td><span class="i">++++++++++++++</span><span class="d">--------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">PastebinAPI/Paste.cs</a></td><td> | </td><td class="num">27</td><td><span class="i">++++++++++++++</span><span class="d">-------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI/Pastebin.cs</a></td><td> | </td><td class="num">19</td><td><span class="i">+++++++++++</span><span class="d">--------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h3">PastebinAPI/User.cs</a></td><td> | </td><td class="num">27</td><td><span class="i">+++++++++++++++</span><span class="d">------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h4">PastebinAPI/Utills.cs</a></td><td> | </td><td class="num">35</td><td><span class="i">++++++++++++++</span><span class="d">---------------------</span></td></tr>
+</table></pre><pre>5 files changed, 68 insertions(+), 62 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/Example/Example.cs.html">Example/Example.cs</a> b/<a href="../file/Example/Example.cs.html">Example/Example.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,4 +1,5 @@
+</a> ﻿using System;
+<a href="#h0-0-1" id="h0-0-1" class="i">+using System.Threading.Tasks;
+</a> using PastebinAPI;
+ 
+ namespace Example
+<a href="#h0-1" id="h0-1" class="h">@@ -7,41 +8,46 @@ class Example
+</a>     {
+         static void Main()
+         {
+<a href="#h0-1-3" id="h0-1-3" class="i">+            PastebinExample().GetAwaiter().GetResult();
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+        }
+</a><a href="#h0-1-5" id="h0-1-5" class="i">+
+</a><a href="#h0-1-6" id="h0-1-6" class="i">+        static async Task PastebinExample()
+</a><a href="#h0-1-7" id="h0-1-7" class="i">+        {
+</a>             //before using any class in the api you must enter your api dev key
+             Pastebin.DevKey = &quot;your dev key goes here&quot;;
+             //you can see yours here: https://pastebin.com/api#1
+             try
+             {
+                 // login and get user object
+<a href="#h0-1-14" id="h0-1-14" class="d">-                User me = Pastebin.Login(&quot;user&quot;, &quot;pass&quot;);
+</a><a href="#h0-1-15" id="h0-1-15" class="i">+                User me = await Pastebin.LoginAsync(&quot;user&quot;, &quot;pass&quot;);
+</a>                 // user contains information like e-mail, location etc...
+                 Console.WriteLine(&quot;{0}({1}) lives in {2}&quot;, me, me.Email, me.Location);
+                 // lists all pastes for this user
+<a href="#h0-1-19" id="h0-1-19" class="d">-                foreach (Paste paste in me.ListPastes(3)) // we limmit the results to 3
+</a><a href="#h0-1-20" id="h0-1-20" class="i">+                foreach (Paste paste in await me.ListPastesAsync(3)) // we limmit the results to 3
+</a>                 {
+                     Console.WriteLine(paste.Title);
+                 }
+ 
+                 string code = &quot;&lt;your fancy &amp;code#() goes here&gt;&quot;;
+                 //creates a new paste and get paste object
+<a href="#h0-1-27" id="h0-1-27" class="d">-                Paste newPaste = me.CreatePaste(code, &quot;MyPasteTitle&quot;, Language.HTML5, Visibility.Public, Expiration.TenMinutes);
+</a><a href="#h0-1-28" id="h0-1-28" class="i">+                Paste newPaste = await me.CreatePasteAsync(code, &quot;MyPasteTitle&quot;, Language.HTML5, Visibility.Public, Expiration.TenMinutes);
+</a>                 //newPaste now contains the link returned from the server
+<a href="#h0-1-30" id="h0-1-30" class="d">-                Console.WriteLine(&quot;URL: {0}&quot;,newPaste.Url);
+</a><a href="#h0-1-31" id="h0-1-31" class="i">+                Console.WriteLine(&quot;URL: {0}&quot;, newPaste.Url);
+</a>                 Console.WriteLine(&quot;Paste key: {0}&quot;, newPaste.Key);
+                 Console.WriteLine(&quot;Content: {0}&quot;, newPaste.Text);
+                 //deletes the paste we just created
+<a href="#h0-1-35" id="h0-1-35" class="d">-                me.DeletePaste(newPaste);
+</a><a href="#h0-1-36" id="h0-1-36" class="i">+                await me.DeletePasteAsync(newPaste);
+</a> 
+                 //lists all currently trending pastes(similar to me.ListPastes())
+<a href="#h0-1-39" id="h0-1-39" class="d">-                foreach (Paste paste in Pastebin.ListTrendingPastes())
+</a><a href="#h0-1-40" id="h0-1-40" class="i">+                foreach (Paste paste in await Pastebin.ListTrendingPastesAsync())
+</a>                 {
+                     Console.WriteLine(&quot;{0} - {1}&quot;, paste.Title, paste.Url);
+                 }
+                 //you can create pastes directly from Pastebin static class but they are created as guests and you have a limited number of guest uploads
+<a href="#h0-1-45" id="h0-1-45" class="d">-                Paste anotherPaste = Paste.Create(&quot;another paste&quot;, &quot;MyPasteTitle2&quot;, Language.CSharp, Visibility.Unlisted, Expiration.OneHour);
+</a><a href="#h0-1-46" id="h0-1-46" class="i">+                Paste anotherPaste = await Paste.CreateAsync(&quot;another paste&quot;, &quot;MyPasteTitle2&quot;, Language.CSharp, Visibility.Unlisted, Expiration.OneHour);
+</a>                 Console.WriteLine(anotherPaste.Title);
+             }
+<a href="#h0-1-49" id="h0-1-49" class="d">-            catch(PastebinException ex) //api throws PastebinException
+</a><a href="#h0-1-50" id="h0-1-50" class="i">+            catch (PastebinException ex) //api throws PastebinException
+</a>             {
+                 //in the Parameter property you can see what invalid parameter was sent
+                 //here we check if the exeption is thrown because of invalid login details
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a> b/<a href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -1,11 +1,12 @@
+</a> ﻿using System;
+ using System.Text;
+<a href="#h1-0-2" id="h1-0-2" class="d">-using System.Linq;
+</a> using System.Xml.Linq;
+<a href="#h1-0-4" id="h1-0-4" class="d">-using System.Collections.Generic;
+</a><a href="#h1-0-5" id="h1-0-5" class="i">+using System.Threading.Tasks;
+</a> 
+ namespace PastebinAPI
+ {
+<a href="#h1-0-9" id="h1-0-9" class="i">+    using static Utills;
+</a><a href="#h1-0-10" id="h1-0-10" class="i">+
+</a>     public class Paste
+     {
+         internal static Paste FromXML(XElement xpaste)
+<a href="#h1-1" id="h1-1" class="h">@@ -26,11 +27,11 @@ internal static Paste FromXML(XElement xpaste)
+</a>              */
+             var paste = new Paste();
+             paste.Key = xpaste.Element(&quot;paste_key&quot;).Value;
+<a href="#h1-1-3" id="h1-1-3" class="d">-            paste.CreateDate = Utills.GetDate((long)xpaste.Element(&quot;paste_date&quot;));
+</a><a href="#h1-1-4" id="h1-1-4" class="i">+            paste.CreateDate = GetDate((long)xpaste.Element(&quot;paste_date&quot;));
+</a>             paste.Title = xpaste.Element(&quot;paste_title&quot;).Value;
+             paste.Size = (int)xpaste.Element(&quot;paste_size&quot;);
+             var exdate = (long)xpaste.Element(&quot;paste_expire_date&quot;);
+<a href="#h1-1-8" id="h1-1-8" class="d">-            paste.ExpireDate = exdate != 0 ? Utills.GetDate(exdate) : paste.CreateDate;
+</a><a href="#h1-1-9" id="h1-1-9" class="i">+            paste.ExpireDate = exdate != 0 ? GetDate(exdate) : paste.CreateDate;
+</a>             paste.Expiration = Expiration.FromTimeSpan(paste.ExpireDate - paste.CreateDate);
+             paste.Visibility = (Visibility)(int)xpaste.Element(&quot;paste_private&quot;);
+             paste.Language = Language.Parse(xpaste.Element(&quot;paste_format_short&quot;).Value);
+<a href="#h1-2" id="h1-2" class="h">@@ -39,13 +40,13 @@ internal static Paste FromXML(XElement xpaste)
+</a>             return paste;
+         }
+ 
+<a href="#h1-2-3" id="h1-2-3" class="d">-        internal static Paste Create(string userKey, string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a><a href="#h1-2-4" id="h1-2-4" class="i">+        internal static async Task&lt;Paste&gt; CreateAsync(string userKey, string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a>         {
+             title = title ?? &quot;Untitled&quot;;
+             language = language ?? Language.Default;
+             expiration = expiration ?? Expiration.Default;
+ 
+<a href="#h1-2-10" id="h1-2-10" class="d">-            var result = Utills.PostRequest(Utills.URL_API,
+</a><a href="#h1-2-11" id="h1-2-11" class="i">+            var result = await PostRequestAsync(URL_API,
+</a>                                             //required parameters
+                                             &quot;api_dev_key=&quot; + Pastebin.DevKey,
+                                             &quot;api_option=&quot; + &quot;paste&quot;,
+<a href="#h1-3" id="h1-3" class="h">@@ -57,11 +58,11 @@ internal static Paste Create(string userKey, string text, string title = null, L
+</a>                                             &quot;api_paste_private=&quot; + (int)visibility,
+                                             &quot;api_paste_expire_date=&quot; + expiration);
+ 
+<a href="#h1-3-3" id="h1-3-3" class="d">-            if (result.Contains(Utills.ERROR))
+</a><a href="#h1-3-4" id="h1-3-4" class="i">+            if (result.Contains(ERROR))
+</a>                 throw new PastebinException(result);
+ 
+             var paste = new Paste();
+<a href="#h1-3-8" id="h1-3-8" class="d">-            paste.Key = result.Replace(Utills.URL, string.Empty);
+</a><a href="#h1-3-9" id="h1-3-9" class="i">+            paste.Key = result.Replace(URL, string.Empty);
+</a>             paste.CreateDate = DateTime.Now;
+             paste.Title = title;
+             paste.Size = Encoding.UTF8.GetByteCount(text);
+<a href="#h1-4" id="h1-4" class="h">@@ -80,9 +81,9 @@ internal static Paste Create(string userKey, string text, string title = null, L
+</a>         /// Creates a new paste anonymously and uploads it to pastebin
+         /// &lt;/summary&gt;
+         /// &lt;returns&gt;Paste object containing the Url given from Pastebin&lt;/returns&gt;
+<a href="#h1-4-3" id="h1-4-3" class="d">-        public static Paste Create(string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a><a href="#h1-4-4" id="h1-4-4" class="i">+        public static async Task&lt;Paste&gt; CreateAsync(string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a>         {
+<a href="#h1-4-6" id="h1-4-6" class="d">-            return Create(&quot;&quot;, text, title, language, visibility, expiration);
+</a><a href="#h1-4-7" id="h1-4-7" class="i">+            return await CreateAsync(&quot;&quot;, text, title, language, visibility, expiration);
+</a>         }
+ 
+         ///&lt;summary&gt;String of 8 characters that is appended at the end of the url&lt;/summary&gt;
+<a href="#h1-5" id="h1-5" class="h">@@ -107,16 +108,16 @@ public static Paste Create(string text, string title = null, Language language =
+</a>         /// &lt;summary&gt;
+         /// Gets the raw text for a given url
+         /// &lt;/summary&gt;
+<a href="#h1-5-3" id="h1-5-3" class="d">-        public string GetRaw()
+</a><a href="#h1-5-4" id="h1-5-4" class="i">+        public async Task&lt;string&gt; GetRawAsync()
+</a>         {
+             if (Visibility == Visibility.Private)
+                 throw new PastebinException(&quot;Private pastes can not be accessed&quot;);
+<a href="#h1-5-8" id="h1-5-8" class="d">-            return Text = Utills.PostRequest(Utills.URL_RAW + Key);
+</a><a href="#h1-5-9" id="h1-5-9" class="i">+            return Text = await PostRequestAsync(URL_RAW + Key);
+</a>         }
+ 
+         public override string ToString()
+         {
+<a href="#h1-5-14" id="h1-5-14" class="d">-            return Text ?? GetRaw();
+</a><a href="#h1-5-15" id="h1-5-15" class="i">+            return Text;
+</a>         }
+     }
+ }
+<b>diff --git a/<a id="h2" href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a> b/<a href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -1,7 +1,10 @@
+</a> ﻿using System.Collections.Generic;
+<a href="#h2-0-1" id="h2-0-1" class="i">+using System.Threading.Tasks;
+</a> 
+ namespace PastebinAPI
+ {
+<a href="#h2-0-5" id="h2-0-5" class="i">+    using static Utills;
+</a><a href="#h2-0-6" id="h2-0-6" class="i">+
+</a>     public static class Pastebin
+     {
+         /// &lt;summary&gt;
+<a href="#h2-1" id="h2-1" class="h">@@ -13,18 +16,18 @@ public static class Pastebin
+</a>         /// Log-in to Pastebin
+         /// &lt;/summary&gt;
+         /// &lt;returns&gt;new User object&lt;/returns&gt;
+<a href="#h2-1-3" id="h2-1-3" class="d">-        public static User Login(string username, string password)
+</a><a href="#h2-1-4" id="h2-1-4" class="i">+        public static async Task&lt;User&gt; LoginAsync(string username, string password)
+</a>         {
+<a href="#h2-1-6" id="h2-1-6" class="d">-            var result = Utills.PostRequest(Utills.URL_LOGIN,
+</a><a href="#h2-1-7" id="h2-1-7" class="i">+            var result = await PostRequestAsync(URL_LOGIN,
+</a>                                             &quot;api_dev_key=&quot; + DevKey,
+                                             &quot;api_user_name=&quot; + username,
+                                             &quot;api_user_password=&quot; + password);
+ 
+<a href="#h2-1-12" id="h2-1-12" class="d">-            if (result.Contains(Utills.ERROR))
+</a><a href="#h2-1-13" id="h2-1-13" class="i">+            if (result.Contains(ERROR))
+</a>                 throw new PastebinException(result);
+ 
+             var user = new User(result);
+<a href="#h2-1-17" id="h2-1-17" class="d">-            user.RequestPreferences();
+</a><a href="#h2-1-18" id="h2-1-18" class="i">+            await user.RequestPreferencesAsync();
+</a>             return user;
+         }
+ 
+<a href="#h2-2" id="h2-2" class="h">@@ -32,16 +35,16 @@ public static User Login(string username, string password)
+</a>         /// Lists the currently trending pastes
+         /// &lt;/summary&gt;
+         /// &lt;returns&gt;Enumerable of the trending pastes&lt;/returns&gt;
+<a href="#h2-2-3" id="h2-2-3" class="d">-        public static IEnumerable&lt;Paste&gt; ListTrendingPastes()
+</a><a href="#h2-2-4" id="h2-2-4" class="i">+        public static async Task&lt;IEnumerable&lt;Paste&gt;&gt; ListTrendingPastesAsync()
+</a>         {
+<a href="#h2-2-6" id="h2-2-6" class="d">-            var result = Utills.PostRequest(Utills.URL_API,
+</a><a href="#h2-2-7" id="h2-2-7" class="i">+            var result = await PostRequestAsync(URL_API,
+</a>                                             &quot;api_dev_key=&quot; + DevKey,
+                                             &quot;api_option=&quot; + &quot;trends&quot;);
+ 
+<a href="#h2-2-11" id="h2-2-11" class="d">-            if (result.Contains(Utills.ERROR))
+</a><a href="#h2-2-12" id="h2-2-12" class="i">+            if (result.Contains(ERROR))
+</a>                 throw new PastebinException(result);
+ 
+<a href="#h2-2-15" id="h2-2-15" class="d">-            return Utills.PastesFromXML(result);
+</a><a href="#h2-2-16" id="h2-2-16" class="i">+            return PastesFromXML(result);
+</a>         }
+     }
+ }
+<b>diff --git a/<a id="h3" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -1,8 +1,11 @@
+</a> ﻿using System.Collections.Generic;
+<a href="#h3-0-1" id="h3-0-1" class="i">+using System.Threading.Tasks;
+</a> using System.Xml.Linq;
+ 
+ namespace PastebinAPI
+ {
+<a href="#h3-0-6" id="h3-0-6" class="i">+    using static Utills;
+</a><a href="#h3-0-7" id="h3-0-7" class="i">+
+</a>     public class User
+     {
+         private readonly string userKey;
+<a href="#h3-1" id="h3-1" class="h">@@ -32,9 +35,9 @@ internal User(string userKey)
+</a>         /// &lt;param name=&quot;visibility&quot;&gt;If left out then user&#39;s PreferedVisibility will be used&lt;/param&gt;
+         /// &lt;param name=&quot;expiration&quot;&gt;If left out then user&#39;s PreferedExpiration will be used&lt;/param&gt;
+         /// &lt;returns&gt;Paste object containing the Url given from Pastebin&lt;/returns&gt;
+<a href="#h3-1-3" id="h3-1-3" class="d">-        public Paste CreatePaste(string text, string title = null, Language language = null, Visibility? visibility = null, Expiration expiration = null)
+</a><a href="#h3-1-4" id="h3-1-4" class="i">+        public async Task&lt;Paste&gt; CreatePasteAsync(string text, string title = null, Language language = null, Visibility? visibility = null, Expiration expiration = null)
+</a>         {
+<a href="#h3-1-6" id="h3-1-6" class="d">-            return Paste.Create(userKey, text, title, language ?? PreferedLanguage, visibility ?? PreferedVisibility, expiration ?? PreferedExpiration);
+</a><a href="#h3-1-7" id="h3-1-7" class="i">+            return await Paste.CreateAsync(userKey, text, title, language ?? PreferedLanguage, visibility ?? PreferedVisibility, expiration ?? PreferedExpiration);
+</a>         }
+ 
+         /// &lt;summary&gt;
+<a href="#h3-2" id="h3-2" class="h">@@ -42,46 +45,46 @@ public Paste CreatePaste(string text, string title = null, Language language = n
+</a>         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;resultsLimit&quot;&gt;limits the paste count&lt;/param&gt;
+         /// &lt;returns&gt;Enumerable of pastes of this user&lt;/returns&gt;
+<a href="#h3-2-3" id="h3-2-3" class="d">-        public IEnumerable&lt;Paste&gt; ListPastes(int resultsLimit = 50)
+</a><a href="#h3-2-4" id="h3-2-4" class="i">+        public async Task&lt;IEnumerable&lt;Paste&gt;&gt; ListPastesAsync(int resultsLimit = 50)
+</a>         {
+<a href="#h3-2-6" id="h3-2-6" class="d">-            var result = Utills.PostRequest(Utills.URL_API,
+</a><a href="#h3-2-7" id="h3-2-7" class="i">+            var result = await PostRequestAsync(URL_API,
+</a>                                             &quot;api_dev_key=&quot; + Pastebin.DevKey,
+                                             &quot;api_user_key=&quot; + userKey,
+                                             &quot;api_results_limit=&quot; + resultsLimit,
+                                             &quot;api_option=&quot; + &quot;list&quot;);
+ 
+<a href="#h3-2-13" id="h3-2-13" class="d">-            if (result.Contains(Utills.ERROR))
+</a><a href="#h3-2-14" id="h3-2-14" class="i">+            if (result.Contains(ERROR))
+</a>                 throw new PastebinException(result);
+ 
+<a href="#h3-2-17" id="h3-2-17" class="d">-            return Utills.PastesFromXML(result);
+</a><a href="#h3-2-18" id="h3-2-18" class="i">+            return PastesFromXML(result);
+</a>         }
+ 
+         /// &lt;summary&gt;
+         /// Deletes a paste created by this user
+         /// &lt;/summary&gt;
+<a href="#h3-2-24" id="h3-2-24" class="d">-        public void DeletePaste(Paste paste)
+</a><a href="#h3-2-25" id="h3-2-25" class="i">+        public async Task DeletePasteAsync(Paste paste)
+</a>         {
+<a href="#h3-2-27" id="h3-2-27" class="d">-            var result = Utills.PostRequest(Utills.URL_API,
+</a><a href="#h3-2-28" id="h3-2-28" class="i">+            var result = await PostRequestAsync(URL_API,
+</a>                                             &quot;api_dev_key=&quot; + Pastebin.DevKey,
+                                             &quot;api_user_key=&quot; + userKey,
+                                             &quot;api_paste_key=&quot; + paste.Key,
+                                             &quot;api_option=&quot; + &quot;delete&quot;);
+ 
+<a href="#h3-2-34" id="h3-2-34" class="d">-            if (result.Contains(Utills.ERROR))
+</a><a href="#h3-2-35" id="h3-2-35" class="i">+            if (result.Contains(ERROR))
+</a>                 throw new PastebinException(result);
+         }
+ 
+         /// &lt;summary&gt;
+         /// Updates user preferences information properties
+         /// &lt;/summary&gt;
+<a href="#h3-2-42" id="h3-2-42" class="d">-        public void RequestPreferences()
+</a><a href="#h3-2-43" id="h3-2-43" class="i">+        public async Task RequestPreferencesAsync()
+</a>         {
+<a href="#h3-2-45" id="h3-2-45" class="d">-            var result = Utills.PostRequest(Utills.URL_API,
+</a><a href="#h3-2-46" id="h3-2-46" class="i">+            var result = await PostRequestAsync(URL_API,
+</a>                                             &quot;api_dev_key=&quot; + Pastebin.DevKey,
+                                             &quot;api_user_key=&quot; + userKey,
+                                             &quot;api_option=&quot; + &quot;userdetails&quot;);
+ 
+<a href="#h3-2-51" id="h3-2-51" class="d">-            if (result.Contains(Utills.ERROR))
+</a><a href="#h3-2-52" id="h3-2-52" class="i">+            if (result.Contains(ERROR))
+</a>                 throw new PastebinException(result);
+ 
+             /* Example user xml
+<b>diff --git a/<a id="h4" href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a> b/<a href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -1,9 +1,10 @@
+</a> ﻿using System;
+<a href="#h4-0-1" id="h4-0-1" class="d">-using System.IO;
+</a><a href="#h4-0-2" id="h4-0-2" class="d">-using System.Net;
+</a><a href="#h4-0-3" id="h4-0-3" class="i">+using System.Collections.Generic;
+</a><a href="#h4-0-4" id="h4-0-4" class="i">+using System.Net.Http;
+</a><a href="#h4-0-5" id="h4-0-5" class="i">+using System.Net.Http.Headers;
+</a> using System.Text;
+<a href="#h4-0-7" id="h4-0-7" class="i">+using System.Threading.Tasks;
+</a> using System.Xml.Linq;
+<a href="#h4-0-9" id="h4-0-9" class="d">-using System.Collections.Generic;
+</a> 
+ namespace PastebinAPI
+ {
+<a href="#h4-1" id="h4-1" class="h">@@ -15,6 +16,8 @@ class Utills
+</a>         public const string URL_LOGIN = URL + @&quot;api/api_login.php&quot;;
+         public const string URL_RAW = URL + @&quot;raw.php?i=&quot;;
+ 
+<a href="#h4-1-3" id="h4-1-3" class="i">+        private static readonly HttpClient http = new HttpClient();
+</a><a href="#h4-1-4" id="h4-1-4" class="i">+
+</a>         public static IEnumerable&lt;Paste&gt; PastesFromXML(string xml)
+         {
+             foreach (var paste in XElement.Parse(&quot;&lt;pastes&gt;&quot; + xml + &quot;&lt;/pastes&gt;&quot;).Descendants(&quot;paste&quot;))
+<a href="#h4-2" id="h4-2" class="h">@@ -26,28 +29,18 @@ public static DateTime GetDate(long ticks)
+</a>             return new DateTime(1970, 1, 1).AddSeconds(ticks).ToLocalTime();
+         }
+ 
+<a href="#h4-2-3" id="h4-2-3" class="d">-        public static string PostRequest(string url, params string[] parameters)
+</a><a href="#h4-2-4" id="h4-2-4" class="i">+        public static async Task&lt;string&gt; PostRequestAsync(string url, params string[] parameters)
+</a>         {
+<a href="#h4-2-6" id="h4-2-6" class="d">-            //TODO: Catch net exceptions
+</a><a href="#h4-2-7" id="h4-2-7" class="d">-            WebRequest request = WebRequest.Create(url);
+</a><a href="#h4-2-8" id="h4-2-8" class="d">-            request.Method = &quot;POST&quot;;
+</a><a href="#h4-2-9" id="h4-2-9" class="d">-            request.ContentType = &quot;application/x-www-form-urlencoded&quot;;
+</a><a href="#h4-2-10" id="h4-2-10" class="d">-            string postString = string.Join(&quot;&amp;&quot;, parameters);
+</a><a href="#h4-2-11" id="h4-2-11" class="d">-            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+</a><a href="#h4-2-12" id="h4-2-12" class="d">-            request.ContentLength = byteArray.Length;
+</a>             try
+             {
+<a href="#h4-2-15" id="h4-2-15" class="d">-                using (Stream dataStream = request.GetRequestStream())
+</a><a href="#h4-2-16" id="h4-2-16" class="d">-                {
+</a><a href="#h4-2-17" id="h4-2-17" class="d">-                    dataStream.Write(byteArray, 0, byteArray.Length);
+</a><a href="#h4-2-18" id="h4-2-18" class="d">-                }
+</a><a href="#h4-2-19" id="h4-2-19" class="d">-                using (WebResponse response = request.GetResponse())
+</a><a href="#h4-2-20" id="h4-2-20" class="d">-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+</a><a href="#h4-2-21" id="h4-2-21" class="d">-                {
+</a><a href="#h4-2-22" id="h4-2-22" class="d">-                    return reader.ReadToEnd();
+</a><a href="#h4-2-23" id="h4-2-23" class="d">-                }
+</a><a href="#h4-2-24" id="h4-2-24" class="i">+                string postString = string.Join(&quot;&amp;&quot;, parameters);
+</a><a href="#h4-2-25" id="h4-2-25" class="i">+                byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+</a><a href="#h4-2-26" id="h4-2-26" class="i">+                var content = new ByteArrayContent(byteArray);
+</a><a href="#h4-2-27" id="h4-2-27" class="i">+                content.Headers.ContentType = new MediaTypeHeaderValue(&quot;application/x-www-form-urlencoded&quot;);
+</a><a href="#h4-2-28" id="h4-2-28" class="i">+                var response = await http.PostAsync(url, content);
+</a><a href="#h4-2-29" id="h4-2-29" class="i">+                return await response.Content.ReadAsStringAsync();
+</a>             }
+<a href="#h4-2-31" id="h4-2-31" class="d">-            catch (WebException ex)
+</a><a href="#h4-2-32" id="h4-2-32" class="i">+            catch (HttpRequestException ex)
+</a>             {
+                 throw new PastebinException(&quot;Connection to Pastebin failed&quot;, ex);
+             }
+</pre>
+</div>
+</body>
+</html>

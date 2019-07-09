@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Create paste sets default values if null - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/fe44423c79a9ed31081fdfe9ae03e6be84c0323e.html">fe44423c79a9ed31081fdfe9ae03e6be84c0323e</a>
+<b>parent</b> <a href="../commit/f5105bcb3e9b86da418274454ebc2157e230f6c3.html">f5105bcb3e9b86da418274454ebc2157e230f6c3</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Mon, 25 Sep 2017 23:59:47 +0300
+
+Create paste sets default values if null
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Paste.cs</a></td><td> | </td><td class="num">10</td><td><span class="i">+++++++</span><span class="d">---</span></td></tr>
+</table></pre><pre>1 file changed, 7 insertions(+), 3 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a> b/<a href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -41,6 +41,10 @@ internal static Paste FromXML(XElement xpaste)
+</a> 
+         internal static Paste Create(string userKey, string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+         {
+<a href="#h0-0-3" id="h0-0-3" class="i">+            title = title ?? &quot;Untitled&quot;;
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+            language = language ?? Language.Default;
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+            expiration = expiration ?? Expiration.Default;
+</a><a href="#h0-0-6" id="h0-0-6" class="i">+
+</a>             var result = Utills.PostRequest(Utills.URL_API,
+                                             //required parameters
+                                             &quot;api_dev_key=&quot; + Pastebin.DevKey,
+<a href="#h0-1" id="h0-1" class="h">@@ -48,10 +52,10 @@ internal static Paste Create(string userKey, string text, string title = null, L
+</a>                                             &quot;api_paste_code=&quot; + Uri.EscapeDataString(text),
+                                             //optional parameters
+                                             &quot;api_user_key=&quot; + userKey,
+<a href="#h0-1-3" id="h0-1-3" class="d">-                                            &quot;api_paste_name=&quot; + Uri.EscapeDataString(title ?? &quot;Untitled&quot;),
+</a><a href="#h0-1-4" id="h0-1-4" class="d">-                                            &quot;api_paste_format=&quot; + (language ?? Language.Default),
+</a><a href="#h0-1-5" id="h0-1-5" class="i">+                                            &quot;api_paste_name=&quot; + Uri.EscapeDataString(title),
+</a><a href="#h0-1-6" id="h0-1-6" class="i">+                                            &quot;api_paste_format=&quot; + language,
+</a>                                             &quot;api_paste_private=&quot; + (int)visibility,
+<a href="#h0-1-8" id="h0-1-8" class="d">-                                            &quot;api_paste_expire_date=&quot; + (expiration ?? Expiration.Default));
+</a><a href="#h0-1-9" id="h0-1-9" class="i">+                                            &quot;api_paste_expire_date=&quot; + expiration);
+</a> 
+             if (result.Contains(Utills.ERROR))
+                 throw new PastebinException(result);
+</pre>
+</div>
+</body>
+</html>

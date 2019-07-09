@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add reference to library from Example - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/962002ffc4e55a6d472887889aa68918e2922701.html">962002ffc4e55a6d472887889aa68918e2922701</a>
+<b>parent</b> <a href="../commit/fe44423c79a9ed31081fdfe9ae03e6be84c0323e.html">fe44423c79a9ed31081fdfe9ae03e6be84c0323e</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Tue, 26 Sep 2017 00:00:28 +0300
+
+Add reference to library from Example
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">Example/Example.csproj</a></td><td> | </td><td class="num">6</td><td><span class="i">++++++</span><span class="d"></span></td></tr>
+</table></pre><pre>1 file changed, 6 insertions(+), 0 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/Example/Example.csproj.html">Example/Example.csproj</a> b/<a href="../file/Example/Example.csproj.html">Example/Example.csproj</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -52,6 +52,12 @@
+</a>   &lt;ItemGroup&gt;
+     &lt;None Include=&quot;app.config&quot; /&gt;
+   &lt;/ItemGroup&gt;
+<a href="#h0-0-3" id="h0-0-3" class="i">+  &lt;ItemGroup&gt;
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+    &lt;ProjectReference Include=&quot;..\PastebinAPI\PastebinAPI.csproj&quot;&gt;
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+      &lt;Project&gt;{198f990f-5dbb-45ae-a98a-8e4771cc0d0d}&lt;/Project&gt;
+</a><a href="#h0-0-6" id="h0-0-6" class="i">+      &lt;Name&gt;PastebinAPI&lt;/Name&gt;
+</a><a href="#h0-0-7" id="h0-0-7" class="i">+    &lt;/ProjectReference&gt;
+</a><a href="#h0-0-8" id="h0-0-8" class="i">+  &lt;/ItemGroup&gt;
+</a>   &lt;Import Project=&quot;$(MSBuildToolsPath)\Microsoft.CSharp.targets&quot; /&gt;
+   &lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+        Other similar extension points exist, see Microsoft.Common.targets.
+</pre>
+</div>
+</body>
+</html>

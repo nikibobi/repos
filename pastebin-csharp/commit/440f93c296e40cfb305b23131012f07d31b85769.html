@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Merge pull request #3 from krejcar25/master - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/440f93c296e40cfb305b23131012f07d31b85769.html">440f93c296e40cfb305b23131012f07d31b85769</a>
+<b>parent</b> <a href="../commit/f2b1fbb97bdd4222b53104ef581a729352287917.html">f2b1fbb97bdd4222b53104ef581a729352287917</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Mon, 25 Sep 2017 19:29:30 +0300
+
+Merge pull request #3 from krejcar25/master
+
+change url from http to https due to change in pastebin api
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Utills.cs</a></td><td> | </td><td class="num">2</td><td><span class="i">+</span><span class="d">-</span></td></tr>
+</table></pre><pre>1 file changed, 1 insertion(+), 1 deletion(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a> b/<a href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -10,7 +10,7 @@ namespace PastebinAPI
+</a>     class Utills
+     {
+         public const string ERROR = @&quot;Bad API request&quot;;
+<a href="#h0-0-3" id="h0-0-3" class="d">-        public const string URL = @&quot;http://pastebin.com/&quot;;
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+        public const string URL = @&quot;https://pastebin.com/&quot;;
+</a>         public const string URL_API = URL + @&quot;api/api_post.php&quot;;
+         public const string URL_LOGIN = URL + @&quot;api/api_login.php&quot;;
+         public const string URL_RAW = URL + @&quot;raw.php?i=&quot;;
+</pre>
+</div>
+</body>
+</html>

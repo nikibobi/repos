@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Optimized PostRequest method - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8.html">fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8</a>
+<b>parent</b> <a href="../commit/ddbf77c0e7564ec99f611c00b0cd657f2b837acd.html">ddbf77c0e7564ec99f611c00b0cd657f2b837acd</a>
+<b>Author:</b> nikibobi &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Sun, 24 Mar 2013 18:24:30 +0200
+
+Optimized PostRequest method
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Utills.cs</a></td><td> | </td><td class="num">30</td><td><span class="i">+++++++</span><span class="d">-----------------------</span></td></tr>
+</table></pre><pre>1 file changed, 7 insertions(+), 23 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a> b/<a href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,7 +1,4 @@
+</a><a href="#h0-0-0" id="h0-0-0" class="d">-﻿using System;
+</a><a href="#h0-0-1" id="h0-0-1" class="d">-using System.Collections.Generic;
+</a><a href="#h0-0-2" id="h0-0-2" class="d">-using System.IO;
+</a><a href="#h0-0-3" id="h0-0-3" class="d">-using System.Linq;
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+﻿using System.IO;
+</a> using System.Net;
+ using System.Text;
+ 
+<a href="#h0-1" id="h0-1" class="h">@@ -11,33 +8,20 @@ class Utills
+</a>     {
+         public static string PostRequest(string url, string[] parameters)
+         {
+<a href="#h0-1-3" id="h0-1-3" class="d">-            string postString = string.Join(&quot;&amp;&quot;, parameters);
+</a>             WebRequest request = WebRequest.Create(url);
+             request.Method = &quot;POST&quot;;
+<a href="#h0-1-6" id="h0-1-6" class="d">-            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+</a>             request.ContentType = &quot;application/x-www-form-urlencoded&quot;;
+<a href="#h0-1-8" id="h0-1-8" class="i">+            string postString = string.Join(&quot;&amp;&quot;, parameters);
+</a><a href="#h0-1-9" id="h0-1-9" class="i">+            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+</a>             request.ContentLength = byteArray.Length;
+<a href="#h0-1-11" id="h0-1-11" class="d">-            using (var dataStream = request.GetRequestStream())
+</a><a href="#h0-1-12" id="h0-1-12" class="i">+            using (Stream dataStream = request.GetRequestStream())
+</a>             {
+                 dataStream.Write(byteArray, 0, byteArray.Length);
+             }
+<a href="#h0-1-16" id="h0-1-16" class="d">-            using (var response = request.GetResponse())
+</a><a href="#h0-1-17" id="h0-1-17" class="i">+            using (WebResponse response = request.GetResponse())
+</a><a href="#h0-1-18" id="h0-1-18" class="i">+            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+</a>             {
+<a href="#h0-1-20" id="h0-1-20" class="d">-                if (((HttpWebResponse)response).StatusDescription != &quot;OK&quot;)
+</a><a href="#h0-1-21" id="h0-1-21" class="d">-                {
+</a><a href="#h0-1-22" id="h0-1-22" class="d">-                    Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+</a><a href="#h0-1-23" id="h0-1-23" class="d">-                }
+</a><a href="#h0-1-24" id="h0-1-24" class="d">-                using (var dataStream = response.GetResponseStream())
+</a><a href="#h0-1-25" id="h0-1-25" class="d">-                {
+</a><a href="#h0-1-26" id="h0-1-26" class="d">-                    if (dataStream != null)
+</a><a href="#h0-1-27" id="h0-1-27" class="d">-                    {
+</a><a href="#h0-1-28" id="h0-1-28" class="d">-                        using (var reader = new StreamReader(dataStream))
+</a><a href="#h0-1-29" id="h0-1-29" class="d">-                        {
+</a><a href="#h0-1-30" id="h0-1-30" class="d">-                            return reader.ReadToEnd();
+</a><a href="#h0-1-31" id="h0-1-31" class="d">-                        }
+</a><a href="#h0-1-32" id="h0-1-32" class="d">-                    }
+</a><a href="#h0-1-33" id="h0-1-33" class="d">-                    throw new NullReferenceException(&quot;dataStream from responce is null&quot;);
+</a><a href="#h0-1-34" id="h0-1-34" class="d">-                }
+</a><a href="#h0-1-35" id="h0-1-35" class="i">+                return reader.ReadToEnd();
+</a>             }
+         }
+     }
+</pre>
+</div>
+</body>
+</html>

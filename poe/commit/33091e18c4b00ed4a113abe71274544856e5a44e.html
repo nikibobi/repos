@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>refactor CurrencyAmount and CurrencyTable - poe - Path of Exile currency utility site
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="poe Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>poe</h1><span class="desc">Path of Exile currency utility site
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/poe.git">https://github.com/nikibobi/poe.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/33091e18c4b00ed4a113abe71274544856e5a44e.html">33091e18c4b00ed4a113abe71274544856e5a44e</a>
+<b>parent</b> <a href="../commit/6ea6beea1a4bec75afb73bf57086dfd9cdfdfefd.html">6ea6beea1a4bec75afb73bf57086dfd9cdfdfefd</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Wed, 12 Jun 2019 00:53:59 +0300
+
+refactor CurrencyAmount and CurrencyTable
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">src/App.tsx</a></td><td> | </td><td class="num">7</td><td><span class="i">++++</span><span class="d">---</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">src/components/CurrencyTable.tsx</a></td><td> | </td><td class="num">42</td><td><span class="i">+++++++++++++++++++++++++++++++++++++</span><span class="d">-----</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">src/models/Currency.tsx</a></td><td> | </td><td class="num">13</td><td><span class="i">+++++</span><span class="d">--------</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h3">src/models/CurrencyAmount.ts</a></td><td> | </td><td class="num">34</td><td><span class="i">++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="D">D</td><td><a href="#h4">src/models/CurrencyAmount.tsx</a></td><td> | </td><td class="num">44</td><td><span class="i"></span><span class="d">--------------------------------------------</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h5">src/models/CurrencyValue.ts</a></td><td> | </td><td class="num">14</td><td><span class="i">++++++++++++++</span><span class="d"></span></td></tr>
+</table></pre><pre>6 files changed, 94 insertions(+), 60 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/src/App.tsx.html">src/App.tsx</a> b/<a href="../file/src/App.tsx.html">src/App.tsx</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -2,13 +2,13 @@ import React from &#39;react&#39;;
+</a> import { IRangeProps } from &#39;./data/ranges&#39;;
+ import rates from &#39;./data/rates&#39;;
+ import { Currency, currencies } from &#39;./models/Currency&#39;;
+<a href="#h0-0-3" id="h0-0-3" class="d">-import { CurrencyAmount } from &#39;./models/CurrencyAmount&#39;;
+</a> import CurrencySelect from &#39;./components/CurrencySelect&#39;;
+ import FromToInput from &#39;./components/FromToInput&#39;;
+ import ValueDeltaInput from &#39;./components/ValueDeltaInput&#39;;
+ import CurrencyTable from &#39;./components/CurrencyTable&#39;;
+ 
+ interface IAppState {
+<a href="#h0-0-10" id="h0-0-10" class="i">+    base: Currency
+</a>     selected: Currency[]
+     range: [number, number]
+ }
+<a href="#h0-1" id="h0-1" class="h">@@ -25,6 +25,7 @@ export default class App extends React.Component&lt;any, IAppState&gt; {
+</a>     constructor(props: any) {
+         super(props);
+         this.state = {
+<a href="#h0-1-3" id="h0-1-3" class="i">+            base: currencies.get(&#39;chaos&#39;) as Currency,
+</a>             selected: Array.from(currencies.values()),
+             range: [0, 1]
+         };
+<a href="#h0-2" id="h0-2" class="h">@@ -43,11 +44,11 @@ export default class App extends React.Component&lt;any, IAppState&gt; {
+</a>             &lt;React.Fragment&gt;
+             &lt;aside&gt;
+                 &lt;CurrencySelect selected={this.state.selected} onChange={this.handleSelectedChange} currencies={currencies}/&gt;
+<a href="#h0-2-3" id="h0-2-3" class="d">-                &lt;ValueDeltaInput range={this.state.range} onChange={this.handleRangeChange} value={this.ranges.value} delta={this.ranges.delta} baseAlias={CurrencyAmount.base.alias}/&gt;
+</a><a href="#h0-2-4" id="h0-2-4" class="i">+                &lt;ValueDeltaInput range={this.state.range} onChange={this.handleRangeChange} value={this.ranges.value} delta={this.ranges.delta} baseAlias={this.state.base.alias}/&gt;
+</a>                 &lt;FromToInput range={this.state.range} onChange={this.handleRangeChange} from={this.ranges.from} to={this.ranges.to}/&gt;
+             &lt;/aside&gt;
+             &lt;section&gt;
+<a href="#h0-2-8" id="h0-2-8" class="d">-                &lt;CurrencyTable selected={this.state.selected} range={this.state.range} rates={rates} /&gt;
+</a><a href="#h0-2-9" id="h0-2-9" class="i">+                &lt;CurrencyTable base={this.state.base} selected={this.state.selected} range={this.state.range} rates={rates} /&gt;
+</a>             &lt;/section&gt;
+             &lt;/React.Fragment&gt;
+         );
+<b>diff --git a/<a id="h1" href="../file/src/components/CurrencyTable.tsx.html">src/components/CurrencyTable.tsx</a> b/<a href="../file/src/components/CurrencyTable.tsx.html">src/components/CurrencyTable.tsx</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -2,19 +2,46 @@ import React from &#39;react&#39;;
+</a> import Heap from &#39;mnemonist/heap&#39;;
+ import { Currency } from &#39;../models/Currency&#39;;
+ import { CurrencyAmount } from &#39;../models/CurrencyAmount&#39;;
+<a href="#h1-0-3" id="h1-0-3" class="i">+import { CurrencyValue, ICurrencyValue } from &#39;../models/CurrencyValue&#39;;
+</a> 
+<a href="#h1-0-5" id="h1-0-5" class="d">-interface ICurrencyTableProps {
+</a><a href="#h1-0-6" id="h1-0-6" class="i">+const CurrencyTableCell: React.FC&lt;ICurrencyValue&gt; = (props) =&gt; {
+</a><a href="#h1-0-7" id="h1-0-7" class="i">+    return (
+</a><a href="#h1-0-8" id="h1-0-8" class="i">+        &lt;td&gt;{props.value} {props.currency.toImg()} {props.currency.name}&lt;/td&gt;
+</a><a href="#h1-0-9" id="h1-0-9" class="i">+    );
+</a><a href="#h1-0-10" id="h1-0-10" class="i">+}
+</a><a href="#h1-0-11" id="h1-0-11" class="i">+
+</a><a href="#h1-0-12" id="h1-0-12" class="i">+interface ICurrencyTableRowProps {
+</a><a href="#h1-0-13" id="h1-0-13" class="i">+    base: CurrencyValue,
+</a><a href="#h1-0-14" id="h1-0-14" class="i">+    value: CurrencyValue,
+</a><a href="#h1-0-15" id="h1-0-15" class="i">+}
+</a><a href="#h1-0-16" id="h1-0-16" class="i">+
+</a><a href="#h1-0-17" id="h1-0-17" class="i">+const CurrencyTableRow: React.FC&lt;ICurrencyTableRowProps&gt; = (props) =&gt; {
+</a><a href="#h1-0-18" id="h1-0-18" class="i">+    return (
+</a><a href="#h1-0-19" id="h1-0-19" class="i">+        &lt;tr key={`${props.value.currency.alias}-${props.value.value}`}&gt;
+</a><a href="#h1-0-20" id="h1-0-20" class="i">+            &lt;CurrencyTableCell value={props.base.value.toFixed(2)} currency={props.base.currency}/&gt;
+</a><a href="#h1-0-21" id="h1-0-21" class="i">+            &lt;CurrencyTableCell {...props.value}/&gt;
+</a><a href="#h1-0-22" id="h1-0-22" class="i">+        &lt;/tr&gt;
+</a><a href="#h1-0-23" id="h1-0-23" class="i">+    );
+</a><a href="#h1-0-24" id="h1-0-24" class="i">+}
+</a><a href="#h1-0-25" id="h1-0-25" class="i">+
+</a><a href="#h1-0-26" id="h1-0-26" class="i">+export interface ICurrencyTableProps {
+</a><a href="#h1-0-27" id="h1-0-27" class="i">+    base: Currency
+</a>     selected: Currency[]
+     range: [number, number]
+     rates: Map&lt;string, number&gt;
+ }
+ 
+<a href="#h1-0-33" id="h1-0-33" class="i">+export interface ICurrencyTableState {
+</a><a href="#h1-0-34" id="h1-0-34" class="i">+    amounts: ICurrencyTableRowProps[]
+</a><a href="#h1-0-35" id="h1-0-35" class="i">+}
+</a><a href="#h1-0-36" id="h1-0-36" class="i">+
+</a> export default class CurrencyTable extends React.Component&lt;ICurrencyTableProps&gt; {
+ 
+<a href="#h1-0-39" id="h1-0-39" class="d">-    *renderRows(): IterableIterator&lt;JSX.Element&gt; {
+</a><a href="#h1-0-40" id="h1-0-40" class="i">+    *renderRows(): IterableIterator&lt;ICurrencyTableRowProps&gt; {
+</a><a href="#h1-0-41" id="h1-0-41" class="i">+        const base = this.props.base;
+</a>         const [start, end] = this.props.range;
+         const amounts = this.props.selected.map(currency =&gt;
+<a href="#h1-0-44" id="h1-0-44" class="d">-            new CurrencyAmount(currency, this.props.rates.get(currency.alias) as number));
+</a><a href="#h1-0-45" id="h1-0-45" class="i">+            new CurrencyAmount(currency, base, this.props.rates.get(currency.alias) as number));
+</a>         if (start !== 0) {
+             amounts.forEach(a =&gt; a.chaos = start);
+         }
+<a href="#h1-1" id="h1-1" class="h">@@ -22,9 +49,14 @@ export default class CurrencyTable extends React.Component&lt;ICurrencyTableProps&gt; 
+</a>         const heap = Heap.from(amounts, CurrencyAmount.comparator);
+         while (true) {
+             const amount = heap.pop() as CurrencyAmount;
+<a href="#h1-1-3" id="h1-1-3" class="i">+
+</a>             if (amount.chaos &gt; end)
+                 break;
+<a href="#h1-1-6" id="h1-1-6" class="d">-            yield amount.toRow();
+</a><a href="#h1-1-7" id="h1-1-7" class="i">+
+</a><a href="#h1-1-8" id="h1-1-8" class="i">+            yield {
+</a><a href="#h1-1-9" id="h1-1-9" class="i">+                base: amount.toBaseValue(),
+</a><a href="#h1-1-10" id="h1-1-10" class="i">+                value: amount.toValue(),
+</a><a href="#h1-1-11" id="h1-1-11" class="i">+            };
+</a>             amount.next();
+             heap.push(amount);
+         }
+<a href="#h1-2" id="h1-2" class="h">@@ -37,7 +69,7 @@ export default class CurrencyTable extends React.Component&lt;ICurrencyTableProps&gt; 
+</a>                     &lt;tr&gt;&lt;th&gt;Chaos&lt;/th&gt;&lt;th&gt;Currency&lt;/th&gt;&lt;/tr&gt;
+                 &lt;/thead&gt;
+                 &lt;tbody&gt;
+<a href="#h1-2-3" id="h1-2-3" class="d">-                    {Array.from(this.renderRows())}
+</a><a href="#h1-2-4" id="h1-2-4" class="i">+                    {Array.from(this.renderRows(), props =&gt; &lt;CurrencyTableRow {...props}/&gt;)}
+</a>                 &lt;/tbody&gt;
+             &lt;/table&gt;
+         );
+<b>diff --git a/<a id="h2" href="../file/src/models/Currency.tsx.html">src/models/Currency.tsx</a> b/<a href="../file/src/models/Currency.tsx.html">src/models/Currency.tsx</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -2,15 +2,12 @@ import React from &#39;react&#39;;
+</a> import currenciesArgs from &#39;../data/currencyData&#39;;
+ 
+ export class Currency {
+<a href="#h2-0-3" id="h2-0-3" class="d">-    alias: string;
+</a><a href="#h2-0-4" id="h2-0-4" class="d">-    name: string;
+</a><a href="#h2-0-5" id="h2-0-5" class="d">-    image: string;
+</a> 
+<a href="#h2-0-7" id="h2-0-7" class="d">-    constructor(alias: string, name: string, image: string) {
+</a><a href="#h2-0-8" id="h2-0-8" class="d">-        this.alias = alias;
+</a><a href="#h2-0-9" id="h2-0-9" class="d">-        this.name = name;
+</a><a href="#h2-0-10" id="h2-0-10" class="d">-        this.image = image;
+</a><a href="#h2-0-11" id="h2-0-11" class="d">-    }
+</a><a href="#h2-0-12" id="h2-0-12" class="i">+    constructor(
+</a><a href="#h2-0-13" id="h2-0-13" class="i">+        public alias: string,
+</a><a href="#h2-0-14" id="h2-0-14" class="i">+        public name: string,
+</a><a href="#h2-0-15" id="h2-0-15" class="i">+        public image: string
+</a><a href="#h2-0-16" id="h2-0-16" class="i">+    ) { }
+</a> 
+     get imageUrl(): string {
+         return `https://web.poecdn.com/image/Art/2DItems/Currency/${this.image}.png?scale=1&amp;w=1&amp;h=1`;
+<b>diff --git a/<a id="h3" href="../file/src/models/CurrencyAmount.ts.html">src/models/CurrencyAmount.ts</a> b/<a href="../file/src/models/CurrencyAmount.ts.html">src/models/CurrencyAmount.ts</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -0,0 +1,34 @@
+</a><a href="#h3-0-0" id="h3-0-0" class="i">+import { Currency } from &quot;./Currency&quot;;
+</a><a href="#h3-0-1" id="h3-0-1" class="i">+import { CurrencyValue } from &#39;./CurrencyValue&#39;;
+</a><a href="#h3-0-2" id="h3-0-2" class="i">+
+</a><a href="#h3-0-3" id="h3-0-3" class="i">+export class CurrencyAmount {
+</a><a href="#h3-0-4" id="h3-0-4" class="i">+
+</a><a href="#h3-0-5" id="h3-0-5" class="i">+    static comparator = (a: CurrencyAmount, b: CurrencyAmount) =&gt; a.chaos - b.chaos;
+</a><a href="#h3-0-6" id="h3-0-6" class="i">+
+</a><a href="#h3-0-7" id="h3-0-7" class="i">+    constructor(
+</a><a href="#h3-0-8" id="h3-0-8" class="i">+        public currency: Currency,
+</a><a href="#h3-0-9" id="h3-0-9" class="i">+        public base: Currency,
+</a><a href="#h3-0-10" id="h3-0-10" class="i">+        public rate: number,
+</a><a href="#h3-0-11" id="h3-0-11" class="i">+        public amount: number = 1
+</a><a href="#h3-0-12" id="h3-0-12" class="i">+    ) { }
+</a><a href="#h3-0-13" id="h3-0-13" class="i">+
+</a><a href="#h3-0-14" id="h3-0-14" class="i">+    get chaos(): number {
+</a><a href="#h3-0-15" id="h3-0-15" class="i">+        return this.amount * this.rate;
+</a><a href="#h3-0-16" id="h3-0-16" class="i">+    }
+</a><a href="#h3-0-17" id="h3-0-17" class="i">+
+</a><a href="#h3-0-18" id="h3-0-18" class="i">+    set chaos(value: number) {
+</a><a href="#h3-0-19" id="h3-0-19" class="i">+        this.amount = Math.ceil(value / this.rate);
+</a><a href="#h3-0-20" id="h3-0-20" class="i">+    }
+</a><a href="#h3-0-21" id="h3-0-21" class="i">+
+</a><a href="#h3-0-22" id="h3-0-22" class="i">+    next() {
+</a><a href="#h3-0-23" id="h3-0-23" class="i">+        this.amount += 1;
+</a><a href="#h3-0-24" id="h3-0-24" class="i">+    }
+</a><a href="#h3-0-25" id="h3-0-25" class="i">+
+</a><a href="#h3-0-26" id="h3-0-26" class="i">+    toBaseValue(): CurrencyValue {
+</a><a href="#h3-0-27" id="h3-0-27" class="i">+        return new CurrencyValue(this.chaos, this.base);
+</a><a href="#h3-0-28" id="h3-0-28" class="i">+    }
+</a><a href="#h3-0-29" id="h3-0-29" class="i">+
+</a><a href="#h3-0-30" id="h3-0-30" class="i">+    toValue(): CurrencyValue {
+</a><a href="#h3-0-31" id="h3-0-31" class="i">+        return new CurrencyValue(this.amount, this.currency);
+</a><a href="#h3-0-32" id="h3-0-32" class="i">+    }
+</a><a href="#h3-0-33" id="h3-0-33" class="i">+}
+</a><b>diff --git a/<a id="h4" href="../file/src/models/CurrencyAmount.tsx.html">src/models/CurrencyAmount.tsx</a> b/<a href="../file/src/models/CurrencyAmount.tsx.html">src/models/CurrencyAmount.tsx</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -1,44 +0,0 @@
+</a><a href="#h4-0-0" id="h4-0-0" class="d">-import React from &#39;react&#39;
+</a><a href="#h4-0-1" id="h4-0-1" class="d">-import { Currency, currencies } from &quot;./Currency&quot;;
+</a><a href="#h4-0-2" id="h4-0-2" class="d">-
+</a><a href="#h4-0-3" id="h4-0-3" class="d">-export class CurrencyAmount {
+</a><a href="#h4-0-4" id="h4-0-4" class="d">-    static base: Currency = currencies.get(&#39;chaos&#39;) as Currency;
+</a><a href="#h4-0-5" id="h4-0-5" class="d">-
+</a><a href="#h4-0-6" id="h4-0-6" class="d">-    static comparator = (a: CurrencyAmount, b: CurrencyAmount) =&gt; a.chaos - b.chaos;
+</a><a href="#h4-0-7" id="h4-0-7" class="d">-
+</a><a href="#h4-0-8" id="h4-0-8" class="d">-    currency: Currency;
+</a><a href="#h4-0-9" id="h4-0-9" class="d">-    amount: number;
+</a><a href="#h4-0-10" id="h4-0-10" class="d">-    rate: number;
+</a><a href="#h4-0-11" id="h4-0-11" class="d">-
+</a><a href="#h4-0-12" id="h4-0-12" class="d">-    constructor(currency: Currency, rate: number) {
+</a><a href="#h4-0-13" id="h4-0-13" class="d">-        this.currency = currency;
+</a><a href="#h4-0-14" id="h4-0-14" class="d">-        this.amount = 1;
+</a><a href="#h4-0-15" id="h4-0-15" class="d">-        this.rate = rate;
+</a><a href="#h4-0-16" id="h4-0-16" class="d">-    }
+</a><a href="#h4-0-17" id="h4-0-17" class="d">-
+</a><a href="#h4-0-18" id="h4-0-18" class="d">-    get chaos(): number {
+</a><a href="#h4-0-19" id="h4-0-19" class="d">-        return this.amount * this.rate;
+</a><a href="#h4-0-20" id="h4-0-20" class="d">-    }
+</a><a href="#h4-0-21" id="h4-0-21" class="d">-
+</a><a href="#h4-0-22" id="h4-0-22" class="d">-    set chaos(value: number) {
+</a><a href="#h4-0-23" id="h4-0-23" class="d">-        this.amount = Math.ceil(value / this.rate);
+</a><a href="#h4-0-24" id="h4-0-24" class="d">-    }
+</a><a href="#h4-0-25" id="h4-0-25" class="d">-
+</a><a href="#h4-0-26" id="h4-0-26" class="d">-    next() {
+</a><a href="#h4-0-27" id="h4-0-27" class="d">-        this.amount += 1;
+</a><a href="#h4-0-28" id="h4-0-28" class="d">-    }
+</a><a href="#h4-0-29" id="h4-0-29" class="d">-
+</a><a href="#h4-0-30" id="h4-0-30" class="d">-    private get key(): string {
+</a><a href="#h4-0-31" id="h4-0-31" class="d">-        return `${this.currency.alias}-${this.amount}`;
+</a><a href="#h4-0-32" id="h4-0-32" class="d">-    }
+</a><a href="#h4-0-33" id="h4-0-33" class="d">-
+</a><a href="#h4-0-34" id="h4-0-34" class="d">-    private toCell(value: string | number, currency: Currency): JSX.Element {
+</a><a href="#h4-0-35" id="h4-0-35" class="d">-        return &lt;td&gt;{value} {currency.toImg()} {currency.name}&lt;/td&gt;;
+</a><a href="#h4-0-36" id="h4-0-36" class="d">-    }
+</a><a href="#h4-0-37" id="h4-0-37" class="d">-
+</a><a href="#h4-0-38" id="h4-0-38" class="d">-    toRow(): JSX.Element {
+</a><a href="#h4-0-39" id="h4-0-39" class="d">-        const chaos = this.toCell(this.chaos.toFixed(2), CurrencyAmount.base);
+</a><a href="#h4-0-40" id="h4-0-40" class="d">-        const currency = this.toCell(this.amount, this.currency);
+</a><a href="#h4-0-41" id="h4-0-41" class="d">-        return &lt;tr key={this.key}&gt;{chaos}{currency}&lt;/tr&gt;;
+</a><a href="#h4-0-42" id="h4-0-42" class="d">-    }
+</a><a href="#h4-0-43" id="h4-0-43" class="d">-}
+</a><b>diff --git a/<a id="h5" href="../file/src/models/CurrencyValue.ts.html">src/models/CurrencyValue.ts</a> b/<a href="../file/src/models/CurrencyValue.ts.html">src/models/CurrencyValue.ts</a></b>
+<a href="#h5-0" id="h5-0" class="h">@@ -0,0 +1,13 @@
+</a><a href="#h5-0-0" id="h5-0-0" class="i">+import { Currency } from &quot;./Currency&quot;;
+</a><a href="#h5-0-1" id="h5-0-1" class="i">+
+</a><a href="#h5-0-2" id="h5-0-2" class="i">+export interface ICurrencyValue {
+</a><a href="#h5-0-3" id="h5-0-3" class="i">+    value: number | string
+</a><a href="#h5-0-4" id="h5-0-4" class="i">+    currency: Currency
+</a><a href="#h5-0-5" id="h5-0-5" class="i">+}
+</a><a href="#h5-0-6" id="h5-0-6" class="i">+
+</a><a href="#h5-0-7" id="h5-0-7" class="i">+export class CurrencyValue implements ICurrencyValue {
+</a><a href="#h5-0-8" id="h5-0-8" class="i">+    constructor(
+</a><a href="#h5-0-9" id="h5-0-9" class="i">+        public value: number,
+</a><a href="#h5-0-10" id="h5-0-10" class="i">+        public currency: Currency,
+</a><a href="#h5-0-11" id="h5-0-11" class="i">+    ) { }
+</a><a href="#h5-0-12" id="h5-0-12" class="i">+}</a><a href="#h5-0-13" id="h5-0-13" class="i">+
+\ No newline at end of file
+</a></pre>
+</div>
+</body>
+</html>

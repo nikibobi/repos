@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Optimized Utills - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/0e350641a161449b343f821094e80d29c6b5307f.html">0e350641a161449b343f821094e80d29c6b5307f</a>
+<b>parent</b> <a href="../commit/8ad22b2269a5b70e8f126c4ba6e7b00d01d7aa75.html">8ad22b2269a5b70e8f126c4ba6e7b00d01d7aa75</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Tue, 20 Aug 2013 19:23:35 +0300
+
+Optimized Utills
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Utills.cs</a></td><td> | </td><td class="num">12</td><td><span class="i">++++++</span><span class="d">------</span></td></tr>
+</table></pre><pre>1 file changed, 6 insertions(+), 6 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a> b/<a href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -17,7 +17,7 @@ class Utills
+</a> 
+         public static IEnumerable&lt;Paste&gt; PastesFromXML(string xml)
+         {
+<a href="#h0-0-3" id="h0-0-3" class="d">-            foreach (var paste in XDocument.Parse(&quot;&lt;pastes&gt;&quot; + xml + &quot;&lt;/pastes&gt;&quot;).Descendants(&quot;paste&quot;))
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+            foreach (var paste in XElement.Parse(&quot;&lt;pastes&gt;&quot; + xml + &quot;&lt;/pastes&gt;&quot;).Descendants(&quot;paste&quot;))
+</a>                 yield return Paste.FromXML(paste);
+         }
+ 
+<a href="#h0-1" id="h0-1" class="h">@@ -42,16 +42,16 @@ public static string PostRequest(string url, params string[] parameters)
+</a>                 {
+                     dataStream.Write(byteArray, 0, byteArray.Length);
+                 }
+<a href="#h0-1-3" id="h0-1-3" class="i">+                using (WebResponse response = request.GetResponse())
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+</a><a href="#h0-1-5" id="h0-1-5" class="i">+                {
+</a><a href="#h0-1-6" id="h0-1-6" class="i">+                    return reader.ReadToEnd();
+</a><a href="#h0-1-7" id="h0-1-7" class="i">+                }
+</a>             }
+             catch (WebException ex)
+             {
+                 throw new PastebinException(&quot;Connection to Pastebin failed&quot;, ex);
+             }
+<a href="#h0-1-13" id="h0-1-13" class="d">-            using (WebResponse response = request.GetResponse())
+</a><a href="#h0-1-14" id="h0-1-14" class="d">-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+</a><a href="#h0-1-15" id="h0-1-15" class="d">-            {
+</a><a href="#h0-1-16" id="h0-1-16" class="d">-                return reader.ReadToEnd();
+</a><a href="#h0-1-17" id="h0-1-17" class="d">-            }
+</a>         }
+     }
+ }
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>remove unused App.css - poe - Path of Exile currency utility site
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="poe Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>poe</h1><span class="desc">Path of Exile currency utility site
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/poe.git">https://github.com/nikibobi/poe.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/1f123106b7cece4186f1e7b65a5daa4a0a98dff7.html">1f123106b7cece4186f1e7b65a5daa4a0a98dff7</a>
+<b>parent</b> <a href="../commit/8820fed294e054f2b2577dbcfcd63a5fed392e88.html">8820fed294e054f2b2577dbcfcd63a5fed392e88</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Sat,  8 Jun 2019 17:55:38 +0300
+
+remove unused App.css
+
+<b>Diffstat:</b>
+<table><tr><td class="D">D</td><td><a href="#h0">src/App.css</a></td><td> | </td><td class="num">33</td><td><span class="i"></span><span class="d">---------------------------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">src/App.tsx</a></td><td> | </td><td class="num">1</td><td><span class="i"></span><span class="d">-</span></td></tr>
+</table></pre><pre>2 files changed, 0 insertions(+), 34 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/src/App.css.html">src/App.css</a> b/<a href="../file/src/App.css.html">src/App.css</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,33 +0,0 @@
+</a><a href="#h0-0-0" id="h0-0-0" class="d">-.App {
+</a><a href="#h0-0-1" id="h0-0-1" class="d">-  text-align: center;
+</a><a href="#h0-0-2" id="h0-0-2" class="d">-}
+</a><a href="#h0-0-3" id="h0-0-3" class="d">-
+</a><a href="#h0-0-4" id="h0-0-4" class="d">-.App-logo {
+</a><a href="#h0-0-5" id="h0-0-5" class="d">-  animation: App-logo-spin infinite 20s linear;
+</a><a href="#h0-0-6" id="h0-0-6" class="d">-  height: 40vmin;
+</a><a href="#h0-0-7" id="h0-0-7" class="d">-  pointer-events: none;
+</a><a href="#h0-0-8" id="h0-0-8" class="d">-}
+</a><a href="#h0-0-9" id="h0-0-9" class="d">-
+</a><a href="#h0-0-10" id="h0-0-10" class="d">-.App-header {
+</a><a href="#h0-0-11" id="h0-0-11" class="d">-  background-color: #282c34;
+</a><a href="#h0-0-12" id="h0-0-12" class="d">-  min-height: 100vh;
+</a><a href="#h0-0-13" id="h0-0-13" class="d">-  display: flex;
+</a><a href="#h0-0-14" id="h0-0-14" class="d">-  flex-direction: column;
+</a><a href="#h0-0-15" id="h0-0-15" class="d">-  align-items: center;
+</a><a href="#h0-0-16" id="h0-0-16" class="d">-  justify-content: center;
+</a><a href="#h0-0-17" id="h0-0-17" class="d">-  font-size: calc(10px + 2vmin);
+</a><a href="#h0-0-18" id="h0-0-18" class="d">-  color: white;
+</a><a href="#h0-0-19" id="h0-0-19" class="d">-}
+</a><a href="#h0-0-20" id="h0-0-20" class="d">-
+</a><a href="#h0-0-21" id="h0-0-21" class="d">-.App-link {
+</a><a href="#h0-0-22" id="h0-0-22" class="d">-  color: #61dafb;
+</a><a href="#h0-0-23" id="h0-0-23" class="d">-}
+</a><a href="#h0-0-24" id="h0-0-24" class="d">-
+</a><a href="#h0-0-25" id="h0-0-25" class="d">-@keyframes App-logo-spin {
+</a><a href="#h0-0-26" id="h0-0-26" class="d">-  from {
+</a><a href="#h0-0-27" id="h0-0-27" class="d">-    transform: rotate(0deg);
+</a><a href="#h0-0-28" id="h0-0-28" class="d">-  }
+</a><a href="#h0-0-29" id="h0-0-29" class="d">-  to {
+</a><a href="#h0-0-30" id="h0-0-30" class="d">-    transform: rotate(360deg);
+</a><a href="#h0-0-31" id="h0-0-31" class="d">-  }
+</a><a href="#h0-0-32" id="h0-0-32" class="d">-}
+</a><b>diff --git a/<a id="h1" href="../file/src/App.tsx.html">src/App.tsx</a> b/<a href="../file/src/App.tsx.html">src/App.tsx</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -7,7 +7,6 @@ import CurrencySelect from &#39;./components/CurrencySelect&#39;;
+</a> import FromToInput from &#39;./components/FromToInput&#39;;
+ import ValueDeltaInput from &#39;./components/ValueDeltaInput&#39;;
+ import CurrencyTable from &#39;./components/CurrencyTable&#39;;
+<a href="#h1-0-3" id="h1-0-3" class="d">-import &#39;./App.css&#39;;
+</a> 
+ interface IAppState {
+     selected: Currency[]
+</pre>
+</div>
+</body>
+</html>

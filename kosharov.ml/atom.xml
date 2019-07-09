@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>kosharov.ml, branch HEAD</title>
+<subtitle>My personal blog about programming and math
+</subtitle>
+<entry>
+<id>83ee14eb148564773db9abb16e941d61975156a8</id>
+<published>2019-03-31T16:44:01Z</published>
+<updated>2019-03-31T16:44:01Z</updated>
+<title type="text">update public</title>
+<link rel="alternate" type="text/html" href="commit/83ee14eb148564773db9abb16e941d61975156a8.html" /><author><name>bosak</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 83ee14eb148564773db9abb16e941d61975156a8
+parent b4d46ed2233dbc1df5ead37822dc0a4f557abf66
+Author: bosak &lt;bosakmaw@gmail.com&gt;
+Date:   Sun, 31 Mar 2019 19:44:01 +0300
+
+update public
+
+</content>
+</entry>
+<entry>
+<id>b4d46ed2233dbc1df5ead37822dc0a4f557abf66</id>
+<published>2019-03-31T16:41:38Z</published>
+<updated>2019-03-31T16:41:38Z</updated>
+<title type="text">add helpdesk.csv static file</title>
+<link rel="alternate" type="text/html" href="commit/b4d46ed2233dbc1df5ead37822dc0a4f557abf66.html" /><author><name>bosak</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit b4d46ed2233dbc1df5ead37822dc0a4f557abf66
+parent 69498fad92d3824cf213a8104b16072174699765
+Author: bosak &lt;bosakmaw@gmail.com&gt;
+Date:   Sun, 31 Mar 2019 19:41:38 +0300
+
+add helpdesk.csv static file
+
+</content>
+</entry>
+<entry>
+<id>69498fad92d3824cf213a8104b16072174699765</id>
+<published>2019-02-07T19:16:13Z</published>
+<updated>2019-02-07T19:16:13Z</updated>
+<title type="text">change theme and add logo</title>
+<link rel="alternate" type="text/html" href="commit/69498fad92d3824cf213a8104b16072174699765.html" /><author><name>bosak</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 69498fad92d3824cf213a8104b16072174699765
+parent 21dc0515605ebe5955db97096f5c7bb40a20a301
+Author: bosak &lt;bosakmaw@gmail.com&gt;
+Date:   Thu,  7 Feb 2019 21:16:13 +0200
+
+change theme and add logo
+
+</content>
+</entry>
+<entry>
+<id>21dc0515605ebe5955db97096f5c7bb40a20a301</id>
+<published>2019-02-02T22:34:23Z</published>
+<updated>2019-02-02T22:34:23Z</updated>
+<title type="text">add CNAME file for custom domain</title>
+<link rel="alternate" type="text/html" href="commit/21dc0515605ebe5955db97096f5c7bb40a20a301.html" /><author><name>bosak</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 21dc0515605ebe5955db97096f5c7bb40a20a301
+parent 1e0c580eb2d3f3150b4e777a97e3ebbfef884d31
+Author: bosak &lt;bosakmaw@gmail.com&gt;
+Date:   Sun,  3 Feb 2019 00:34:23 +0200
+
+add CNAME file for custom domain
+
+</content>
+</entry>
+<entry>
+<id>1e0c580eb2d3f3150b4e777a97e3ebbfef884d31</id>
+<published>2019-02-02T22:22:36Z</published>
+<updated>2019-02-02T22:22:36Z</updated>
+<title type="text">add markdown test post and about page</title>
+<link rel="alternate" type="text/html" href="commit/1e0c580eb2d3f3150b4e777a97e3ebbfef884d31.html" /><author><name>bosak</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 1e0c580eb2d3f3150b4e777a97e3ebbfef884d31
+parent e656ac46b78fe091a2c0a8557b73755d92278160
+Author: bosak &lt;bosakmaw@gmail.com&gt;
+Date:   Sun,  3 Feb 2019 00:22:36 +0200
+
+add markdown test post and about page
+
+</content>
+</entry>
+<entry>
+<id>e656ac46b78fe091a2c0a8557b73755d92278160</id>
+<published>2019-02-02T21:55:17Z</published>
+<updated>2019-02-02T21:55:17Z</updated>
+<title type="text">create hugo website</title>
+<link rel="alternate" type="text/html" href="commit/e656ac46b78fe091a2c0a8557b73755d92278160.html" /><author><name>bosak</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit e656ac46b78fe091a2c0a8557b73755d92278160
+parent bff1bffadb6de0cb55a5a6dc72309c91802710cd
+Author: bosak &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  2 Feb 2019 23:55:17 +0200
+
+create hugo website
+
+</content>
+</entry>
+<entry>
+<id>bff1bffadb6de0cb55a5a6dc72309c91802710cd</id>
+<published>2019-02-02T21:36:46Z</published>
+<updated>2019-02-02T21:36:46Z</updated>
+<title type="text">Initial commit</title>
+<link rel="alternate" type="text/html" href="commit/bff1bffadb6de0cb55a5a6dc72309c91802710cd.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit bff1bffadb6de0cb55a5a6dc72309c91802710cd
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  2 Feb 2019 23:36:46 +0200
+
+Initial commit
+</content>
+</entry>
+</feed>

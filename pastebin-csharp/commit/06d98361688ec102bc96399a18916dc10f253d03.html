@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Updated ToString() for Paste and User - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/06d98361688ec102bc96399a18916dc10f253d03.html">06d98361688ec102bc96399a18916dc10f253d03</a>
+<b>parent</b> <a href="../commit/507c5279888354015b08a3c47aa2aeb1297a5101.html">507c5279888354015b08a3c47aa2aeb1297a5101</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Mon,  3 Jun 2013 17:51:59 +0300
+
+Updated ToString() for Paste and User
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Paste.cs</a></td><td> | </td><td class="num">3</td><td><span class="i">+</span><span class="d">--</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">PastebinAPI/User.cs</a></td><td> | </td><td class="num">3</td><td><span class="i">+</span><span class="d">--</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI/Utills.cs</a></td><td> | </td><td class="num">1</td><td><span class="i">+</span><span class="d"></span></td></tr>
+</table></pre><pre>3 files changed, 3 insertions(+), 4 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a> b/<a href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -67,8 +67,7 @@ public string GetRaw()
+</a> 
+         public override string ToString()
+         {
+<a href="#h0-0-3" id="h0-0-3" class="d">-            //return Text ?? GetRaw();
+</a><a href="#h0-0-4" id="h0-0-4" class="d">-            return string.Format(&quot;{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}&quot;, Key, Date, Title, Size, ExpireDate, Visibility, PasteFormat, Url, Hits);
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+            return Text ?? GetRaw();
+</a>         }
+     }
+ }
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -92,8 +92,7 @@ public void RequestPreferences()
+</a> 
+         public override string ToString()
+         {
+<a href="#h1-0-3" id="h1-0-3" class="d">-            //return Name;
+</a><a href="#h1-0-4" id="h1-0-4" class="d">-            return string.Format(&quot;{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}&quot;, Name, DefaultPasteFormat, DefaultExpiration, AvatarURL, DefaultVisibility, Website, Email, Location, IsPro);
+</a><a href="#h1-0-5" id="h1-0-5" class="i">+            return Name;
+</a>         }
+     }
+ }
+<b>diff --git a/<a id="h2" href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a> b/<a href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -23,6 +23,7 @@ public static DateTime GetDate(long ticks)
+</a> 
+         public static string PostRequest(string url, params string[] parameters)
+         {
+<a href="#h2-0-3" id="h2-0-3" class="i">+            //TODO: Catch net exceptions
+</a>             WebRequest request = WebRequest.Create(url);
+             request.Method = &quot;POST&quot;;
+             request.ContentType = &quot;application/x-www-form-urlencoded&quot;;
+</pre>
+</div>
+</body>
+</html>

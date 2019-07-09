@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Migrated library to netstandard2.0 - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/f5105bcb3e9b86da418274454ebc2157e230f6c3.html">f5105bcb3e9b86da418274454ebc2157e230f6c3</a>
+<b>parent</b> <a href="../commit/daeec0d6897799f4b00bbed887fd153b583afe67.html">daeec0d6897799f4b00bbed887fd153b583afe67</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Mon, 25 Sep 2017 23:48:28 +0300
+
+Migrated library to netstandard2.0
+
+and Example to .NET 4.6.2
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">Example/Example.csproj</a></td><td> | </td><td class="num">10</td><td><span class="i">++</span><span class="d">--------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">Example/app.config</a></td><td> | </td><td class="num">2</td><td><span class="i">+</span><span class="d">-</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI.sln</a></td><td> | </td><td class="num">26</td><td><span class="i">++++++++++++++</span><span class="d">------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h3">PastebinAPI/PastebinAPI.csproj</a></td><td> | </td><td class="num">68</td><td><span class="i">+++++</span><span class="d">---------------------------------------------------------------</span></td></tr>
+<tr><td class="D">D</td><td><a href="#h4">PastebinAPI/Properties/AssemblyInfo.cs</a></td><td> | </td><td class="num">36</td><td><span class="i"></span><span class="d">------------------------------------</span></td></tr>
+</table></pre><pre>5 files changed, 22 insertions(+), 120 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/Example/Example.csproj.html">Example/Example.csproj</a> b/<a href="../file/Example/Example.csproj.html">Example/Example.csproj</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,5 +1,5 @@
+</a> ﻿&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<a href="#h0-0-1" id="h0-0-1" class="d">-&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+</a><a href="#h0-0-2" id="h0-0-2" class="i">+&lt;Project ToolsVersion=&quot;12.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+</a>   &lt;PropertyGroup&gt;
+     &lt;Configuration Condition=&quot; &#39;$(Configuration)&#39; == &#39;&#39; &quot;&gt;Debug&lt;/Configuration&gt;
+     &lt;Platform Condition=&quot; &#39;$(Platform)&#39; == &#39;&#39; &quot;&gt;x86&lt;/Platform&gt;
+<a href="#h0-1" id="h0-1" class="h">@@ -10,7 +10,7 @@
+</a>     &lt;AppDesignerFolder&gt;Properties&lt;/AppDesignerFolder&gt;
+     &lt;RootNamespace&gt;Example&lt;/RootNamespace&gt;
+     &lt;AssemblyName&gt;Example&lt;/AssemblyName&gt;
+<a href="#h0-1-3" id="h0-1-3" class="d">-    &lt;TargetFrameworkVersion&gt;v4.5&lt;/TargetFrameworkVersion&gt;
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+    &lt;TargetFrameworkVersion&gt;v4.6.2&lt;/TargetFrameworkVersion&gt;
+</a>     &lt;TargetFrameworkProfile&gt;
+     &lt;/TargetFrameworkProfile&gt;
+     &lt;FileAlignment&gt;512&lt;/FileAlignment&gt;
+<a href="#h0-2" id="h0-2" class="h">@@ -50,12 +50,6 @@
+</a>     &lt;Compile Include=&quot;Properties\AssemblyInfo.cs&quot; /&gt;
+   &lt;/ItemGroup&gt;
+   &lt;ItemGroup&gt;
+<a href="#h0-2-3" id="h0-2-3" class="d">-    &lt;ProjectReference Include=&quot;..\PastebinAPI\PastebinAPI.csproj&quot;&gt;
+</a><a href="#h0-2-4" id="h0-2-4" class="d">-      &lt;Project&gt;{258E90D4-CAAD-4102-939D-56E7372A2E60}&lt;/Project&gt;
+</a><a href="#h0-2-5" id="h0-2-5" class="d">-      &lt;Name&gt;PastebinAPI&lt;/Name&gt;
+</a><a href="#h0-2-6" id="h0-2-6" class="d">-    &lt;/ProjectReference&gt;
+</a><a href="#h0-2-7" id="h0-2-7" class="d">-  &lt;/ItemGroup&gt;
+</a><a href="#h0-2-8" id="h0-2-8" class="d">-  &lt;ItemGroup&gt;
+</a>     &lt;None Include=&quot;app.config&quot; /&gt;
+   &lt;/ItemGroup&gt;
+   &lt;Import Project=&quot;$(MSBuildToolsPath)\Microsoft.CSharp.targets&quot; /&gt;
+<b>diff --git a/<a id="h1" href="../file/Example/app.config.html">Example/app.config</a> b/<a href="../file/Example/app.config.html">Example/app.config</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -1,3 +1,3 @@
+</a> &lt;?xml version=&quot;1.0&quot;?&gt;
+ &lt;configuration&gt;
+<a href="#h1-0-2" id="h1-0-2" class="d">-&lt;startup&gt;&lt;supportedRuntime version=&quot;v4.0&quot; sku=&quot;.NETFramework,Version=v4.5&quot;/&gt;&lt;/startup&gt;&lt;/configuration&gt;
+</a><a href="#h1-0-3" id="h1-0-3" class="i">+&lt;startup&gt;&lt;supportedRuntime version=&quot;v4.0&quot; sku=&quot;.NETFramework,Version=v4.6.2&quot;/&gt;&lt;/startup&gt;&lt;/configuration&gt;
+</a><b>diff --git a/<a id="h2" href="../file/PastebinAPI.sln.html">PastebinAPI.sln</a> b/<a href="../file/PastebinAPI.sln.html">PastebinAPI.sln</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -3,10 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
+</a> # Visual Studio 15
+ VisualStudioVersion = 15.0.26730.16
+ MinimumVisualStudioVersion = 10.0.40219.1
+<a href="#h2-0-3" id="h2-0-3" class="d">-Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;PastebinAPI&quot;, &quot;PastebinAPI\PastebinAPI.csproj&quot;, &quot;{258E90D4-CAAD-4102-939D-56E7372A2E60}&quot;
+</a><a href="#h2-0-4" id="h2-0-4" class="d">-EndProject
+</a> Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;Example&quot;, &quot;Example\Example.csproj&quot;, &quot;{101F0348-D6D6-40B6-B85F-368FEEB46E38}&quot;
+ EndProject
+<a href="#h2-0-7" id="h2-0-7" class="i">+Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;PastebinAPI&quot;, &quot;PastebinAPI\PastebinAPI.csproj&quot;, &quot;{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}&quot;
+</a><a href="#h2-0-8" id="h2-0-8" class="i">+EndProject
+</a> Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug|Any CPU = Debug|Any CPU
+<a href="#h2-1" id="h2-1" class="h">@@ -17,16 +17,6 @@ Global
+</a> 		Release|x86 = Release|x86
+ 	EndGlobalSection
+ 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+<a href="#h2-1-3" id="h2-1-3" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+</a><a href="#h2-1-4" id="h2-1-4" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+</a><a href="#h2-1-5" id="h2-1-5" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+</a><a href="#h2-1-6" id="h2-1-6" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+</a><a href="#h2-1-7" id="h2-1-7" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|x86.ActiveCfg = Debug|Any CPU
+</a><a href="#h2-1-8" id="h2-1-8" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+</a><a href="#h2-1-9" id="h2-1-9" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Any CPU.Build.0 = Release|Any CPU
+</a><a href="#h2-1-10" id="h2-1-10" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+</a><a href="#h2-1-11" id="h2-1-11" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+</a><a href="#h2-1-12" id="h2-1-12" class="d">-		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|x86.ActiveCfg = Release|Any CPU
+</a> 		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|Any CPU.ActiveCfg = Debug|x86
+ 		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+ 		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|Mixed Platforms.Build.0 = Debug|x86
+<a href="#h2-2" id="h2-2" class="h">@@ -37,6 +27,18 @@ Global
+</a> 		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|Mixed Platforms.Build.0 = Release|x86
+ 		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|x86.ActiveCfg = Release|x86
+ 		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|x86.Build.0 = Release|x86
+<a href="#h2-2-3" id="h2-2-3" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+</a><a href="#h2-2-4" id="h2-2-4" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+</a><a href="#h2-2-5" id="h2-2-5" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+</a><a href="#h2-2-6" id="h2-2-6" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+</a><a href="#h2-2-7" id="h2-2-7" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Debug|x86.ActiveCfg = Debug|Any CPU
+</a><a href="#h2-2-8" id="h2-2-8" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Debug|x86.Build.0 = Debug|Any CPU
+</a><a href="#h2-2-9" id="h2-2-9" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+</a><a href="#h2-2-10" id="h2-2-10" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Release|Any CPU.Build.0 = Release|Any CPU
+</a><a href="#h2-2-11" id="h2-2-11" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+</a><a href="#h2-2-12" id="h2-2-12" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+</a><a href="#h2-2-13" id="h2-2-13" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Release|x86.ActiveCfg = Release|Any CPU
+</a><a href="#h2-2-14" id="h2-2-14" class="i">+		{198F990F-5DBB-45AE-A98A-8E4771CC0D0D}.Release|x86.Build.0 = Release|Any CPU
+</a> 	EndGlobalSection
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE
+<b>diff --git a/<a id="h3" href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a> b/<a href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -1,64 +1,7 @@
+</a><a href="#h3-0-0" id="h3-0-0" class="d">-﻿&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+</a><a href="#h3-0-1" id="h3-0-1" class="d">-&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+</a><a href="#h3-0-2" id="h3-0-2" class="i">+&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+</a><a href="#h3-0-3" id="h3-0-3" class="i">+
+</a>   &lt;PropertyGroup&gt;
+<a href="#h3-0-5" id="h3-0-5" class="d">-    &lt;Configuration Condition=&quot; &#39;$(Configuration)&#39; == &#39;&#39; &quot;&gt;Debug&lt;/Configuration&gt;
+</a><a href="#h3-0-6" id="h3-0-6" class="d">-    &lt;Platform Condition=&quot; &#39;$(Platform)&#39; == &#39;&#39; &quot;&gt;AnyCPU&lt;/Platform&gt;
+</a><a href="#h3-0-7" id="h3-0-7" class="d">-    &lt;ProductVersion&gt;8.0.30703&lt;/ProductVersion&gt;
+</a><a href="#h3-0-8" id="h3-0-8" class="d">-    &lt;SchemaVersion&gt;2.0&lt;/SchemaVersion&gt;
+</a><a href="#h3-0-9" id="h3-0-9" class="d">-    &lt;ProjectGuid&gt;{258E90D4-CAAD-4102-939D-56E7372A2E60}&lt;/ProjectGuid&gt;
+</a><a href="#h3-0-10" id="h3-0-10" class="d">-    &lt;OutputType&gt;Library&lt;/OutputType&gt;
+</a><a href="#h3-0-11" id="h3-0-11" class="d">-    &lt;AppDesignerFolder&gt;Properties&lt;/AppDesignerFolder&gt;
+</a><a href="#h3-0-12" id="h3-0-12" class="d">-    &lt;RootNamespace&gt;PastebinAPI&lt;/RootNamespace&gt;
+</a><a href="#h3-0-13" id="h3-0-13" class="d">-    &lt;AssemblyName&gt;PastebinAPI&lt;/AssemblyName&gt;
+</a><a href="#h3-0-14" id="h3-0-14" class="d">-    &lt;TargetFrameworkVersion&gt;v4.5&lt;/TargetFrameworkVersion&gt;
+</a><a href="#h3-0-15" id="h3-0-15" class="d">-    &lt;FileAlignment&gt;512&lt;/FileAlignment&gt;
+</a><a href="#h3-0-16" id="h3-0-16" class="d">-    &lt;TargetFrameworkProfile /&gt;
+</a><a href="#h3-0-17" id="h3-0-17" class="i">+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+</a>   &lt;/PropertyGroup&gt;
+<a href="#h3-0-19" id="h3-0-19" class="d">-  &lt;PropertyGroup Condition=&quot; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &quot;&gt;
+</a><a href="#h3-0-20" id="h3-0-20" class="d">-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+</a><a href="#h3-0-21" id="h3-0-21" class="d">-    &lt;DebugType&gt;full&lt;/DebugType&gt;
+</a><a href="#h3-0-22" id="h3-0-22" class="d">-    &lt;Optimize&gt;false&lt;/Optimize&gt;
+</a><a href="#h3-0-23" id="h3-0-23" class="d">-    &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
+</a><a href="#h3-0-24" id="h3-0-24" class="d">-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+</a><a href="#h3-0-25" id="h3-0-25" class="d">-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+</a><a href="#h3-0-26" id="h3-0-26" class="d">-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+</a><a href="#h3-0-27" id="h3-0-27" class="d">-    &lt;Prefer32Bit&gt;false&lt;/Prefer32Bit&gt;
+</a><a href="#h3-0-28" id="h3-0-28" class="d">-  &lt;/PropertyGroup&gt;
+</a><a href="#h3-0-29" id="h3-0-29" class="d">-  &lt;PropertyGroup Condition=&quot; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &quot;&gt;
+</a><a href="#h3-0-30" id="h3-0-30" class="d">-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+</a><a href="#h3-0-31" id="h3-0-31" class="d">-    &lt;Optimize&gt;true&lt;/Optimize&gt;
+</a><a href="#h3-0-32" id="h3-0-32" class="d">-    &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
+</a><a href="#h3-0-33" id="h3-0-33" class="d">-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+</a><a href="#h3-0-34" id="h3-0-34" class="d">-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+</a><a href="#h3-0-35" id="h3-0-35" class="d">-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+</a><a href="#h3-0-36" id="h3-0-36" class="d">-    &lt;Prefer32Bit&gt;false&lt;/Prefer32Bit&gt;
+</a><a href="#h3-0-37" id="h3-0-37" class="d">-  &lt;/PropertyGroup&gt;
+</a><a href="#h3-0-38" id="h3-0-38" class="d">-  &lt;ItemGroup&gt;
+</a><a href="#h3-0-39" id="h3-0-39" class="d">-    &lt;Reference Include=&quot;System&quot; /&gt;
+</a><a href="#h3-0-40" id="h3-0-40" class="d">-    &lt;Reference Include=&quot;System.Core&quot; /&gt;
+</a><a href="#h3-0-41" id="h3-0-41" class="d">-    &lt;Reference Include=&quot;System.Xml.Linq&quot; /&gt;
+</a><a href="#h3-0-42" id="h3-0-42" class="d">-    &lt;Reference Include=&quot;System.Data.DataSetExtensions&quot; /&gt;
+</a><a href="#h3-0-43" id="h3-0-43" class="d">-    &lt;Reference Include=&quot;Microsoft.CSharp&quot; /&gt;
+</a><a href="#h3-0-44" id="h3-0-44" class="d">-    &lt;Reference Include=&quot;System.Data&quot; /&gt;
+</a><a href="#h3-0-45" id="h3-0-45" class="d">-    &lt;Reference Include=&quot;System.Xml&quot; /&gt;
+</a><a href="#h3-0-46" id="h3-0-46" class="d">-  &lt;/ItemGroup&gt;
+</a><a href="#h3-0-47" id="h3-0-47" class="d">-  &lt;ItemGroup&gt;
+</a><a href="#h3-0-48" id="h3-0-48" class="d">-    &lt;Compile Include=&quot;Expiration.cs&quot; /&gt;
+</a><a href="#h3-0-49" id="h3-0-49" class="d">-    &lt;Compile Include=&quot;Pastebin.cs&quot; /&gt;
+</a><a href="#h3-0-50" id="h3-0-50" class="d">-    &lt;Compile Include=&quot;PastebinException.cs&quot; /&gt;
+</a><a href="#h3-0-51" id="h3-0-51" class="d">-    &lt;Compile Include=&quot;Language.cs&quot; /&gt;
+</a><a href="#h3-0-52" id="h3-0-52" class="d">-    &lt;Compile Include=&quot;Paste.cs&quot; /&gt;
+</a><a href="#h3-0-53" id="h3-0-53" class="d">-    &lt;Compile Include=&quot;Properties\AssemblyInfo.cs&quot; /&gt;
+</a><a href="#h3-0-54" id="h3-0-54" class="d">-    &lt;Compile Include=&quot;User.cs&quot; /&gt;
+</a><a href="#h3-0-55" id="h3-0-55" class="d">-    &lt;Compile Include=&quot;Utills.cs&quot; /&gt;
+</a><a href="#h3-0-56" id="h3-0-56" class="d">-    &lt;Compile Include=&quot;Visibility.cs&quot; /&gt;
+</a><a href="#h3-0-57" id="h3-0-57" class="d">-  &lt;/ItemGroup&gt;
+</a><a href="#h3-0-58" id="h3-0-58" class="d">-  &lt;Import Project=&quot;$(MSBuildToolsPath)\Microsoft.CSharp.targets&quot; /&gt;
+</a><a href="#h3-0-59" id="h3-0-59" class="d">-  &lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+</a><a href="#h3-0-60" id="h3-0-60" class="d">-       Other similar extension points exist, see Microsoft.Common.targets.
+</a><a href="#h3-0-61" id="h3-0-61" class="d">-  &lt;Target Name=&quot;BeforeBuild&quot;&gt;
+</a><a href="#h3-0-62" id="h3-0-62" class="d">-  &lt;/Target&gt;
+</a><a href="#h3-0-63" id="h3-0-63" class="d">-  &lt;Target Name=&quot;AfterBuild&quot;&gt;
+</a><a href="#h3-0-64" id="h3-0-64" class="d">-  &lt;/Target&gt;
+</a><a href="#h3-0-65" id="h3-0-65" class="d">-  --&gt;
+</a><a href="#h3-0-66" id="h3-0-66" class="d">-&lt;/Project&gt;</a><a href="#h3-0-67" id="h3-0-67" class="d">-
+\ No newline at end of file
+</a><a href="#h3-0-68" id="h3-0-68" class="i">+
+</a><a href="#h3-0-69" id="h3-0-69" class="i">+&lt;/Project&gt;
+</a><b>diff --git a/<a id="h4" href="../file/PastebinAPI/Properties/AssemblyInfo.cs.html">PastebinAPI/Properties/AssemblyInfo.cs</a> b/<a href="../file/PastebinAPI/Properties/AssemblyInfo.cs.html">PastebinAPI/Properties/AssemblyInfo.cs</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -1,36 +0,0 @@
+</a><a href="#h4-0-0" id="h4-0-0" class="d">-﻿using System.Reflection;
+</a><a href="#h4-0-1" id="h4-0-1" class="d">-using System.Runtime.CompilerServices;
+</a><a href="#h4-0-2" id="h4-0-2" class="d">-using System.Runtime.InteropServices;
+</a><a href="#h4-0-3" id="h4-0-3" class="d">-
+</a><a href="#h4-0-4" id="h4-0-4" class="d">-// General Information about an assembly is controlled through the following 
+</a><a href="#h4-0-5" id="h4-0-5" class="d">-// set of attributes. Change these attribute values to modify the information
+</a><a href="#h4-0-6" id="h4-0-6" class="d">-// associated with an assembly.
+</a><a href="#h4-0-7" id="h4-0-7" class="d">-[assembly: AssemblyTitle(&quot;PastebinAPI&quot;)]
+</a><a href="#h4-0-8" id="h4-0-8" class="d">-[assembly: AssemblyDescription(&quot;&quot;)]
+</a><a href="#h4-0-9" id="h4-0-9" class="d">-[assembly: AssemblyConfiguration(&quot;&quot;)]
+</a><a href="#h4-0-10" id="h4-0-10" class="d">-[assembly: AssemblyCompany(&quot;Doma&quot;)]
+</a><a href="#h4-0-11" id="h4-0-11" class="d">-[assembly: AssemblyProduct(&quot;PastebinAPI&quot;)]
+</a><a href="#h4-0-12" id="h4-0-12" class="d">-[assembly: AssemblyCopyright(&quot;Copyright © Doma 2013&quot;)]
+</a><a href="#h4-0-13" id="h4-0-13" class="d">-[assembly: AssemblyTrademark(&quot;&quot;)]
+</a><a href="#h4-0-14" id="h4-0-14" class="d">-[assembly: AssemblyCulture(&quot;&quot;)]
+</a><a href="#h4-0-15" id="h4-0-15" class="d">-
+</a><a href="#h4-0-16" id="h4-0-16" class="d">-// Setting ComVisible to false makes the types in this assembly not visible 
+</a><a href="#h4-0-17" id="h4-0-17" class="d">-// to COM components.  If you need to access a type in this assembly from 
+</a><a href="#h4-0-18" id="h4-0-18" class="d">-// COM, set the ComVisible attribute to true on that type.
+</a><a href="#h4-0-19" id="h4-0-19" class="d">-[assembly: ComVisible(false)]
+</a><a href="#h4-0-20" id="h4-0-20" class="d">-
+</a><a href="#h4-0-21" id="h4-0-21" class="d">-// The following GUID is for the ID of the typelib if this project is exposed to COM
+</a><a href="#h4-0-22" id="h4-0-22" class="d">-[assembly: Guid(&quot;cd02333d-c0bc-4c4e-9fd5-23c5d025aa80&quot;)]
+</a><a href="#h4-0-23" id="h4-0-23" class="d">-
+</a><a href="#h4-0-24" id="h4-0-24" class="d">-// Version information for an assembly consists of the following four values:
+</a><a href="#h4-0-25" id="h4-0-25" class="d">-//
+</a><a href="#h4-0-26" id="h4-0-26" class="d">-//      Major Version
+</a><a href="#h4-0-27" id="h4-0-27" class="d">-//      Minor Version 
+</a><a href="#h4-0-28" id="h4-0-28" class="d">-//      Build Number
+</a><a href="#h4-0-29" id="h4-0-29" class="d">-//      Revision
+</a><a href="#h4-0-30" id="h4-0-30" class="d">-//
+</a><a href="#h4-0-31" id="h4-0-31" class="d">-// You can specify all the values or you can default the Build and Revision Numbers 
+</a><a href="#h4-0-32" id="h4-0-32" class="d">-// by using the &#39;*&#39; as shown below:
+</a><a href="#h4-0-33" id="h4-0-33" class="d">-// [assembly: AssemblyVersion(&quot;1.0.*&quot;)]
+</a><a href="#h4-0-34" id="h4-0-34" class="d">-[assembly: AssemblyVersion(&quot;1.0.0.0&quot;)]
+</a><a href="#h4-0-35" id="h4-0-35" class="d">-[assembly: AssemblyFileVersion(&quot;1.0.0.0&quot;)]
+</a></pre>
+</div>
+</body>
+</html>

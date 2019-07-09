@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>pastebin-csharp, branch HEAD</title>
+<subtitle>Simple and easy to use API for Pastebin in C#
+</subtitle>
+<entry>
+<id>8d3464f4ea8d3761b3c896a5d215c91bc3f2c7ae</id>
+<published>2018-09-07T22:38:02Z</published>
+<updated>2018-09-07T22:38:02Z</updated>
+<title type="text">Added JSON Language Type (#4)</title>
+<link rel="alternate" type="text/html" href="commit/8d3464f4ea8d3761b3c896a5d215c91bc3f2c7ae.html" /><author><name>Matt Smith</name>
+<email>dawgethswg@hotmail.com</email>
+</author>
+<content type="text">commit 8d3464f4ea8d3761b3c896a5d215c91bc3f2c7ae
+parent 5f0e4f57a545e52c91227074e0419a57dd513c4e
+Author: Matt Smith &lt;dawgethswg@hotmail.com&gt;
+Date:   Fri,  7 Sep 2018 17:38:02 -0500
+
+Added JSON Language Type (#4)
+
+
+
+</content>
+</entry>
+<entry>
+<id>5f0e4f57a545e52c91227074e0419a57dd513c4e</id>
+<published>2018-05-08T16:33:44Z</published>
+<updated>2018-05-08T16:33:44Z</updated>
+<title type="text">Update LICENSE</title>
+<link rel="alternate" type="text/html" href="commit/5f0e4f57a545e52c91227074e0419a57dd513c4e.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 5f0e4f57a545e52c91227074e0419a57dd513c4e
+parent 90de0bcaf7f074d4d746364c021c014bf681b0ee
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue,  8 May 2018 19:33:44 +0300
+
+Update LICENSE
+</content>
+</entry>
+<entry>
+<id>90de0bcaf7f074d4d746364c021c014bf681b0ee</id>
+<published>2018-03-09T18:55:41Z</published>
+<updated>2018-03-09T18:55:41Z</updated>
+<title type="text">update LICENSE year</title>
+<link rel="alternate" type="text/html" href="commit/90de0bcaf7f074d4d746364c021c014bf681b0ee.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 90de0bcaf7f074d4d746364c021c014bf681b0ee
+parent 984229eba59e73cd8da928369640c773e7de7062
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  9 Mar 2018 20:55:41 +0200
+
+update LICENSE year
+
+</content>
+</entry>
+<entry>
+<id>984229eba59e73cd8da928369640c773e7de7062</id>
+<published>2018-03-09T18:55:03Z</published>
+<updated>2018-03-09T18:55:03Z</updated>
+<title type="text">update package version</title>
+<link rel="alternate" type="text/html" href="commit/984229eba59e73cd8da928369640c773e7de7062.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 984229eba59e73cd8da928369640c773e7de7062
+parent d57ed8afa9b5cd0cfbfae88771245a508ff95de0
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  9 Mar 2018 20:55:03 +0200
+
+update package version
+
+</content>
+</entry>
+<entry>
+<id>d57ed8afa9b5cd0cfbfae88771245a508ff95de0</id>
+<published>2018-03-09T18:45:18Z</published>
+<updated>2018-03-09T18:45:18Z</updated>
+<title type="text">update copyright year</title>
+<link rel="alternate" type="text/html" href="commit/d57ed8afa9b5cd0cfbfae88771245a508ff95de0.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit d57ed8afa9b5cd0cfbfae88771245a508ff95de0
+parent 1be3332905796a2880969394f2217665029cdaee
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  9 Mar 2018 20:45:18 +0200
+
+update copyright year
+
+</content>
+</entry>
+<entry>
+<id>1be3332905796a2880969394f2217665029cdaee</id>
+<published>2018-03-09T18:37:21Z</published>
+<updated>2018-03-09T18:37:21Z</updated>
+<title type="text">update README example</title>
+<link rel="alternate" type="text/html" href="commit/1be3332905796a2880969394f2217665029cdaee.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 1be3332905796a2880969394f2217665029cdaee
+parent 2d3fa2f39ecff2d87c6480c7d5d8124f4fa1c0ae
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  9 Mar 2018 20:37:21 +0200
+
+update README example
+
+</content>
+</entry>
+<entry>
+<id>2d3fa2f39ecff2d87c6480c7d5d8124f4fa1c0ae</id>
+<published>2018-03-09T18:34:37Z</published>
+<updated>2018-03-09T18:34:37Z</updated>
+<title type="text">convert library to use async await change WebRequest to HttpClient for requests</title>
+<link rel="alternate" type="text/html" href="commit/2d3fa2f39ecff2d87c6480c7d5d8124f4fa1c0ae.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 2d3fa2f39ecff2d87c6480c7d5d8124f4fa1c0ae
+parent e12971cc59b5b4783b5e769524e333db87d8b69c
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  9 Mar 2018 20:34:37 +0200
+
+convert library to use async await
+change WebRequest to HttpClient for requests
+
+</content>
+</entry>
+<entry>
+<id>e12971cc59b5b4783b5e769524e333db87d8b69c</id>
+<published>2017-09-25T21:59:42Z</published>
+<updated>2017-09-25T21:59:42Z</updated>
+<title type="text">Added NuGet metadata</title>
+<link rel="alternate" type="text/html" href="commit/e12971cc59b5b4783b5e769524e333db87d8b69c.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit e12971cc59b5b4783b5e769524e333db87d8b69c
+parent 5663f45b027a642cf3fb39c9dafc327e19ec4c6c
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:59:42 +0300
+
+Added NuGet metadata
+
+</content>
+</entry>
+<entry>
+<id>5663f45b027a642cf3fb39c9dafc327e19ec4c6c</id>
+<published>2017-09-25T21:39:17Z</published>
+<updated>2017-09-25T21:39:17Z</updated>
+<title type="text">Clean up PastebinException</title>
+<link rel="alternate" type="text/html" href="commit/5663f45b027a642cf3fb39c9dafc327e19ec4c6c.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 5663f45b027a642cf3fb39c9dafc327e19ec4c6c
+parent d74f8f7f0b2b1e69342e1daee23d1c54003bdba5
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:39:17 +0300
+
+Clean up PastebinException
+
+</content>
+</entry>
+<entry>
+<id>d74f8f7f0b2b1e69342e1daee23d1c54003bdba5</id>
+<published>2017-09-25T21:29:41Z</published>
+<updated>2017-09-25T21:29:41Z</updated>
+<title type="text">Change string.Format to interpolation</title>
+<link rel="alternate" type="text/html" href="commit/d74f8f7f0b2b1e69342e1daee23d1c54003bdba5.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit d74f8f7f0b2b1e69342e1daee23d1c54003bdba5
+parent e8c2d11ea5556dfc8331be8c9673b2a7f0479913
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:29:41 +0300
+
+Change string.Format to interpolation
+
+</content>
+</entry>
+<entry>
+<id>e8c2d11ea5556dfc8331be8c9673b2a7f0479913</id>
+<published>2017-09-25T21:24:10Z</published>
+<updated>2017-09-25T21:24:10Z</updated>
+<title type="text">Inlined out variables</title>
+<link rel="alternate" type="text/html" href="commit/e8c2d11ea5556dfc8331be8c9673b2a7f0479913.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit e8c2d11ea5556dfc8331be8c9673b2a7f0479913
+parent 2780c72395a7d334719dfe798fb3c956c388cecc
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:24:10 +0300
+
+Inlined out variables
+
+</content>
+</entry>
+<entry>
+<id>2780c72395a7d334719dfe798fb3c956c388cecc</id>
+<published>2017-09-25T21:18:15Z</published>
+<updated>2017-09-25T21:18:15Z</updated>
+<title type="text">Add pragma to disable warning for naming style</title>
+<link rel="alternate" type="text/html" href="commit/2780c72395a7d334719dfe798fb3c956c388cecc.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 2780c72395a7d334719dfe798fb3c956c388cecc
+parent 9b06323dcaf954404339040272152b22fe9fa163
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:18:15 +0300
+
+Add pragma to disable warning for naming style
+
+</content>
+</entry>
+<entry>
+<id>9b06323dcaf954404339040272152b22fe9fa163</id>
+<published>2017-09-25T21:09:45Z</published>
+<updated>2017-09-25T21:09:45Z</updated>
+<title type="text">Create LICENSE</title>
+<link rel="alternate" type="text/html" href="commit/9b06323dcaf954404339040272152b22fe9fa163.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 9b06323dcaf954404339040272152b22fe9fa163
+parent 5fc7bc1dc7949f0fc4db2580894f0d4a251ff3a5
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:09:45 +0300
+
+Create LICENSE
+</content>
+</entry>
+<entry>
+<id>5fc7bc1dc7949f0fc4db2580894f0d4a251ff3a5</id>
+<published>2017-09-25T21:07:46Z</published>
+<updated>2017-09-25T21:07:46Z</updated>
+<title type="text">Update README Example code</title>
+<link rel="alternate" type="text/html" href="commit/5fc7bc1dc7949f0fc4db2580894f0d4a251ff3a5.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 5fc7bc1dc7949f0fc4db2580894f0d4a251ff3a5
+parent 29499c2cf43401d7db1fdc2d7260df277f9161cc
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:07:46 +0300
+
+Update README Example code
+
+</content>
+</entry>
+<entry>
+<id>29499c2cf43401d7db1fdc2d7260df277f9161cc</id>
+<published>2017-09-25T21:03:17Z</published>
+<updated>2017-09-25T21:03:17Z</updated>
+<title type="text">Update .gitignore</title>
+<link rel="alternate" type="text/html" href="commit/29499c2cf43401d7db1fdc2d7260df277f9161cc.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 29499c2cf43401d7db1fdc2d7260df277f9161cc
+parent 962002ffc4e55a6d472887889aa68918e2922701
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:03:17 +0300
+
+Update .gitignore
+
+</content>
+</entry>
+<entry>
+<id>962002ffc4e55a6d472887889aa68918e2922701</id>
+<published>2017-09-25T21:00:28Z</published>
+<updated>2017-09-25T21:00:28Z</updated>
+<title type="text">Add reference to library from Example</title>
+<link rel="alternate" type="text/html" href="commit/962002ffc4e55a6d472887889aa68918e2922701.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 962002ffc4e55a6d472887889aa68918e2922701
+parent fe44423c79a9ed31081fdfe9ae03e6be84c0323e
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Tue, 26 Sep 2017 00:00:28 +0300
+
+Add reference to library from Example
+
+</content>
+</entry>
+<entry>
+<id>fe44423c79a9ed31081fdfe9ae03e6be84c0323e</id>
+<published>2017-09-25T20:59:47Z</published>
+<updated>2017-09-25T20:59:47Z</updated>
+<title type="text">Create paste sets default values if null</title>
+<link rel="alternate" type="text/html" href="commit/fe44423c79a9ed31081fdfe9ae03e6be84c0323e.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit fe44423c79a9ed31081fdfe9ae03e6be84c0323e
+parent f5105bcb3e9b86da418274454ebc2157e230f6c3
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Mon, 25 Sep 2017 23:59:47 +0300
+
+Create paste sets default values if null
+
+</content>
+</entry>
+<entry>
+<id>f5105bcb3e9b86da418274454ebc2157e230f6c3</id>
+<published>2017-09-25T20:48:28Z</published>
+<updated>2017-09-25T20:48:28Z</updated>
+<title type="text">Migrated library to netstandard2.0</title>
+<link rel="alternate" type="text/html" href="commit/f5105bcb3e9b86da418274454ebc2157e230f6c3.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit f5105bcb3e9b86da418274454ebc2157e230f6c3
+parent daeec0d6897799f4b00bbed887fd153b583afe67
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Mon, 25 Sep 2017 23:48:28 +0300
+
+Migrated library to netstandard2.0
+
+and Example to .NET 4.6.2
+
+</content>
+</entry>
+<entry>
+<id>daeec0d6897799f4b00bbed887fd153b583afe67</id>
+<published>2017-09-25T20:29:09Z</published>
+<updated>2017-09-25T20:29:09Z</updated>
+<title type="text">Fix getting datetime from ticks past 1970</title>
+<link rel="alternate" type="text/html" href="commit/daeec0d6897799f4b00bbed887fd153b583afe67.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit daeec0d6897799f4b00bbed887fd153b583afe67
+parent 23eff46227aa4100d488d315aedffccab1b1d78a
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Mon, 25 Sep 2017 23:29:09 +0300
+
+Fix getting datetime from ticks past 1970
+
+</content>
+</entry>
+<entry>
+<id>23eff46227aa4100d488d315aedffccab1b1d78a</id>
+<published>2017-09-25T20:28:21Z</published>
+<updated>2017-09-25T20:28:21Z</updated>
+<title type="text">Update sln file</title>
+<link rel="alternate" type="text/html" href="commit/23eff46227aa4100d488d315aedffccab1b1d78a.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 23eff46227aa4100d488d315aedffccab1b1d78a
+parent fa5479219d07046ddacac319c013d45160270c44
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Mon, 25 Sep 2017 23:28:21 +0300
+
+Update sln file
+
+</content>
+</entry>
+<entry>
+<id>fa5479219d07046ddacac319c013d45160270c44</id>
+<published>2017-09-25T19:26:42Z</published>
+<updated>2017-09-25T19:26:42Z</updated>
+<title type="text">Changed urls in comments to https</title>
+<link rel="alternate" type="text/html" href="commit/fa5479219d07046ddacac319c013d45160270c44.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit fa5479219d07046ddacac319c013d45160270c44
+parent 440f93c296e40cfb305b23131012f07d31b85769
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Mon, 25 Sep 2017 22:26:42 +0300
+
+Changed urls in comments to https
+
+</content>
+</entry>
+<entry>
+<id>440f93c296e40cfb305b23131012f07d31b85769</id>
+<published>2017-09-25T16:29:30Z</published>
+<updated>2017-09-25T16:29:30Z</updated>
+<title type="text">Merge pull request #3 from krejcar25/master</title>
+<link rel="alternate" type="text/html" href="commit/440f93c296e40cfb305b23131012f07d31b85769.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 440f93c296e40cfb305b23131012f07d31b85769
+parent f2b1fbb97bdd4222b53104ef581a729352287917
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Mon, 25 Sep 2017 19:29:30 +0300
+
+Merge pull request #3 from krejcar25/master
+
+change url from http to https due to change in pastebin api
+</content>
+</entry>
+<entry>
+<id>f2b1fbb97bdd4222b53104ef581a729352287917</id>
+<published>2013-08-20T16:28:00Z</published>
+<updated>2013-08-20T16:28:00Z</updated>
+<title type="text">Update README.md</title>
+<link rel="alternate" type="text/html" href="commit/f2b1fbb97bdd4222b53104ef581a729352287917.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit f2b1fbb97bdd4222b53104ef581a729352287917
+parent 652e3a80c12c2bc76b97b108c7b9c0a5c826dbf0
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 20 Aug 2013 19:28:00 +0300
+
+Update README.md
+</content>
+</entry>
+<entry>
+<id>652e3a80c12c2bc76b97b108c7b9c0a5c826dbf0</id>
+<published>2013-08-20T16:26:33Z</published>
+<updated>2013-08-20T16:26:33Z</updated>
+<title type="text">sln file changed</title>
+<link rel="alternate" type="text/html" href="commit/652e3a80c12c2bc76b97b108c7b9c0a5c826dbf0.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 652e3a80c12c2bc76b97b108c7b9c0a5c826dbf0
+parent b96fce82bd900e09ee6e7d63f054381e8a7a81ec
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 20 Aug 2013 19:26:33 +0300
+
+sln file changed
+
+</content>
+</entry>
+<entry>
+<id>b96fce82bd900e09ee6e7d63f054381e8a7a81ec</id>
+<published>2013-08-20T16:25:19Z</published>
+<updated>2013-08-20T16:25:19Z</updated>
+<title type="text">Changed Pastebin.Login</title>
+<link rel="alternate" type="text/html" href="commit/b96fce82bd900e09ee6e7d63f054381e8a7a81ec.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit b96fce82bd900e09ee6e7d63f054381e8a7a81ec
+parent 13b4d118c5decbf2a44c070b6e0ec845285a85cf
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 20 Aug 2013 19:25:19 +0300
+
+Changed Pastebin.Login
+
+It now also requests user preferences
+
+</content>
+</entry>
+<entry>
+<id>13b4d118c5decbf2a44c070b6e0ec845285a85cf</id>
+<published>2013-08-20T16:24:39Z</published>
+<updated>2013-08-20T16:24:39Z</updated>
+<title type="text">Optimized Expiration</title>
+<link rel="alternate" type="text/html" href="commit/13b4d118c5decbf2a44c070b6e0ec845285a85cf.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 13b4d118c5decbf2a44c070b6e0ec845285a85cf
+parent f79aec003d257f87bcff57048c1ff5a03e52638d
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 20 Aug 2013 19:24:39 +0300
+
+Optimized Expiration
+
+</content>
+</entry>
+<entry>
+<id>f79aec003d257f87bcff57048c1ff5a03e52638d</id>
+<published>2013-08-20T16:24:00Z</published>
+<updated>2013-08-20T16:24:00Z</updated>
+<title type="text">Optimized Paste</title>
+<link rel="alternate" type="text/html" href="commit/f79aec003d257f87bcff57048c1ff5a03e52638d.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit f79aec003d257f87bcff57048c1ff5a03e52638d
+parent c1acaac712e57b0cf31097f6504c157fb6ebbf32
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 20 Aug 2013 19:24:00 +0300
+
+Optimized Paste
+
+</content>
+</entry>
+<entry>
+<id>c1acaac712e57b0cf31097f6504c157fb6ebbf32</id>
+<published>2013-08-20T16:23:45Z</published>
+<updated>2013-08-20T16:23:45Z</updated>
+<title type="text">Optimized User</title>
+<link rel="alternate" type="text/html" href="commit/c1acaac712e57b0cf31097f6504c157fb6ebbf32.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit c1acaac712e57b0cf31097f6504c157fb6ebbf32
+parent 0e350641a161449b343f821094e80d29c6b5307f
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 20 Aug 2013 19:23:45 +0300
+
+Optimized User
+
+</content>
+</entry>
+<entry>
+<id>0e350641a161449b343f821094e80d29c6b5307f</id>
+<published>2013-08-20T16:23:35Z</published>
+<updated>2013-08-20T16:23:35Z</updated>
+<title type="text">Optimized Utills</title>
+<link rel="alternate" type="text/html" href="commit/0e350641a161449b343f821094e80d29c6b5307f.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 0e350641a161449b343f821094e80d29c6b5307f
+parent 8ad22b2269a5b70e8f126c4ba6e7b00d01d7aa75
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 20 Aug 2013 19:23:35 +0300
+
+Optimized Utills
+
+</content>
+</entry>
+<entry>
+<id>8ad22b2269a5b70e8f126c4ba6e7b00d01d7aa75</id>
+<published>2013-06-06T21:12:02Z</published>
+<updated>2013-06-06T21:12:02Z</updated>
+<title type="text">Refactored code</title>
+<link rel="alternate" type="text/html" href="commit/8ad22b2269a5b70e8f126c4ba6e7b00d01d7aa75.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 8ad22b2269a5b70e8f126c4ba6e7b00d01d7aa75
+parent 7a4d1a6f15ddc727da241303da4f1012b9c35a9e
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Fri,  7 Jun 2013 00:12:02 +0300
+
+Refactored code
+
+Changed target framework from 4.0 to 4.5
+Expiration:
+* Removed dictionary imlementation and imlicit conversions
+Paste:
+* Moved NewPaste() to Paste class
+* Renamed NewPaste() to Create()
+* Added XML documentation comments
+* Renamed Date to CreateDate
+PasteFormat:
+* Renamed to Language
+Pastebin:
+* Added XML documentation comments
+* Moved NewPaste() methods to Paste class
+* Moved const strings to Utills
+PastebinException:
+* Added new ctor for nested exceptions
+User:
+* Renemed Default* properties to Prefered*
+* Removed devKey field as it was unnesisary
+Utills:
+* Added const strings from Pastebin
+* Added exception handling in PostRequest()
+
+</content>
+</entry>
+<entry>
+<id>7a4d1a6f15ddc727da241303da4f1012b9c35a9e</id>
+<published>2013-06-04T16:38:09Z</published>
+<updated>2013-06-04T16:38:09Z</updated>
+<title type="text">Changed README.md</title>
+<link rel="alternate" type="text/html" href="commit/7a4d1a6f15ddc727da241303da4f1012b9c35a9e.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 7a4d1a6f15ddc727da241303da4f1012b9c35a9e
+parent 36e43f07b4b262a9fa78708bae62be7fb6c8f78c
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue,  4 Jun 2013 19:38:09 +0300
+
+Changed README.md
+
+Added example code to README
+
+</content>
+</entry>
+<entry>
+<id>36e43f07b4b262a9fa78708bae62be7fb6c8f78c</id>
+<published>2013-06-03T15:18:10Z</published>
+<updated>2013-06-03T15:18:10Z</updated>
+<title type="text">Updated Example</title>
+<link rel="alternate" type="text/html" href="commit/36e43f07b4b262a9fa78708bae62be7fb6c8f78c.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 36e43f07b4b262a9fa78708bae62be7fb6c8f78c
+parent 06d98361688ec102bc96399a18916dc10f253d03
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Mon,  3 Jun 2013 18:18:10 +0300
+
+Updated Example
+
+</content>
+</entry>
+<entry>
+<id>06d98361688ec102bc96399a18916dc10f253d03</id>
+<published>2013-06-03T14:51:59Z</published>
+<updated>2013-06-03T14:51:59Z</updated>
+<title type="text">Updated ToString() for Paste and User</title>
+<link rel="alternate" type="text/html" href="commit/06d98361688ec102bc96399a18916dc10f253d03.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 06d98361688ec102bc96399a18916dc10f253d03
+parent 507c5279888354015b08a3c47aa2aeb1297a5101
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Mon,  3 Jun 2013 17:51:59 +0300
+
+Updated ToString() for Paste and User
+
+</content>
+</entry>
+<entry>
+<id>507c5279888354015b08a3c47aa2aeb1297a5101</id>
+<published>2013-06-03T14:39:43Z</published>
+<updated>2013-06-03T14:39:43Z</updated>
+<title type="text">Merged classes</title>
+<link rel="alternate" type="text/html" href="commit/507c5279888354015b08a3c47aa2aeb1297a5101.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 507c5279888354015b08a3c47aa2aeb1297a5101
+parent b3262441c5f36eebcbf497554953d757e0d103e8
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Mon,  3 Jun 2013 17:39:43 +0300
+
+Merged classes
+
+Merged classes PasteInfo into Paste class
+Merged classes UserInfo into User class
+Fixed formating of code etc...
+
+</content>
+</entry>
+<entry>
+<id>b3262441c5f36eebcbf497554953d757e0d103e8</id>
+<published>2013-06-02T21:10:31Z</published>
+<updated>2013-06-02T21:10:31Z</updated>
+<title type="text">Added PasteInfo parsed from XML</title>
+<link rel="alternate" type="text/html" href="commit/b3262441c5f36eebcbf497554953d757e0d103e8.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit b3262441c5f36eebcbf497554953d757e0d103e8
+parent e2d9bdd65340f65b2b74071fc4e134bfa9d118b8
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Mon,  3 Jun 2013 00:10:31 +0300
+
+Added PasteInfo parsed from XML
+
+and changed UserInfo to take XElement insted of string when parsing from
+XML
+
+</content>
+</entry>
+<entry>
+<id>e2d9bdd65340f65b2b74071fc4e134bfa9d118b8</id>
+<published>2013-06-02T19:38:55Z</published>
+<updated>2013-06-02T19:38:55Z</updated>
+<title type="text">Changed PasteFormat to be like Expiration</title>
+<link rel="alternate" type="text/html" href="commit/e2d9bdd65340f65b2b74071fc4e134bfa9d118b8.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit e2d9bdd65340f65b2b74071fc4e134bfa9d118b8
+parent 1f04b9c0991a50da179268eb74e77dbb9beea5b7
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Sun,  2 Jun 2013 22:38:55 +0300
+
+Changed PasteFormat to be like Expiration
+
+Added Parse and TryParse to PasteFormat and Expiration classes
+Fixed UserInfro to use &lt;user&gt; node and not the root in the XML parsing
+
+</content>
+</entry>
+<entry>
+<id>1f04b9c0991a50da179268eb74e77dbb9beea5b7</id>
+<published>2013-06-02T18:11:01Z</published>
+<updated>2013-06-02T18:11:01Z</updated>
+<title type="text">Implemented XML UserInfo parsing</title>
+<link rel="alternate" type="text/html" href="commit/1f04b9c0991a50da179268eb74e77dbb9beea5b7.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 1f04b9c0991a50da179268eb74e77dbb9beea5b7
+parent af317ff62f3d33732780fad39d213cb9bbd4875d
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Sun,  2 Jun 2013 21:11:01 +0300
+
+Implemented XML UserInfo parsing
+
+and changed Expiration a little
+
+</content>
+</entry>
+<entry>
+<id>af317ff62f3d33732780fad39d213cb9bbd4875d</id>
+<published>2013-04-17T13:45:39Z</published>
+<updated>2013-04-17T13:45:39Z</updated>
+<title type="text">Added one week and two weeks expirations</title>
+<link rel="alternate" type="text/html" href="commit/af317ff62f3d33732780fad39d213cb9bbd4875d.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit af317ff62f3d33732780fad39d213cb9bbd4875d
+parent b27a619a67625c58145f293249c215c7d3015d11
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Wed, 17 Apr 2013 16:45:39 +0300
+
+Added one week and two weeks expirations
+
+</content>
+</entry>
+<entry>
+<id>b27a619a67625c58145f293249c215c7d3015d11</id>
+<published>2013-04-16T20:11:40Z</published>
+<updated>2013-04-16T20:11:40Z</updated>
+<title type="text">Formatted code</title>
+<link rel="alternate" type="text/html" href="commit/b27a619a67625c58145f293249c215c7d3015d11.html" /><author><name>Borislav Kosharov</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit b27a619a67625c58145f293249c215c7d3015d11
+parent fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8
+Author: Borislav Kosharov &lt;boby_dsm@abv.bg&gt;
+Date:   Tue, 16 Apr 2013 23:11:40 +0300
+
+Formatted code
+
+</content>
+</entry>
+<entry>
+<id>fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8</id>
+<published>2013-03-24T16:24:30Z</published>
+<updated>2013-03-24T16:24:30Z</updated>
+<title type="text">Optimized PostRequest method</title>
+<link rel="alternate" type="text/html" href="commit/fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8
+parent ddbf77c0e7564ec99f611c00b0cd657f2b837acd
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 18:24:30 +0200
+
+Optimized PostRequest method
+
+</content>
+</entry>
+<entry>
+<id>ddbf77c0e7564ec99f611c00b0cd657f2b837acd</id>
+<published>2013-03-24T16:12:58Z</published>
+<updated>2013-03-24T16:12:58Z</updated>
+<title type="text">Added Pastebin.NewPaste to example</title>
+<link rel="alternate" type="text/html" href="commit/ddbf77c0e7564ec99f611c00b0cd657f2b837acd.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit ddbf77c0e7564ec99f611c00b0cd657f2b837acd
+parent 19cb8367334a279e2cee57aaaa8ebd9604f3980a
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 18:12:58 +0200
+
+Added Pastebin.NewPaste to example
+
+</content>
+</entry>
+<entry>
+<id>19cb8367334a279e2cee57aaaa8ebd9604f3980a</id>
+<published>2013-03-24T16:09:41Z</published>
+<updated>2013-03-24T16:09:41Z</updated>
+<title type="text">Updated example</title>
+<link rel="alternate" type="text/html" href="commit/19cb8367334a279e2cee57aaaa8ebd9604f3980a.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 19cb8367334a279e2cee57aaaa8ebd9604f3980a
+parent 65a763b8406df3602de94f4aa68c7fe2d6eb384f
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 18:09:41 +0200
+
+Updated example
+
+Example now demonstrates all the API functions
+
+</content>
+</entry>
+<entry>
+<id>65a763b8406df3602de94f4aa68c7fe2d6eb384f</id>
+<published>2013-03-24T16:01:59Z</published>
+<updated>2013-03-24T16:01:59Z</updated>
+<title type="text">Changed NewPaste signiture</title>
+<link rel="alternate" type="text/html" href="commit/65a763b8406df3602de94f4aa68c7fe2d6eb384f.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 65a763b8406df3602de94f4aa68c7fe2d6eb384f
+parent c8c28ec2513347889401b5cd8a65ff26b130d2eb
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 18:01:59 +0200
+
+Changed NewPaste signiture
+
+</content>
+</entry>
+<entry>
+<id>c8c28ec2513347889401b5cd8a65ff26b130d2eb</id>
+<published>2013-03-24T14:44:57Z</published>
+<updated>2013-03-24T14:44:57Z</updated>
+<title type="text">Created PasteFormat class</title>
+<link rel="alternate" type="text/html" href="commit/c8c28ec2513347889401b5cd8a65ff26b130d2eb.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit c8c28ec2513347889401b5cd8a65ff26b130d2eb
+parent 333e5f227065ad1ddcb46977862e411510b70b0b
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 16:44:57 +0200
+
+Created PasteFormat class
+
+</content>
+</entry>
+<entry>
+<id>333e5f227065ad1ddcb46977862e411510b70b0b</id>
+<published>2013-03-24T13:53:18Z</published>
+<updated>2013-03-24T13:53:18Z</updated>
+<title type="text">Created Paste, PastebinException, User and Utills</title>
+<link rel="alternate" type="text/html" href="commit/333e5f227065ad1ddcb46977862e411510b70b0b.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit 333e5f227065ad1ddcb46977862e411510b70b0b
+parent d237ea5a5e8ade7bcae16504f64749e672a0cdcb
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 15:53:18 +0200
+
+Created Paste, PastebinException, User and Utills
+
+Created Paste, PastebinException, User and Utills classes for easier
+use. Also made Pastebin class static and cleaned up the code a bit.
+
+</content>
+</entry>
+<entry>
+<id>d237ea5a5e8ade7bcae16504f64749e672a0cdcb</id>
+<published>2013-03-24T11:56:58Z</published>
+<updated>2013-03-24T11:56:58Z</updated>
+<title type="text">Moved 2 classes to separate files</title>
+<link rel="alternate" type="text/html" href="commit/d237ea5a5e8ade7bcae16504f64749e672a0cdcb.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit d237ea5a5e8ade7bcae16504f64749e672a0cdcb
+parent d1a65872a6bfe1ec38c41063742237a404d18f7a
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 13:56:58 +0200
+
+Moved 2 classes to separate files
+
+Moved Visibility and Expiration classes to separate files
+
+</content>
+</entry>
+<entry>
+<id>d1a65872a6bfe1ec38c41063742237a404d18f7a</id>
+<published>2013-03-24T11:51:19Z</published>
+<updated>2013-03-24T11:51:19Z</updated>
+<title type="text">First commit</title>
+<link rel="alternate" type="text/html" href="commit/d1a65872a6bfe1ec38c41063742237a404d18f7a.html" /><author><name>nikibobi</name>
+<email>boby_dsm@abv.bg</email>
+</author>
+<content type="text">commit d1a65872a6bfe1ec38c41063742237a404d18f7a
+Author: nikibobi &lt;boby_dsm@abv.bg&gt;
+Date:   Sun, 24 Mar 2013 13:51:19 +0200
+
+First commit
+
+</content>
+</entry>
+</feed>

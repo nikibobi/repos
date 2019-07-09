@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>update package.json with info and deploy - poe - Path of Exile currency utility site
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="poe Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>poe</h1><span class="desc">Path of Exile currency utility site
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/poe.git">https://github.com/nikibobi/poe.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/8820fed294e054f2b2577dbcfcd63a5fed392e88.html">8820fed294e054f2b2577dbcfcd63a5fed392e88</a>
+<b>parent</b> <a href="../commit/e71d8ad47eec935dc20e0a1f2c2d32d22825fe06.html">e71d8ad47eec935dc20e0a1f2c2d32d22825fe06</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Sat,  8 Jun 2019 17:54:12 +0300
+
+update package.json with info and deploy
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">package-lock.json</a></td><td> | </td><td class="num">164</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d">----</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">package.json</a></td><td> | </td><td class="num">18</td><td><span class="i">++++++++++++++++</span><span class="d">--</span></td></tr>
+</table></pre><pre>2 files changed, 173 insertions(+), 9 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/package-lock.json.html">package-lock.json</a> b/<a href="../file/package-lock.json.html">package-lock.json</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,6 +1,6 @@
+</a> {
+   &quot;name&quot;: &quot;poe&quot;,
+<a href="#h0-0-2" id="h0-0-2" class="d">-  &quot;version&quot;: &quot;0.1.0&quot;,
+</a><a href="#h0-0-3" id="h0-0-3" class="i">+  &quot;version&quot;: &quot;1.0.0&quot;,
+</a>   &quot;lockfileVersion&quot;: 1,
+   &quot;requires&quot;: true,
+   &quot;dependencies&quot;: {
+<a href="#h0-1" id="h0-1" class="h">@@ -2777,7 +2777,8 @@
+</a>             },
+             &quot;ansi-regex&quot;: {
+               &quot;version&quot;: &quot;2.1.1&quot;,
+<a href="#h0-1-3" id="h0-1-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-1-5" id="h0-1-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;aproba&quot;: {
+               &quot;version&quot;: &quot;1.2.0&quot;,
+<a href="#h0-2" id="h0-2" class="h">@@ -3142,7 +3143,8 @@
+</a>             },
+             &quot;safe-buffer&quot;: {
+               &quot;version&quot;: &quot;5.1.2&quot;,
+<a href="#h0-2-3" id="h0-2-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-2-4" id="h0-2-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-2-5" id="h0-2-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;safer-buffer&quot;: {
+               &quot;version&quot;: &quot;2.1.2&quot;,
+<a href="#h0-3" id="h0-3" class="h">@@ -3190,6 +3192,7 @@
+</a>             &quot;strip-ansi&quot;: {
+               &quot;version&quot;: &quot;3.0.1&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-3-3" id="h0-3-3" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;ansi-regex&quot;: &quot;^2.0.0&quot;
+               }
+<a href="#h0-4" id="h0-4" class="h">@@ -3228,11 +3231,13 @@
+</a>             },
+             &quot;wrappy&quot;: {
+               &quot;version&quot;: &quot;1.0.2&quot;,
+<a href="#h0-4-3" id="h0-4-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-4-4" id="h0-4-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-4-5" id="h0-4-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;yallist&quot;: {
+               &quot;version&quot;: &quot;3.0.3&quot;,
+<a href="#h0-4-9" id="h0-4-9" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-4-10" id="h0-4-10" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-4-11" id="h0-4-11" class="i">+              &quot;optional&quot;: true
+</a>             }
+           }
+         },
+<a href="#h0-5" id="h0-5" class="h">@@ -4314,6 +4319,11 @@
+</a>         &quot;minimalistic-crypto-utils&quot;: &quot;^1.0.0&quot;
+       }
+     },
+<a href="#h0-5-3" id="h0-5-3" class="i">+    &quot;email-addresses&quot;: {
+</a><a href="#h0-5-4" id="h0-5-4" class="i">+      &quot;version&quot;: &quot;3.0.3&quot;,
+</a><a href="#h0-5-5" id="h0-5-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/email-addresses/-/email-addresses-3.0.3.tgz&quot;,
+</a><a href="#h0-5-6" id="h0-5-6" class="i">+      &quot;integrity&quot;: &quot;sha512-kUlSC06PVvvjlMRpNIl3kR1NRXLEe86VQ7N0bQeaCZb2g+InShCeHQp/JvyYNTugMnRN2NvJhHlc3q12MWbbpg==&quot;
+</a><a href="#h0-5-7" id="h0-5-7" class="i">+    },
+</a>     &quot;emoji-regex&quot;: {
+       &quot;version&quot;: &quot;7.0.3&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/emoji-regex/-/emoji-regex-7.0.3.tgz&quot;,
+<a href="#h0-6" id="h0-6" class="h">@@ -5199,6 +5209,30 @@
+</a>         &quot;schema-utils&quot;: &quot;^1.0.0&quot;
+       }
+     },
+<a href="#h0-6-3" id="h0-6-3" class="i">+    &quot;filename-reserved-regex&quot;: {
+</a><a href="#h0-6-4" id="h0-6-4" class="i">+      &quot;version&quot;: &quot;1.0.0&quot;,
+</a><a href="#h0-6-5" id="h0-6-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/filename-reserved-regex/-/filename-reserved-regex-1.0.0.tgz&quot;,
+</a><a href="#h0-6-6" id="h0-6-6" class="i">+      &quot;integrity&quot;: &quot;sha1-5hz4BfDeHJhFZ9A4bcXfUO5a9+Q=&quot;
+</a><a href="#h0-6-7" id="h0-6-7" class="i">+    },
+</a><a href="#h0-6-8" id="h0-6-8" class="i">+    &quot;filenamify&quot;: {
+</a><a href="#h0-6-9" id="h0-6-9" class="i">+      &quot;version&quot;: &quot;1.2.1&quot;,
+</a><a href="#h0-6-10" id="h0-6-10" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/filenamify/-/filenamify-1.2.1.tgz&quot;,
+</a><a href="#h0-6-11" id="h0-6-11" class="i">+      &quot;integrity&quot;: &quot;sha1-qfL/0RxQO+0wABUCknI3jx8TZaU=&quot;,
+</a><a href="#h0-6-12" id="h0-6-12" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-6-13" id="h0-6-13" class="i">+        &quot;filename-reserved-regex&quot;: &quot;^1.0.0&quot;,
+</a><a href="#h0-6-14" id="h0-6-14" class="i">+        &quot;strip-outer&quot;: &quot;^1.0.0&quot;,
+</a><a href="#h0-6-15" id="h0-6-15" class="i">+        &quot;trim-repeated&quot;: &quot;^1.0.0&quot;
+</a><a href="#h0-6-16" id="h0-6-16" class="i">+      }
+</a><a href="#h0-6-17" id="h0-6-17" class="i">+    },
+</a><a href="#h0-6-18" id="h0-6-18" class="i">+    &quot;filenamify-url&quot;: {
+</a><a href="#h0-6-19" id="h0-6-19" class="i">+      &quot;version&quot;: &quot;1.0.0&quot;,
+</a><a href="#h0-6-20" id="h0-6-20" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/filenamify-url/-/filenamify-url-1.0.0.tgz&quot;,
+</a><a href="#h0-6-21" id="h0-6-21" class="i">+      &quot;integrity&quot;: &quot;sha1-syvYExnvWGO3MHi+1Q9GpPeXX1A=&quot;,
+</a><a href="#h0-6-22" id="h0-6-22" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-6-23" id="h0-6-23" class="i">+        &quot;filenamify&quot;: &quot;^1.0.0&quot;,
+</a><a href="#h0-6-24" id="h0-6-24" class="i">+        &quot;humanize-url&quot;: &quot;^1.0.0&quot;
+</a><a href="#h0-6-25" id="h0-6-25" class="i">+      }
+</a><a href="#h0-6-26" id="h0-6-26" class="i">+    },
+</a>     &quot;filesize&quot;: {
+       &quot;version&quot;: &quot;3.6.1&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/filesize/-/filesize-3.6.1.tgz&quot;,
+<a href="#h0-7" id="h0-7" class="h">@@ -5469,6 +5503,48 @@
+</a>         &quot;assert-plus&quot;: &quot;^1.0.0&quot;
+       }
+     },
+<a href="#h0-7-3" id="h0-7-3" class="i">+    &quot;gh-pages&quot;: {
+</a><a href="#h0-7-4" id="h0-7-4" class="i">+      &quot;version&quot;: &quot;2.0.1&quot;,
+</a><a href="#h0-7-5" id="h0-7-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/gh-pages/-/gh-pages-2.0.1.tgz&quot;,
+</a><a href="#h0-7-6" id="h0-7-6" class="i">+      &quot;integrity&quot;: &quot;sha512-uFlk3bukljeiWKQ2XvPfjcSi/ou7IfoDf2p+Fj672saLAr8bnOdFVqI/JSgrSgInKpCg5BksxEwGUl++dbg8Dg==&quot;,
+</a><a href="#h0-7-7" id="h0-7-7" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-7-8" id="h0-7-8" class="i">+        &quot;async&quot;: &quot;^2.6.1&quot;,
+</a><a href="#h0-7-9" id="h0-7-9" class="i">+        &quot;commander&quot;: &quot;^2.18.0&quot;,
+</a><a href="#h0-7-10" id="h0-7-10" class="i">+        &quot;email-addresses&quot;: &quot;^3.0.1&quot;,
+</a><a href="#h0-7-11" id="h0-7-11" class="i">+        &quot;filenamify-url&quot;: &quot;^1.0.0&quot;,
+</a><a href="#h0-7-12" id="h0-7-12" class="i">+        &quot;fs-extra&quot;: &quot;^7.0.0&quot;,
+</a><a href="#h0-7-13" id="h0-7-13" class="i">+        &quot;globby&quot;: &quot;^6.1.0&quot;,
+</a><a href="#h0-7-14" id="h0-7-14" class="i">+        &quot;graceful-fs&quot;: &quot;^4.1.11&quot;,
+</a><a href="#h0-7-15" id="h0-7-15" class="i">+        &quot;rimraf&quot;: &quot;^2.6.2&quot;
+</a><a href="#h0-7-16" id="h0-7-16" class="i">+      },
+</a><a href="#h0-7-17" id="h0-7-17" class="i">+      &quot;dependencies&quot;: {
+</a><a href="#h0-7-18" id="h0-7-18" class="i">+        &quot;async&quot;: {
+</a><a href="#h0-7-19" id="h0-7-19" class="i">+          &quot;version&quot;: &quot;2.6.2&quot;,
+</a><a href="#h0-7-20" id="h0-7-20" class="i">+          &quot;resolved&quot;: &quot;https://registry.npmjs.org/async/-/async-2.6.2.tgz&quot;,
+</a><a href="#h0-7-21" id="h0-7-21" class="i">+          &quot;integrity&quot;: &quot;sha512-H1qVYh1MYhEEFLsP97cVKqCGo7KfCyTt6uEWqsTBr9SO84oK9Uwbyd/yCW+6rKJLHksBNUVWZDAjfS+Ccx0Bbg==&quot;,
+</a><a href="#h0-7-22" id="h0-7-22" class="i">+          &quot;requires&quot;: {
+</a><a href="#h0-7-23" id="h0-7-23" class="i">+            &quot;lodash&quot;: &quot;^4.17.11&quot;
+</a><a href="#h0-7-24" id="h0-7-24" class="i">+          }
+</a><a href="#h0-7-25" id="h0-7-25" class="i">+        },
+</a><a href="#h0-7-26" id="h0-7-26" class="i">+        &quot;globby&quot;: {
+</a><a href="#h0-7-27" id="h0-7-27" class="i">+          &quot;version&quot;: &quot;6.1.0&quot;,
+</a><a href="#h0-7-28" id="h0-7-28" class="i">+          &quot;resolved&quot;: &quot;https://registry.npmjs.org/globby/-/globby-6.1.0.tgz&quot;,
+</a><a href="#h0-7-29" id="h0-7-29" class="i">+          &quot;integrity&quot;: &quot;sha1-9abXDoOV4hyFj7BInWTfAkJNUGw=&quot;,
+</a><a href="#h0-7-30" id="h0-7-30" class="i">+          &quot;requires&quot;: {
+</a><a href="#h0-7-31" id="h0-7-31" class="i">+            &quot;array-union&quot;: &quot;^1.0.1&quot;,
+</a><a href="#h0-7-32" id="h0-7-32" class="i">+            &quot;glob&quot;: &quot;^7.0.3&quot;,
+</a><a href="#h0-7-33" id="h0-7-33" class="i">+            &quot;object-assign&quot;: &quot;^4.0.1&quot;,
+</a><a href="#h0-7-34" id="h0-7-34" class="i">+            &quot;pify&quot;: &quot;^2.0.0&quot;,
+</a><a href="#h0-7-35" id="h0-7-35" class="i">+            &quot;pinkie-promise&quot;: &quot;^2.0.0&quot;
+</a><a href="#h0-7-36" id="h0-7-36" class="i">+          }
+</a><a href="#h0-7-37" id="h0-7-37" class="i">+        },
+</a><a href="#h0-7-38" id="h0-7-38" class="i">+        &quot;pify&quot;: {
+</a><a href="#h0-7-39" id="h0-7-39" class="i">+          &quot;version&quot;: &quot;2.3.0&quot;,
+</a><a href="#h0-7-40" id="h0-7-40" class="i">+          &quot;resolved&quot;: &quot;https://registry.npmjs.org/pify/-/pify-2.3.0.tgz&quot;,
+</a><a href="#h0-7-41" id="h0-7-41" class="i">+          &quot;integrity&quot;: &quot;sha1-7RQaasBDqEnqWISY59yosVMw6Qw=&quot;
+</a><a href="#h0-7-42" id="h0-7-42" class="i">+        }
+</a><a href="#h0-7-43" id="h0-7-43" class="i">+      }
+</a><a href="#h0-7-44" id="h0-7-44" class="i">+    },
+</a>     &quot;glob&quot;: {
+       &quot;version&quot;: &quot;7.1.4&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/glob/-/glob-7.1.4.tgz&quot;,
+<a href="#h0-8" id="h0-8" class="h">@@ -5917,6 +5993,28 @@
+</a>       &quot;resolved&quot;: &quot;https://registry.npmjs.org/https-browserify/-/https-browserify-1.0.0.tgz&quot;,
+       &quot;integrity&quot;: &quot;sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=&quot;
+     },
+<a href="#h0-8-3" id="h0-8-3" class="i">+    &quot;humanize-url&quot;: {
+</a><a href="#h0-8-4" id="h0-8-4" class="i">+      &quot;version&quot;: &quot;1.0.1&quot;,
+</a><a href="#h0-8-5" id="h0-8-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/humanize-url/-/humanize-url-1.0.1.tgz&quot;,
+</a><a href="#h0-8-6" id="h0-8-6" class="i">+      &quot;integrity&quot;: &quot;sha1-9KuZ4NKIF0yk4eUEB8VfuuRk7/8=&quot;,
+</a><a href="#h0-8-7" id="h0-8-7" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-8-8" id="h0-8-8" class="i">+        &quot;normalize-url&quot;: &quot;^1.0.0&quot;,
+</a><a href="#h0-8-9" id="h0-8-9" class="i">+        &quot;strip-url-auth&quot;: &quot;^1.0.0&quot;
+</a><a href="#h0-8-10" id="h0-8-10" class="i">+      },
+</a><a href="#h0-8-11" id="h0-8-11" class="i">+      &quot;dependencies&quot;: {
+</a><a href="#h0-8-12" id="h0-8-12" class="i">+        &quot;normalize-url&quot;: {
+</a><a href="#h0-8-13" id="h0-8-13" class="i">+          &quot;version&quot;: &quot;1.9.1&quot;,
+</a><a href="#h0-8-14" id="h0-8-14" class="i">+          &quot;resolved&quot;: &quot;https://registry.npmjs.org/normalize-url/-/normalize-url-1.9.1.tgz&quot;,
+</a><a href="#h0-8-15" id="h0-8-15" class="i">+          &quot;integrity&quot;: &quot;sha1-LMDWazHqIwNkWENuNiDYWVTGbDw=&quot;,
+</a><a href="#h0-8-16" id="h0-8-16" class="i">+          &quot;requires&quot;: {
+</a><a href="#h0-8-17" id="h0-8-17" class="i">+            &quot;object-assign&quot;: &quot;^4.0.1&quot;,
+</a><a href="#h0-8-18" id="h0-8-18" class="i">+            &quot;prepend-http&quot;: &quot;^1.0.0&quot;,
+</a><a href="#h0-8-19" id="h0-8-19" class="i">+            &quot;query-string&quot;: &quot;^4.1.0&quot;,
+</a><a href="#h0-8-20" id="h0-8-20" class="i">+            &quot;sort-keys&quot;: &quot;^1.0.0&quot;
+</a><a href="#h0-8-21" id="h0-8-21" class="i">+          }
+</a><a href="#h0-8-22" id="h0-8-22" class="i">+        }
+</a><a href="#h0-8-23" id="h0-8-23" class="i">+      }
+</a><a href="#h0-8-24" id="h0-8-24" class="i">+    },
+</a>     &quot;iconv-lite&quot;: {
+       &quot;version&quot;: &quot;0.4.24&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.24.tgz&quot;,
+<a href="#h0-9" id="h0-9" class="h">@@ -6680,11 +6778,13 @@
+</a>             },
+             &quot;balanced-match&quot;: {
+               &quot;version&quot;: &quot;1.0.0&quot;,
+<a href="#h0-9-3" id="h0-9-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-9-4" id="h0-9-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-9-5" id="h0-9-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;brace-expansion&quot;: {
+               &quot;version&quot;: &quot;1.1.11&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-9-10" id="h0-9-10" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;balanced-match&quot;: &quot;^1.0.0&quot;,
+                 &quot;concat-map&quot;: &quot;0.0.1&quot;
+<a href="#h0-10" id="h0-10" class="h">@@ -6701,7 +6801,8 @@
+</a>             },
+             &quot;concat-map&quot;: {
+               &quot;version&quot;: &quot;0.0.1&quot;,
+<a href="#h0-10-3" id="h0-10-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-10-4" id="h0-10-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-10-5" id="h0-10-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;console-control-strings&quot;: {
+               &quot;version&quot;: &quot;1.1.0&quot;,
+<a href="#h0-11" id="h0-11" class="h">@@ -6830,6 +6931,7 @@
+</a>             &quot;minimatch&quot;: {
+               &quot;version&quot;: &quot;3.0.4&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-11-3" id="h0-11-3" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;brace-expansion&quot;: &quot;^1.1.7&quot;
+               }
+<a href="#h0-12" id="h0-12" class="h">@@ -9755,6 +9857,11 @@
+</a>       &quot;resolved&quot;: &quot;https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.1.2.tgz&quot;,
+       &quot;integrity&quot;: &quot;sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=&quot;
+     },
+<a href="#h0-12-3" id="h0-12-3" class="i">+    &quot;prepend-http&quot;: {
+</a><a href="#h0-12-4" id="h0-12-4" class="i">+      &quot;version&quot;: &quot;1.0.4&quot;,
+</a><a href="#h0-12-5" id="h0-12-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/prepend-http/-/prepend-http-1.0.4.tgz&quot;,
+</a><a href="#h0-12-6" id="h0-12-6" class="i">+      &quot;integrity&quot;: &quot;sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=&quot;
+</a><a href="#h0-12-7" id="h0-12-7" class="i">+    },
+</a>     &quot;pretty-bytes&quot;: {
+       &quot;version&quot;: &quot;5.2.0&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.2.0.tgz&quot;,
+<a href="#h0-13" id="h0-13" class="h">@@ -9924,6 +10031,15 @@
+</a>       &quot;resolved&quot;: &quot;https://registry.npmjs.org/qs/-/qs-6.5.2.tgz&quot;,
+       &quot;integrity&quot;: &quot;sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==&quot;
+     },
+<a href="#h0-13-3" id="h0-13-3" class="i">+    &quot;query-string&quot;: {
+</a><a href="#h0-13-4" id="h0-13-4" class="i">+      &quot;version&quot;: &quot;4.3.4&quot;,
+</a><a href="#h0-13-5" id="h0-13-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/query-string/-/query-string-4.3.4.tgz&quot;,
+</a><a href="#h0-13-6" id="h0-13-6" class="i">+      &quot;integrity&quot;: &quot;sha1-u7aTucqRXCMlFbIosaArYJBD2+s=&quot;,
+</a><a href="#h0-13-7" id="h0-13-7" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-13-8" id="h0-13-8" class="i">+        &quot;object-assign&quot;: &quot;^4.1.0&quot;,
+</a><a href="#h0-13-9" id="h0-13-9" class="i">+        &quot;strict-uri-encode&quot;: &quot;^1.0.0&quot;
+</a><a href="#h0-13-10" id="h0-13-10" class="i">+      }
+</a><a href="#h0-13-11" id="h0-13-11" class="i">+    },
+</a>     &quot;querystring&quot;: {
+       &quot;version&quot;: &quot;0.2.0&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz&quot;,
+<a href="#h0-14" id="h0-14" class="h">@@ -11115,6 +11231,14 @@
+</a>         }
+       }
+     },
+<a href="#h0-14-3" id="h0-14-3" class="i">+    &quot;sort-keys&quot;: {
+</a><a href="#h0-14-4" id="h0-14-4" class="i">+      &quot;version&quot;: &quot;1.1.2&quot;,
+</a><a href="#h0-14-5" id="h0-14-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/sort-keys/-/sort-keys-1.1.2.tgz&quot;,
+</a><a href="#h0-14-6" id="h0-14-6" class="i">+      &quot;integrity&quot;: &quot;sha1-RBttTTRnmPG05J6JIK37oOVD+a0=&quot;,
+</a><a href="#h0-14-7" id="h0-14-7" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-14-8" id="h0-14-8" class="i">+        &quot;is-plain-obj&quot;: &quot;^1.0.0&quot;
+</a><a href="#h0-14-9" id="h0-14-9" class="i">+      }
+</a><a href="#h0-14-10" id="h0-14-10" class="i">+    },
+</a>     &quot;source-list-map&quot;: {
+       &quot;version&quot;: &quot;2.0.1&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/source-list-map/-/source-list-map-2.0.1.tgz&quot;,
+<a href="#h0-15" id="h0-15" class="h">@@ -11339,6 +11463,11 @@
+</a>       &quot;resolved&quot;: &quot;https://registry.npmjs.org/stream-shift/-/stream-shift-1.0.0.tgz&quot;,
+       &quot;integrity&quot;: &quot;sha1-1cdSgl5TZ+eG944Y5EXqIjoVWVI=&quot;
+     },
+<a href="#h0-15-3" id="h0-15-3" class="i">+    &quot;strict-uri-encode&quot;: {
+</a><a href="#h0-15-4" id="h0-15-4" class="i">+      &quot;version&quot;: &quot;1.1.0&quot;,
+</a><a href="#h0-15-5" id="h0-15-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz&quot;,
+</a><a href="#h0-15-6" id="h0-15-6" class="i">+      &quot;integrity&quot;: &quot;sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=&quot;
+</a><a href="#h0-15-7" id="h0-15-7" class="i">+    },
+</a>     &quot;string-length&quot;: {
+       &quot;version&quot;: &quot;2.0.0&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/string-length/-/string-length-2.0.0.tgz&quot;,
+<a href="#h0-16" id="h0-16" class="h">@@ -11407,6 +11536,19 @@
+</a>       &quot;resolved&quot;: &quot;https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz&quot;,
+       &quot;integrity&quot;: &quot;sha1-PFMZQukIwml8DsNEhYwobHygpgo=&quot;
+     },
+<a href="#h0-16-3" id="h0-16-3" class="i">+    &quot;strip-outer&quot;: {
+</a><a href="#h0-16-4" id="h0-16-4" class="i">+      &quot;version&quot;: &quot;1.0.1&quot;,
+</a><a href="#h0-16-5" id="h0-16-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/strip-outer/-/strip-outer-1.0.1.tgz&quot;,
+</a><a href="#h0-16-6" id="h0-16-6" class="i">+      &quot;integrity&quot;: &quot;sha512-k55yxKHwaXnpYGsOzg4Vl8+tDrWylxDEpknGjhTiZB8dFRU5rTo9CAzeycivxV3s+zlTKwrs6WxMxR95n26kwg==&quot;,
+</a><a href="#h0-16-7" id="h0-16-7" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-16-8" id="h0-16-8" class="i">+        &quot;escape-string-regexp&quot;: &quot;^1.0.2&quot;
+</a><a href="#h0-16-9" id="h0-16-9" class="i">+      }
+</a><a href="#h0-16-10" id="h0-16-10" class="i">+    },
+</a><a href="#h0-16-11" id="h0-16-11" class="i">+    &quot;strip-url-auth&quot;: {
+</a><a href="#h0-16-12" id="h0-16-12" class="i">+      &quot;version&quot;: &quot;1.0.1&quot;,
+</a><a href="#h0-16-13" id="h0-16-13" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/strip-url-auth/-/strip-url-auth-1.0.1.tgz&quot;,
+</a><a href="#h0-16-14" id="h0-16-14" class="i">+      &quot;integrity&quot;: &quot;sha1-IrD6OkE4WzO+PzMVUbu4N/oM164=&quot;
+</a><a href="#h0-16-15" id="h0-16-15" class="i">+    },
+</a>     &quot;style-loader&quot;: {
+       &quot;version&quot;: &quot;0.23.1&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/style-loader/-/style-loader-0.23.1.tgz&quot;,
+<a href="#h0-17" id="h0-17" class="h">@@ -11678,6 +11820,14 @@
+</a>         &quot;punycode&quot;: &quot;^2.1.0&quot;
+       }
+     },
+<a href="#h0-17-3" id="h0-17-3" class="i">+    &quot;trim-repeated&quot;: {
+</a><a href="#h0-17-4" id="h0-17-4" class="i">+      &quot;version&quot;: &quot;1.0.0&quot;,
+</a><a href="#h0-17-5" id="h0-17-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/trim-repeated/-/trim-repeated-1.0.0.tgz&quot;,
+</a><a href="#h0-17-6" id="h0-17-6" class="i">+      &quot;integrity&quot;: &quot;sha1-42RqLqTokTEr9+rObPsFOAvAHCE=&quot;,
+</a><a href="#h0-17-7" id="h0-17-7" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-17-8" id="h0-17-8" class="i">+        &quot;escape-string-regexp&quot;: &quot;^1.0.2&quot;
+</a><a href="#h0-17-9" id="h0-17-9" class="i">+      }
+</a><a href="#h0-17-10" id="h0-17-10" class="i">+    },
+</a>     &quot;trim-right&quot;: {
+       &quot;version&quot;: &quot;1.0.1&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/trim-right/-/trim-right-1.0.1.tgz&quot;,
+<b>diff --git a/<a id="h1" href="../file/package.json.html">package.json</a> b/<a href="../file/package.json.html">package.json</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -1,12 +1,24 @@
+</a> {
+   &quot;name&quot;: &quot;poe&quot;,
+<a href="#h1-0-2" id="h1-0-2" class="d">-  &quot;version&quot;: &quot;0.1.0&quot;,
+</a><a href="#h1-0-3" id="h1-0-3" class="i">+  &quot;version&quot;: &quot;1.0.0&quot;,
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+  &quot;description&quot;: &quot;Path of Exile utility site&quot;,
+</a>   &quot;private&quot;: true,
+<a href="#h1-0-6" id="h1-0-6" class="i">+  &quot;repository&quot;: {
+</a><a href="#h1-0-7" id="h1-0-7" class="i">+    &quot;type&quot;: &quot;git&quot;,
+</a><a href="#h1-0-8" id="h1-0-8" class="i">+    &quot;url&quot;: &quot;git+https://github.com/nikibobi/poe.git&quot;
+</a><a href="#h1-0-9" id="h1-0-9" class="i">+  },
+</a><a href="#h1-0-10" id="h1-0-10" class="i">+  &quot;author&quot;: &quot;bosak&quot;,
+</a><a href="#h1-0-11" id="h1-0-11" class="i">+  &quot;license&quot;: &quot;MIT&quot;,
+</a><a href="#h1-0-12" id="h1-0-12" class="i">+  &quot;bugs&quot;: {
+</a><a href="#h1-0-13" id="h1-0-13" class="i">+    &quot;url&quot;: &quot;https://github.com/nikibobi/poe/issues&quot;
+</a><a href="#h1-0-14" id="h1-0-14" class="i">+  },
+</a><a href="#h1-0-15" id="h1-0-15" class="i">+  &quot;homepage&quot;: &quot;https://kosharov.ml/poe&quot;,
+</a>   &quot;dependencies&quot;: {
+     &quot;@types/jest&quot;: &quot;24.0.13&quot;,
+     &quot;@types/node&quot;: &quot;12.0.6&quot;,
+     &quot;@types/react&quot;: &quot;16.8.19&quot;,
+     &quot;@types/react-dom&quot;: &quot;16.8.4&quot;,
+<a href="#h1-0-21" id="h1-0-21" class="i">+    &quot;gh-pages&quot;: &quot;^2.0.1&quot;,
+</a>     &quot;mnemonist&quot;: &quot;^0.28.0&quot;,
+     &quot;react&quot;: &quot;^16.8.6&quot;,
+     &quot;react-dom&quot;: &quot;^16.8.6&quot;,
+<a href="#h1-1" id="h1-1" class="h">@@ -17,7 +29,9 @@
+</a>     &quot;start&quot;: &quot;react-scripts start&quot;,
+     &quot;build&quot;: &quot;react-scripts build&quot;,
+     &quot;test&quot;: &quot;react-scripts test&quot;,
+<a href="#h1-1-3" id="h1-1-3" class="d">-    &quot;eject&quot;: &quot;react-scripts eject&quot;
+</a><a href="#h1-1-4" id="h1-1-4" class="i">+    &quot;eject&quot;: &quot;react-scripts eject&quot;,
+</a><a href="#h1-1-5" id="h1-1-5" class="i">+    &quot;predeploy&quot;: &quot;npm run build&quot;,
+</a><a href="#h1-1-6" id="h1-1-6" class="i">+    &quot;deploy&quot;: &quot;gh-pages -b master -d build&quot;
+</a>   },
+   &quot;eslintConfig&quot;: {
+     &quot;extends&quot;: &quot;react-app&quot;
+</pre>
+</div>
+</body>
+</html>

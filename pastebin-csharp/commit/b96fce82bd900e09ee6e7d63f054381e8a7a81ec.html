@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Changed Pastebin.Login - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/b96fce82bd900e09ee6e7d63f054381e8a7a81ec.html">b96fce82bd900e09ee6e7d63f054381e8a7a81ec</a>
+<b>parent</b> <a href="../commit/13b4d118c5decbf2a44c070b6e0ec845285a85cf.html">13b4d118c5decbf2a44c070b6e0ec845285a85cf</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Tue, 20 Aug 2013 19:25:19 +0300
+
+Changed Pastebin.Login
+
+It now also requests user preferences
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Pastebin.cs</a></td><td> | </td><td class="num">4</td><td><span class="i">+++</span><span class="d">-</span></td></tr>
+</table></pre><pre>1 file changed, 3 insertions(+), 1 deletion(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a> b/<a href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -23,7 +23,9 @@ public static User Login(string username, string password)
+</a>             if (result.Contains(Utills.ERROR))
+                 throw new PastebinException(result);
+ 
+<a href="#h0-0-3" id="h0-0-3" class="d">-            return new User(result);
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+            var user = new User(result);
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+            user.RequestPreferences();
+</a><a href="#h0-0-6" id="h0-0-6" class="i">+            return user;
+</a>         }
+ 
+         /// &lt;summary&gt;
+</pre>
+</div>
+</body>
+</html>

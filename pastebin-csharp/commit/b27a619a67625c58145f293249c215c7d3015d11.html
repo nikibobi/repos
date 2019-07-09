@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Formatted code - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/b27a619a67625c58145f293249c215c7d3015d11.html">b27a619a67625c58145f293249c215c7d3015d11</a>
+<b>parent</b> <a href="../commit/fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8.html">fba5ca9f29cc3200f0e0a61b5e7b5032c3e007f8</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Tue, 16 Apr 2013 23:11:40 +0300
+
+Formatted code
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">Example/Program.cs</a></td><td> | </td><td class="num">2</td><td><span class="i">+</span><span class="d">-</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">PastebinAPI/Expiration.cs</a></td><td> | </td><td class="num">7</td><td><span class="i">+</span><span class="d">------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI/Paste.cs</a></td><td> | </td><td class="num">7</td><td><span class="i">+</span><span class="d">------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h3">PastebinAPI/Pastebin.cs</a></td><td> | </td><td class="num">17</td><td><span class="i">+</span><span class="d">----------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h4">PastebinAPI/User.cs</a></td><td> | </td><td class="num">7</td><td><span class="i">+</span><span class="d">------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h5">PastebinAPI/Visibility.cs</a></td><td> | </td><td class="num">7</td><td><span class="i">+</span><span class="d">------</span></td></tr>
+</table></pre><pre>6 files changed, 6 insertions(+), 41 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/Example/Program.cs.html">Example/Program.cs</a> b/<a href="../file/Example/Program.cs.html">Example/Program.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -5,7 +5,7 @@ namespace Example
+</a> {
+     class Program
+     {
+<a href="#h0-0-3" id="h0-0-3" class="d">-        static void Main(string[] args)
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+        static void Main()
+</a>         {
+             Pastebin.DevKey = &quot;your dev key goes here&quot;; //you can see yours here: http://pastebin.com/api#1
+             try
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a> b/<a href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -1,9 +1,4 @@
+</a><a href="#h1-0-0" id="h1-0-0" class="d">-﻿using System;
+</a><a href="#h1-0-1" id="h1-0-1" class="d">-using System.Collections.Generic;
+</a><a href="#h1-0-2" id="h1-0-2" class="d">-using System.Linq;
+</a><a href="#h1-0-3" id="h1-0-3" class="d">-using System.Text;
+</a><a href="#h1-0-4" id="h1-0-4" class="d">-
+</a><a href="#h1-0-5" id="h1-0-5" class="d">-namespace PastebinAPI
+</a><a href="#h1-0-6" id="h1-0-6" class="i">+﻿namespace PastebinAPI
+</a> {
+     public class Expiration
+     {
+<b>diff --git a/<a id="h2" href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a> b/<a href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -1,9 +1,4 @@
+</a><a href="#h2-0-0" id="h2-0-0" class="d">-﻿using System;
+</a><a href="#h2-0-1" id="h2-0-1" class="d">-using System.Collections.Generic;
+</a><a href="#h2-0-2" id="h2-0-2" class="d">-using System.Linq;
+</a><a href="#h2-0-3" id="h2-0-3" class="d">-using System.Text;
+</a><a href="#h2-0-4" id="h2-0-4" class="d">-
+</a><a href="#h2-0-5" id="h2-0-5" class="d">-namespace PastebinAPI
+</a><a href="#h2-0-6" id="h2-0-6" class="i">+﻿namespace PastebinAPI
+</a> {
+     public struct Paste
+     {
+<b>diff --git a/<a id="h3" href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a> b/<a href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -1,5 +1,4 @@
+</a> ﻿using System;
+<a href="#h3-0-1" id="h3-0-1" class="d">-using System.Collections.Generic;
+</a> 
+ namespace PastebinAPI
+ {
+<a href="#h3-1" id="h3-1" class="h">@@ -7,21 +6,7 @@ public static class Pastebin
+</a>     {
+         internal const string ERROR = &quot;Bad API request&quot;;
+ 
+<a href="#h3-1-3" id="h3-1-3" class="d">-        private static bool initialized;
+</a><a href="#h3-1-4" id="h3-1-4" class="d">-        private static string devkey;
+</a><a href="#h3-1-5" id="h3-1-5" class="d">-
+</a><a href="#h3-1-6" id="h3-1-6" class="d">-        public static string DevKey
+</a><a href="#h3-1-7" id="h3-1-7" class="d">-        {
+</a><a href="#h3-1-8" id="h3-1-8" class="d">-            get
+</a><a href="#h3-1-9" id="h3-1-9" class="d">-            {
+</a><a href="#h3-1-10" id="h3-1-10" class="d">-                return devkey;
+</a><a href="#h3-1-11" id="h3-1-11" class="d">-            }
+</a><a href="#h3-1-12" id="h3-1-12" class="d">-            set
+</a><a href="#h3-1-13" id="h3-1-13" class="d">-            {
+</a><a href="#h3-1-14" id="h3-1-14" class="d">-                devkey = value;
+</a><a href="#h3-1-15" id="h3-1-15" class="d">-                initialized = true;
+</a><a href="#h3-1-16" id="h3-1-16" class="d">-            }
+</a><a href="#h3-1-17" id="h3-1-17" class="d">-        }
+</a><a href="#h3-1-18" id="h3-1-18" class="i">+        public static string DevKey { get; set; }
+</a> 
+         internal static Paste NewPaste(string userKey, string text, string title = &quot;&quot;, PasteFormat format = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+         {
+<b>diff --git a/<a id="h4" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -1,9 +1,4 @@
+</a><a href="#h4-0-0" id="h4-0-0" class="d">-﻿using System;
+</a><a href="#h4-0-1" id="h4-0-1" class="d">-using System.Collections.Generic;
+</a><a href="#h4-0-2" id="h4-0-2" class="d">-using System.Linq;
+</a><a href="#h4-0-3" id="h4-0-3" class="d">-using System.Text;
+</a><a href="#h4-0-4" id="h4-0-4" class="d">-
+</a><a href="#h4-0-5" id="h4-0-5" class="d">-namespace PastebinAPI
+</a><a href="#h4-0-6" id="h4-0-6" class="i">+﻿namespace PastebinAPI
+</a> {
+     public class User
+     {
+<b>diff --git a/<a id="h5" href="../file/PastebinAPI/Visibility.cs.html">PastebinAPI/Visibility.cs</a> b/<a href="../file/PastebinAPI/Visibility.cs.html">PastebinAPI/Visibility.cs</a></b>
+<a href="#h5-0" id="h5-0" class="h">@@ -1,9 +1,4 @@
+</a><a href="#h5-0-0" id="h5-0-0" class="d">-﻿using System;
+</a><a href="#h5-0-1" id="h5-0-1" class="d">-using System.Collections.Generic;
+</a><a href="#h5-0-2" id="h5-0-2" class="d">-using System.Linq;
+</a><a href="#h5-0-3" id="h5-0-3" class="d">-using System.Text;
+</a><a href="#h5-0-4" id="h5-0-4" class="d">-
+</a><a href="#h5-0-5" id="h5-0-5" class="d">-namespace PastebinAPI
+</a><a href="#h5-0-6" id="h5-0-6" class="i">+﻿namespace PastebinAPI
+</a> {
+     public enum Visibility
+     {
+</pre>
+</div>
+</body>
+</html>

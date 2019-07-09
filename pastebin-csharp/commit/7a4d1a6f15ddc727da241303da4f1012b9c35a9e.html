@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Changed README.md - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/7a4d1a6f15ddc727da241303da4f1012b9c35a9e.html">7a4d1a6f15ddc727da241303da4f1012b9c35a9e</a>
+<b>parent</b> <a href="../commit/36e43f07b4b262a9fa78708bae62be7fb6c8f78c.html">36e43f07b4b262a9fa78708bae62be7fb6c8f78c</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Tue,  4 Jun 2013 19:38:09 +0300
+
+Changed README.md
+
+Added example code to README
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">README.md</a></td><td> | </td><td class="num">72</td><td><span class="i">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d">----</span></td></tr>
+</table></pre><pre>1 file changed, 68 insertions(+), 4 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/README.md.html">README.md</a> b/<a href="../file/README.md.html">README.md</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,4 +1,68 @@
+</a><a href="#h0-0-0" id="h0-0-0" class="d">-Pastebin API for C#
+</a><a href="#h0-0-1" id="h0-0-1" class="d">-===================
+</a><a href="#h0-0-2" id="h0-0-2" class="i">+#Pastebin API for C#
+</a> 
+<a href="#h0-0-4" id="h0-0-4" class="d">-This is a simple library for accessing pastebin in C#</a><a href="#h0-0-5" id="h0-0-5" class="d">-
+\ No newline at end of file
+</a><a href="#h0-0-6" id="h0-0-6" class="i">+This is a simple library for accessing Pastebin from C#
+</a><a href="#h0-0-7" id="h0-0-7" class="i">+
+</a><a href="#h0-0-8" id="h0-0-8" class="i">+#Example
+</a><a href="#h0-0-9" id="h0-0-9" class="i">+
+</a><a href="#h0-0-10" id="h0-0-10" class="i">+```C#
+</a><a href="#h0-0-11" id="h0-0-11" class="i">+using System;
+</a><a href="#h0-0-12" id="h0-0-12" class="i">+using PastebinAPI;
+</a><a href="#h0-0-13" id="h0-0-13" class="i">+
+</a><a href="#h0-0-14" id="h0-0-14" class="i">+namespace Example
+</a><a href="#h0-0-15" id="h0-0-15" class="i">+{
+</a><a href="#h0-0-16" id="h0-0-16" class="i">+    class Example
+</a><a href="#h0-0-17" id="h0-0-17" class="i">+    {
+</a><a href="#h0-0-18" id="h0-0-18" class="i">+        static void Main()
+</a><a href="#h0-0-19" id="h0-0-19" class="i">+        {
+</a><a href="#h0-0-20" id="h0-0-20" class="i">+            //before using any class in the api you must enter your api dev key
+</a><a href="#h0-0-21" id="h0-0-21" class="i">+            Pastebin.DevKey = &quot;your dev key goes here&quot;;
+</a><a href="#h0-0-22" id="h0-0-22" class="i">+            //you can see yours here: http://pastebin.com/api#1
+</a><a href="#h0-0-23" id="h0-0-23" class="i">+            try
+</a><a href="#h0-0-24" id="h0-0-24" class="i">+            {
+</a><a href="#h0-0-25" id="h0-0-25" class="i">+                // login and get user object
+</a><a href="#h0-0-26" id="h0-0-26" class="i">+                User me = Pastebin.Login(&quot;user&quot;, &quot;pass&quot;);
+</a><a href="#h0-0-27" id="h0-0-27" class="i">+                // user contains information like e-mail, location etc...
+</a><a href="#h0-0-28" id="h0-0-28" class="i">+                Console.WriteLine(&quot;{0}({1}) lives in {2}&quot;, me, me.Email, me.Location);
+</a><a href="#h0-0-29" id="h0-0-29" class="i">+                // lists all pastes for this user
+</a><a href="#h0-0-30" id="h0-0-30" class="i">+                foreach (Paste paste in me.ListPastes(3)) // we limmit the results to 3
+</a><a href="#h0-0-31" id="h0-0-31" class="i">+                {
+</a><a href="#h0-0-32" id="h0-0-32" class="i">+                    Console.WriteLine(paste.Title);
+</a><a href="#h0-0-33" id="h0-0-33" class="i">+                }
+</a><a href="#h0-0-34" id="h0-0-34" class="i">+
+</a><a href="#h0-0-35" id="h0-0-35" class="i">+                string code = &quot;&lt;your fancy &amp;code#() goes here&gt;&quot;;
+</a><a href="#h0-0-36" id="h0-0-36" class="i">+                //creates a new paste and get paste object
+</a><a href="#h0-0-37" id="h0-0-37" class="i">+                Paste newPaste = me.NewPaste(code, &quot;MyPasteTitle&quot;, PasteFormat.HTML5, Visibility.Public, Expiration.TenMinutes);
+</a><a href="#h0-0-38" id="h0-0-38" class="i">+                //newPaste now contains the link returned from the server
+</a><a href="#h0-0-39" id="h0-0-39" class="i">+                Console.WriteLine(&quot;URL: {0}&quot;,newPaste.Url);
+</a><a href="#h0-0-40" id="h0-0-40" class="i">+                Console.WriteLine(&quot;Paste key: {0}&quot;, newPaste.Key);
+</a><a href="#h0-0-41" id="h0-0-41" class="i">+                Console.WriteLine(&quot;Content: {0}&quot;, newPaste.Text);
+</a><a href="#h0-0-42" id="h0-0-42" class="i">+                //deletes the paste we just created
+</a><a href="#h0-0-43" id="h0-0-43" class="i">+                me.DeletePaste(newPaste);
+</a><a href="#h0-0-44" id="h0-0-44" class="i">+
+</a><a href="#h0-0-45" id="h0-0-45" class="i">+                //lists all currently trending pastes(similar to me.ListPastes())
+</a><a href="#h0-0-46" id="h0-0-46" class="i">+                foreach (Paste paste in Pastebin.ListTrendingPastes())
+</a><a href="#h0-0-47" id="h0-0-47" class="i">+                {
+</a><a href="#h0-0-48" id="h0-0-48" class="i">+                    Console.WriteLine(&quot;{0} - {1}&quot;, paste.Title, paste.Url);
+</a><a href="#h0-0-49" id="h0-0-49" class="i">+                }
+</a><a href="#h0-0-50" id="h0-0-50" class="i">+                //you can create pastes directly from Pastebin static class but they are created as guests and you have a limited number of guest uploads
+</a><a href="#h0-0-51" id="h0-0-51" class="i">+                Paste anotherPaste = Pastebin.NewPaste(&quot;another paste&quot;, &quot;MyPasteTitle2&quot;, PasteFormat.CSharp, Visibility.Unlisted, Expiration.OneHour);
+</a><a href="#h0-0-52" id="h0-0-52" class="i">+                Console.WriteLine(anotherPaste.Title);
+</a><a href="#h0-0-53" id="h0-0-53" class="i">+            }
+</a><a href="#h0-0-54" id="h0-0-54" class="i">+            catch(PastebinException ex) //api throws PastebinException
+</a><a href="#h0-0-55" id="h0-0-55" class="i">+            {
+</a><a href="#h0-0-56" id="h0-0-56" class="i">+                //in the Parameter property you can see what invalid parameter was sent
+</a><a href="#h0-0-57" id="h0-0-57" class="i">+                //here we check if the exeption is thrown because of invalid login details
+</a><a href="#h0-0-58" id="h0-0-58" class="i">+                if (ex.Parameter == PastebinException.ParameterType.Login)
+</a><a href="#h0-0-59" id="h0-0-59" class="i">+                {
+</a><a href="#h0-0-60" id="h0-0-60" class="i">+                    Console.Error.WriteLine(&quot;Invalid username/password&quot;);
+</a><a href="#h0-0-61" id="h0-0-61" class="i">+                }
+</a><a href="#h0-0-62" id="h0-0-62" class="i">+                else
+</a><a href="#h0-0-63" id="h0-0-63" class="i">+                {
+</a><a href="#h0-0-64" id="h0-0-64" class="i">+                    throw; //all other types are rethrown and not swalowed!
+</a><a href="#h0-0-65" id="h0-0-65" class="i">+                }
+</a><a href="#h0-0-66" id="h0-0-66" class="i">+            }
+</a><a href="#h0-0-67" id="h0-0-67" class="i">+            Console.ReadKey();
+</a><a href="#h0-0-68" id="h0-0-68" class="i">+        }
+</a><a href="#h0-0-69" id="h0-0-69" class="i">+    }
+</a><a href="#h0-0-70" id="h0-0-70" class="i">+}
+</a><a href="#h0-0-71" id="h0-0-71" class="i">+```</a><a href="#h0-0-72" id="h0-0-72" class="i">+
+\ No newline at end of file
+</a></pre>
+</div>
+</body>
+</html>

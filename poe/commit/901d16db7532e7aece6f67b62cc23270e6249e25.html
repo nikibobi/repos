@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>implement selector and range inputs - poe - Path of Exile currency utility site
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="poe Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>poe</h1><span class="desc">Path of Exile currency utility site
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/poe.git">https://github.com/nikibobi/poe.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/901d16db7532e7aece6f67b62cc23270e6249e25.html">901d16db7532e7aece6f67b62cc23270e6249e25</a>
+<b>parent</b> <a href="../commit/d07fa9fdb80cfd9c33b46e9d6a94017c90539d8c.html">d07fa9fdb80cfd9c33b46e9d6a94017c90539d8c</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Sat,  8 Jun 2019 01:23:10 +0300
+
+implement selector and range inputs
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">.gitignore</a></td><td> | </td><td class="num">1</td><td><span class="i">+</span><span class="d"></span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">src/App.tsx</a></td><td> | </td><td class="num">4</td><td><span class="i">++</span><span class="d">--</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h2">src/components/CurrencyFilter.tsx</a></td><td> | </td><td class="num">24</td><td><span class="i">++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="D">D</td><td><a href="#h3">src/components/CurrencyPicker.tsx</a></td><td> | </td><td class="num">19</td><td><span class="i"></span><span class="d">-------------------</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h4">src/components/CurrencySelect.tsx</a></td><td> | </td><td class="num">32</td><td><span class="i">++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h5">src/components/FromToInput.tsx</a></td><td> | </td><td class="num">46</td><td><span class="i">++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h6">src/components/ValueDeltaInput.tsx</a></td><td> | </td><td class="num">53</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h7">src/data/currencyData.ts</a></td><td> | </td><td class="num">20</td><td><span class="i">++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h8">src/data/ranges.d.ts</a></td><td> | </td><td class="num">9</td><td><span class="i">+++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h9">src/data/rates.ts</a></td><td> | </td><td class="num">20</td><td><span class="i">++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h10">src/models/Currency.tsx</a></td><td> | </td><td class="num">34</td><td><span class="i">++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h11">src/models/CurrencyAmount.tsx</a></td><td> | </td><td class="num">37</td><td><span class="i">+++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+</table></pre><pre>12 files changed, 278 insertions(+), 21 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/.gitignore.html">.gitignore</a> b/<a href="../file/.gitignore.html">.gitignore</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -21,3 +21,4 @@
+</a> npm-debug.log*
+ yarn-debug.log*
+ yarn-error.log*
+<a href="#h0-0-3" id="h0-0-3" class="i">+/.vscode
+</a><b>diff --git a/<a id="h1" href="../file/src/App.tsx.html">src/App.tsx</a> b/<a href="../file/src/App.tsx.html">src/App.tsx</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -1,13 +1,13 @@
+</a> import React from &#39;react&#39;;
+ import &#39;./App.css&#39;;
+ import CurrencyTable from &#39;./components/CurrencyTable&#39;;
+<a href="#h1-0-3" id="h1-0-3" class="d">-import CurrencyPicker from &#39;./components/CurrencyPicker&#39;;
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+import CurrencyFilter from &#39;./components/CurrencyFilter&#39;;
+</a> 
+ const App: React.FC = () =&gt; {
+     return (
+         &lt;React.Fragment&gt;
+         &lt;aside&gt;
+<a href="#h1-0-10" id="h1-0-10" class="d">-            &lt;CurrencyPicker /&gt;
+</a><a href="#h1-0-11" id="h1-0-11" class="i">+            &lt;CurrencyFilter /&gt;
+</a>         &lt;/aside&gt;
+         &lt;section&gt;
+             &lt;CurrencyTable /&gt;
+<b>diff --git a/<a id="h2" href="../file/src/components/CurrencyFilter.tsx.html">src/components/CurrencyFilter.tsx</a> b/<a href="../file/src/components/CurrencyFilter.tsx.html">src/components/CurrencyFilter.tsx</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -0,0 +1,23 @@
+</a><a href="#h2-0-0" id="h2-0-0" class="i">+import React from &#39;react&#39;;
+</a><a href="#h2-0-1" id="h2-0-1" class="i">+import CurrencySelect from &#39;./CurrencySelect&#39;;
+</a><a href="#h2-0-2" id="h2-0-2" class="i">+import FromToInput from &#39;./FromToInput&#39;;
+</a><a href="#h2-0-3" id="h2-0-3" class="i">+import { currencies } from &#39;../models/Currency&#39;;
+</a><a href="#h2-0-4" id="h2-0-4" class="i">+import { IRangeProps } from &#39;../data/ranges&#39;;
+</a><a href="#h2-0-5" id="h2-0-5" class="i">+
+</a><a href="#h2-0-6" id="h2-0-6" class="i">+const ranges: { [key: string]: IRangeProps }  = {
+</a><a href="#h2-0-7" id="h2-0-7" class="i">+    value: { min: 1, max: 1000, step: 1 },
+</a><a href="#h2-0-8" id="h2-0-8" class="i">+    delta: { min: 0, max: 1, step: 0.1 },
+</a><a href="#h2-0-9" id="h2-0-9" class="i">+    from: { min: 0, max: 1000, step: 1 },
+</a><a href="#h2-0-10" id="h2-0-10" class="i">+    to: { min: 0, max: 1000, step: 1 },
+</a><a href="#h2-0-11" id="h2-0-11" class="i">+}
+</a><a href="#h2-0-12" id="h2-0-12" class="i">+
+</a><a href="#h2-0-13" id="h2-0-13" class="i">+const CurrencyFilter: React.FC = (props) =&gt; {
+</a><a href="#h2-0-14" id="h2-0-14" class="i">+    return (
+</a><a href="#h2-0-15" id="h2-0-15" class="i">+        &lt;React.Fragment&gt;
+</a><a href="#h2-0-16" id="h2-0-16" class="i">+            &lt;CurrencySelect currencies={currencies}/&gt;
+</a><a href="#h2-0-17" id="h2-0-17" class="i">+            &lt;FromToInput from={ranges.from} to={ranges.to}/&gt;
+</a><a href="#h2-0-18" id="h2-0-18" class="i">+        &lt;/React.Fragment&gt;
+</a><a href="#h2-0-19" id="h2-0-19" class="i">+    );
+</a><a href="#h2-0-20" id="h2-0-20" class="i">+}
+</a><a href="#h2-0-21" id="h2-0-21" class="i">+
+</a><a href="#h2-0-22" id="h2-0-22" class="i">+export default CurrencyFilter;</a><a href="#h2-0-23" id="h2-0-23" class="i">+
+\ No newline at end of file
+</a><b>diff --git a/<a id="h3" href="../file/src/components/CurrencyPicker.tsx.html">src/components/CurrencyPicker.tsx</a> b/<a href="../file/src/components/CurrencyPicker.tsx.html">src/components/CurrencyPicker.tsx</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -1,18 +0,0 @@
+</a><a href="#h3-0-0" id="h3-0-0" class="d">-import React from &#39;react&#39;;
+</a><a href="#h3-0-1" id="h3-0-1" class="d">-
+</a><a href="#h3-0-2" id="h3-0-2" class="d">-const CurrencyPicker: React.FC = () =&gt; {
+</a><a href="#h3-0-3" id="h3-0-3" class="d">-    return (
+</a><a href="#h3-0-4" id="h3-0-4" class="d">-        &lt;React.Fragment&gt;
+</a><a href="#h3-0-5" id="h3-0-5" class="d">-            &lt;select id=&quot;include&quot; multiple&gt;
+</a><a href="#h3-0-6" id="h3-0-6" class="d">-            &lt;/select&gt;
+</a><a href="#h3-0-7" id="h3-0-7" class="d">-            &lt;div className=&quot;group&quot;&gt;
+</a><a href="#h3-0-8" id="h3-0-8" class="d">-                &lt;input type=&quot;number&quot; id=&quot;value&quot; min=&quot;1&quot; max=&quot;1000&quot; step=&quot;1&quot; placeholder=&quot;chaos&quot; /&gt;&lt;span className=&quot;gap&quot;&gt;&amp;plusmn;&lt;/span&gt;&lt;input type=&quot;number&quot; id=&quot;delta&quot; min=&quot;0&quot; max=&quot;1&quot; step=&quot;0.01&quot; placeholder=&quot;delta&quot; /&gt;
+</a><a href="#h3-0-9" id="h3-0-9" class="d">-            &lt;/div&gt;
+</a><a href="#h3-0-10" id="h3-0-10" class="d">-            &lt;div className=&quot;group&quot;&gt;
+</a><a href="#h3-0-11" id="h3-0-11" class="d">-                &lt;input type=&quot;number&quot; id=&quot;from&quot; min=&quot;0&quot; max=&quot;1000&quot; step=&quot;1&quot; placeholder=&quot;from&quot; /&gt;&lt;span className=&quot;gap&quot;&gt;&amp;divide;&lt;/span&gt;&lt;input type=&quot;number&quot; id=&quot;to&quot; min=&quot;0&quot; max=&quot;1000&quot; step=&quot;1&quot; placeholder=&quot;to&quot; /&gt;
+</a><a href="#h3-0-12" id="h3-0-12" class="d">-            &lt;/div&gt;
+</a><a href="#h3-0-13" id="h3-0-13" class="d">-        &lt;/React.Fragment&gt;
+</a><a href="#h3-0-14" id="h3-0-14" class="d">-    );
+</a><a href="#h3-0-15" id="h3-0-15" class="d">-}
+</a><a href="#h3-0-16" id="h3-0-16" class="d">-
+</a><a href="#h3-0-17" id="h3-0-17" class="d">-export default CurrencyPicker;</a><a href="#h3-0-18" id="h3-0-18" class="d">-
+\ No newline at end of file
+</a><b>diff --git a/<a id="h4" href="../file/src/components/CurrencySelect.tsx.html">src/components/CurrencySelect.tsx</a> b/<a href="../file/src/components/CurrencySelect.tsx.html">src/components/CurrencySelect.tsx</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -0,0 +1,32 @@
+</a><a href="#h4-0-0" id="h4-0-0" class="i">+import React from &#39;react&#39;;
+</a><a href="#h4-0-1" id="h4-0-1" class="i">+import { Currency } from &#39;../models/Currency&#39;;
+</a><a href="#h4-0-2" id="h4-0-2" class="i">+
+</a><a href="#h4-0-3" id="h4-0-3" class="i">+export interface ICurrencySelectProps {
+</a><a href="#h4-0-4" id="h4-0-4" class="i">+    currencies: Map&lt;string, Currency&gt;
+</a><a href="#h4-0-5" id="h4-0-5" class="i">+}
+</a><a href="#h4-0-6" id="h4-0-6" class="i">+
+</a><a href="#h4-0-7" id="h4-0-7" class="i">+export interface ICurrencySelectState {
+</a><a href="#h4-0-8" id="h4-0-8" class="i">+    selected: Currency[]
+</a><a href="#h4-0-9" id="h4-0-9" class="i">+}
+</a><a href="#h4-0-10" id="h4-0-10" class="i">+
+</a><a href="#h4-0-11" id="h4-0-11" class="i">+export default class CurrencySelect extends React.Component&lt;ICurrencySelectProps, ICurrencySelectState&gt; {
+</a><a href="#h4-0-12" id="h4-0-12" class="i">+
+</a><a href="#h4-0-13" id="h4-0-13" class="i">+    constructor(props: ICurrencySelectProps) {
+</a><a href="#h4-0-14" id="h4-0-14" class="i">+        super(props);
+</a><a href="#h4-0-15" id="h4-0-15" class="i">+        this.state = { selected: Array.from(this.props.currencies.values()) };
+</a><a href="#h4-0-16" id="h4-0-16" class="i">+    }
+</a><a href="#h4-0-17" id="h4-0-17" class="i">+
+</a><a href="#h4-0-18" id="h4-0-18" class="i">+    public handleChange = (event: React.ChangeEvent&lt;HTMLSelectElement&gt;) =&gt; {
+</a><a href="#h4-0-19" id="h4-0-19" class="i">+        const values = Array.from(event.target.selectedOptions).map(x =&gt; x.value);
+</a><a href="#h4-0-20" id="h4-0-20" class="i">+        const selected = values.map(alias =&gt; this.props.currencies.get(alias) as Currency);
+</a><a href="#h4-0-21" id="h4-0-21" class="i">+        this.setState({ selected });
+</a><a href="#h4-0-22" id="h4-0-22" class="i">+    }
+</a><a href="#h4-0-23" id="h4-0-23" class="i">+
+</a><a href="#h4-0-24" id="h4-0-24" class="i">+    public render() {
+</a><a href="#h4-0-25" id="h4-0-25" class="i">+        return (
+</a><a href="#h4-0-26" id="h4-0-26" class="i">+            &lt;select id=&quot;include&quot; multiple={true} size={this.props.currencies.size} value={this.state.selected.map(c =&gt; c.alias)} onChange={this.handleChange}&gt;
+</a><a href="#h4-0-27" id="h4-0-27" class="i">+                {Array.from(this.props.currencies.values()).map(c =&gt; c.toOption())}
+</a><a href="#h4-0-28" id="h4-0-28" class="i">+            &lt;/select&gt;
+</a><a href="#h4-0-29" id="h4-0-29" class="i">+        );
+</a><a href="#h4-0-30" id="h4-0-30" class="i">+    }
+</a><a href="#h4-0-31" id="h4-0-31" class="i">+}
+</a><b>diff --git a/<a id="h5" href="../file/src/components/FromToInput.tsx.html">src/components/FromToInput.tsx</a> b/<a href="../file/src/components/FromToInput.tsx.html">src/components/FromToInput.tsx</a></b>
+<a href="#h5-0" id="h5-0" class="h">@@ -0,0 +1,46 @@
+</a><a href="#h5-0-0" id="h5-0-0" class="i">+import React from &#39;react&#39;;
+</a><a href="#h5-0-1" id="h5-0-1" class="i">+import { IRangeProps, IRangeState } from &#39;../data/ranges&#39;;
+</a><a href="#h5-0-2" id="h5-0-2" class="i">+
+</a><a href="#h5-0-3" id="h5-0-3" class="i">+export interface IFromToInputProps {
+</a><a href="#h5-0-4" id="h5-0-4" class="i">+    from: IRangeProps
+</a><a href="#h5-0-5" id="h5-0-5" class="i">+    to: IRangeProps
+</a><a href="#h5-0-6" id="h5-0-6" class="i">+}
+</a><a href="#h5-0-7" id="h5-0-7" class="i">+
+</a><a href="#h5-0-8" id="h5-0-8" class="i">+export default class FromToInput extends React.Component&lt;IFromToInputProps, IRangeState&gt; {
+</a><a href="#h5-0-9" id="h5-0-9" class="i">+
+</a><a href="#h5-0-10" id="h5-0-10" class="i">+    constructor(props: IFromToInputProps) {
+</a><a href="#h5-0-11" id="h5-0-11" class="i">+        super(props);
+</a><a href="#h5-0-12" id="h5-0-12" class="i">+        this.state = { range: [props.from.min, props.to.min] };
+</a><a href="#h5-0-13" id="h5-0-13" class="i">+    }
+</a><a href="#h5-0-14" id="h5-0-14" class="i">+
+</a><a href="#h5-0-15" id="h5-0-15" class="i">+    public get from(): number {
+</a><a href="#h5-0-16" id="h5-0-16" class="i">+        const [from, ] = this.state.range;
+</a><a href="#h5-0-17" id="h5-0-17" class="i">+        return from;
+</a><a href="#h5-0-18" id="h5-0-18" class="i">+    }
+</a><a href="#h5-0-19" id="h5-0-19" class="i">+
+</a><a href="#h5-0-20" id="h5-0-20" class="i">+    public get to(): number {
+</a><a href="#h5-0-21" id="h5-0-21" class="i">+        const [, to] = this.state.range;
+</a><a href="#h5-0-22" id="h5-0-22" class="i">+        return to;
+</a><a href="#h5-0-23" id="h5-0-23" class="i">+    }
+</a><a href="#h5-0-24" id="h5-0-24" class="i">+
+</a><a href="#h5-0-25" id="h5-0-25" class="i">+    public handleChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+</a><a href="#h5-0-26" id="h5-0-26" class="i">+        let from = this.from;
+</a><a href="#h5-0-27" id="h5-0-27" class="i">+        let to = this.to;
+</a><a href="#h5-0-28" id="h5-0-28" class="i">+        if (event.target.id === &#39;from&#39;) {
+</a><a href="#h5-0-29" id="h5-0-29" class="i">+            from = event.target.valueAsNumber;
+</a><a href="#h5-0-30" id="h5-0-30" class="i">+        } else if (event.target.id === &#39;to&#39;) {
+</a><a href="#h5-0-31" id="h5-0-31" class="i">+            to = event.target.valueAsNumber;
+</a><a href="#h5-0-32" id="h5-0-32" class="i">+        }
+</a><a href="#h5-0-33" id="h5-0-33" class="i">+        this.setState({ range: [from, to] })
+</a><a href="#h5-0-34" id="h5-0-34" class="i">+    }
+</a><a href="#h5-0-35" id="h5-0-35" class="i">+
+</a><a href="#h5-0-36" id="h5-0-36" class="i">+    public render() {
+</a><a href="#h5-0-37" id="h5-0-37" class="i">+        return (
+</a><a href="#h5-0-38" id="h5-0-38" class="i">+            &lt;div className=&quot;group&quot;&gt;
+</a><a href="#h5-0-39" id="h5-0-39" class="i">+                &lt;input type=&quot;number&quot; value={this.from} onChange={this.handleChange} id=&quot;from&quot; placeholder=&quot;from&quot; {...this.props.from} /&gt;
+</a><a href="#h5-0-40" id="h5-0-40" class="i">+                &lt;span className=&quot;gap&quot;&gt;&amp;divide;&lt;/span&gt;
+</a><a href="#h5-0-41" id="h5-0-41" class="i">+                &lt;input type=&quot;number&quot; value={this.to} onChange={this.handleChange} id=&quot;to&quot; placeholder=&quot;to&quot; {...this.props.to} /&gt;
+</a><a href="#h5-0-42" id="h5-0-42" class="i">+            &lt;/div&gt;
+</a><a href="#h5-0-43" id="h5-0-43" class="i">+        );
+</a><a href="#h5-0-44" id="h5-0-44" class="i">+    }
+</a><a href="#h5-0-45" id="h5-0-45" class="i">+}
+</a><b>diff --git a/<a id="h6" href="../file/src/components/ValueDeltaInput.tsx.html">src/components/ValueDeltaInput.tsx</a> b/<a href="../file/src/components/ValueDeltaInput.tsx.html">src/components/ValueDeltaInput.tsx</a></b>
+<a href="#h6-0" id="h6-0" class="h">@@ -0,0 +1,53 @@
+</a><a href="#h6-0-0" id="h6-0-0" class="i">+import React from &#39;react&#39;;
+</a><a href="#h6-0-1" id="h6-0-1" class="i">+import { IRangeProps, IRangeState } from &#39;../data/ranges&#39;;
+</a><a href="#h6-0-2" id="h6-0-2" class="i">+
+</a><a href="#h6-0-3" id="h6-0-3" class="i">+export interface IValueDeltaInputProps {
+</a><a href="#h6-0-4" id="h6-0-4" class="i">+    value: IRangeProps
+</a><a href="#h6-0-5" id="h6-0-5" class="i">+    delta: IRangeProps
+</a><a href="#h6-0-6" id="h6-0-6" class="i">+}
+</a><a href="#h6-0-7" id="h6-0-7" class="i">+
+</a><a href="#h6-0-8" id="h6-0-8" class="i">+export default class ValueDeltaInput extends React.Component&lt;IValueDeltaInputProps, IRangeState&gt; {
+</a><a href="#h6-0-9" id="h6-0-9" class="i">+
+</a><a href="#h6-0-10" id="h6-0-10" class="i">+    constructor(props: IValueDeltaInputProps) {
+</a><a href="#h6-0-11" id="h6-0-11" class="i">+        super(props);
+</a><a href="#h6-0-12" id="h6-0-12" class="i">+        this.state = { range: [this.props.value.min, this.props.value.min] };
+</a><a href="#h6-0-13" id="h6-0-13" class="i">+    }
+</a><a href="#h6-0-14" id="h6-0-14" class="i">+
+</a><a href="#h6-0-15" id="h6-0-15" class="i">+    public get value(): number {
+</a><a href="#h6-0-16" id="h6-0-16" class="i">+        const { range: [from, to] } = this.state;
+</a><a href="#h6-0-17" id="h6-0-17" class="i">+        const value = (from + to) / 2;
+</a><a href="#h6-0-18" id="h6-0-18" class="i">+        return value;
+</a><a href="#h6-0-19" id="h6-0-19" class="i">+    }
+</a><a href="#h6-0-20" id="h6-0-20" class="i">+
+</a><a href="#h6-0-21" id="h6-0-21" class="i">+    public get delta(): number {
+</a><a href="#h6-0-22" id="h6-0-22" class="i">+        const { range: [from, to] } = this.state;
+</a><a href="#h6-0-23" id="h6-0-23" class="i">+        const delta = (to - from) / 2;
+</a><a href="#h6-0-24" id="h6-0-24" class="i">+        return delta;
+</a><a href="#h6-0-25" id="h6-0-25" class="i">+    }
+</a><a href="#h6-0-26" id="h6-0-26" class="i">+
+</a><a href="#h6-0-27" id="h6-0-27" class="i">+    public handleChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+</a><a href="#h6-0-28" id="h6-0-28" class="i">+        let value = this.value;
+</a><a href="#h6-0-29" id="h6-0-29" class="i">+        let delta = this.delta;
+</a><a href="#h6-0-30" id="h6-0-30" class="i">+        if (event.target.id === &#39;value&#39;) {
+</a><a href="#h6-0-31" id="h6-0-31" class="i">+            value = event.target.valueAsNumber;
+</a><a href="#h6-0-32" id="h6-0-32" class="i">+        } else if (event.target.id === &#39;delta&#39;) {
+</a><a href="#h6-0-33" id="h6-0-33" class="i">+            delta = event.target.valueAsNumber;
+</a><a href="#h6-0-34" id="h6-0-34" class="i">+        }
+</a><a href="#h6-0-35" id="h6-0-35" class="i">+        this.changeState(value, delta);
+</a><a href="#h6-0-36" id="h6-0-36" class="i">+    }
+</a><a href="#h6-0-37" id="h6-0-37" class="i">+
+</a><a href="#h6-0-38" id="h6-0-38" class="i">+    private changeState(value: number, delta: number) {
+</a><a href="#h6-0-39" id="h6-0-39" class="i">+        const range: [number, number] = [value - delta, value + delta];
+</a><a href="#h6-0-40" id="h6-0-40" class="i">+        this.setState({ range });
+</a><a href="#h6-0-41" id="h6-0-41" class="i">+    }
+</a><a href="#h6-0-42" id="h6-0-42" class="i">+
+</a><a href="#h6-0-43" id="h6-0-43" class="i">+    public render() {
+</a><a href="#h6-0-44" id="h6-0-44" class="i">+        return (
+</a><a href="#h6-0-45" id="h6-0-45" class="i">+            &lt;div className=&quot;group&quot;&gt;
+</a><a href="#h6-0-46" id="h6-0-46" class="i">+                &lt;input type=&quot;number&quot; value={this.value} onChange={this.handleChange} id=&quot;value&quot; placeholder=&quot;chaos&quot; {...this.props.value} /&gt;
+</a><a href="#h6-0-47" id="h6-0-47" class="i">+                &lt;span className=&quot;gap&quot;&gt;&amp;plusmn;&lt;/span&gt;
+</a><a href="#h6-0-48" id="h6-0-48" class="i">+                &lt;input type=&quot;number&quot; value={this.delta} onChange={this.handleChange} id=&quot;delta&quot; placeholder=&quot;delta&quot; {...this.props.delta} /&gt;
+</a><a href="#h6-0-49" id="h6-0-49" class="i">+            &lt;/div&gt;
+</a><a href="#h6-0-50" id="h6-0-50" class="i">+        );
+</a><a href="#h6-0-51" id="h6-0-51" class="i">+    }
+</a><a href="#h6-0-52" id="h6-0-52" class="i">+}
+</a><b>diff --git a/<a id="h7" href="../file/src/data/currencyData.ts.html">src/data/currencyData.ts</a> b/<a href="../file/src/data/currencyData.ts.html">src/data/currencyData.ts</a></b>
+<a href="#h7-0" id="h7-0" class="h">@@ -0,0 +1,19 @@
+</a><a href="#h7-0-0" id="h7-0-0" class="i">+const currencyData: [string, string, string][] = [
+</a><a href="#h7-0-1" id="h7-0-1" class="i">+    [&quot;alt&quot;, &quot;Orb of Alteration&quot;, &quot;CurrencyRerollMagic&quot;],
+</a><a href="#h7-0-2" id="h7-0-2" class="i">+    [&quot;fuse&quot;, &quot;Orb of Fusing&quot;, &quot;CurrencyRerollSocketLinks&quot;],
+</a><a href="#h7-0-3" id="h7-0-3" class="i">+    [&quot;alch&quot;, &quot;Orb of Alchemy&quot;, &quot;CurrencyUpgradeToRare&quot;],
+</a><a href="#h7-0-4" id="h7-0-4" class="i">+    [&quot;chaos&quot;, &quot;Chaos Orb&quot;, &quot;CurrencyRerollRare&quot;],
+</a><a href="#h7-0-5" id="h7-0-5" class="i">+    [&quot;gcp&quot;, &quot;Gemcutter&#39;s Prism&quot;, &quot;CurrencyGemQuality&quot;],
+</a><a href="#h7-0-6" id="h7-0-6" class="i">+    [&quot;exa&quot;, &quot;Exalted Orb&quot;, &quot;CurrencyAddModToRare&quot;],
+</a><a href="#h7-0-7" id="h7-0-7" class="i">+    [&quot;chrom&quot;, &quot;Chromatic Orb&quot;, &quot;CurrencyRerollSocketColours&quot;],
+</a><a href="#h7-0-8" id="h7-0-8" class="i">+    [&quot;jew&quot;, &quot;Jeweller&#39;s Orb&quot;, &quot;CurrencyRerollSocketNumbers&quot;],
+</a><a href="#h7-0-9" id="h7-0-9" class="i">+    [&quot;chance&quot;, &quot;Orb of Chance&quot;, &quot;CurrencyUpgradeRandomly&quot;],
+</a><a href="#h7-0-10" id="h7-0-10" class="i">+    [&quot;chisel&quot;, &quot;Cartographer&#39;s Chisel&quot;, &quot;CurrencyMapQuality&quot;],
+</a><a href="#h7-0-11" id="h7-0-11" class="i">+    [&quot;scour&quot;, &quot;Orb of Scouring&quot;, &quot;CurrencyConvertToNormal&quot;],
+</a><a href="#h7-0-12" id="h7-0-12" class="i">+    [&quot;blessed&quot;, &quot;Blessed Orb&quot;, &quot;CurrencyImplicitMod&quot;],
+</a><a href="#h7-0-13" id="h7-0-13" class="i">+    [&quot;regret&quot;, &quot;Orb of Regret&quot;, &quot;CurrencyPassiveSkillRefund&quot;],
+</a><a href="#h7-0-14" id="h7-0-14" class="i">+    [&quot;regal&quot;, &quot;Regal Orb&quot;, &quot;CurrencyUpgradeMagicToRare&quot;],
+</a><a href="#h7-0-15" id="h7-0-15" class="i">+    [&quot;divine&quot;, &quot;Divine Orb&quot;, &quot;CurrencyModValues&quot;]
+</a><a href="#h7-0-16" id="h7-0-16" class="i">+];
+</a><a href="#h7-0-17" id="h7-0-17" class="i">+
+</a><a href="#h7-0-18" id="h7-0-18" class="i">+export default currencyData;</a><a href="#h7-0-19" id="h7-0-19" class="i">+
+\ No newline at end of file
+</a><b>diff --git a/<a id="h8" href="../file/src/data/ranges.d.ts.html">src/data/ranges.d.ts</a> b/<a href="../file/src/data/ranges.d.ts.html">src/data/ranges.d.ts</a></b>
+<a href="#h8-0" id="h8-0" class="h">@@ -0,0 +1,9 @@
+</a><a href="#h8-0-0" id="h8-0-0" class="i">+export interface IRangeProps {
+</a><a href="#h8-0-1" id="h8-0-1" class="i">+    min: number
+</a><a href="#h8-0-2" id="h8-0-2" class="i">+    max: number
+</a><a href="#h8-0-3" id="h8-0-3" class="i">+    step: number
+</a><a href="#h8-0-4" id="h8-0-4" class="i">+}
+</a><a href="#h8-0-5" id="h8-0-5" class="i">+
+</a><a href="#h8-0-6" id="h8-0-6" class="i">+export interface IRangeState {
+</a><a href="#h8-0-7" id="h8-0-7" class="i">+    range: [number, number]
+</a><a href="#h8-0-8" id="h8-0-8" class="i">+}
+</a><b>diff --git a/<a id="h9" href="../file/src/data/rates.ts.html">src/data/rates.ts</a> b/<a href="../file/src/data/rates.ts.html">src/data/rates.ts</a></b>
+<a href="#h9-0" id="h9-0" class="h">@@ -0,0 +1,19 @@
+</a><a href="#h9-0-0" id="h9-0-0" class="i">+const rates: Map&lt;string, number&gt; = new Map([
+</a><a href="#h9-0-1" id="h9-0-1" class="i">+    [&#39;alt&#39;, 0.07],
+</a><a href="#h9-0-2" id="h9-0-2" class="i">+    [&#39;fuse&#39;, 0.45],
+</a><a href="#h9-0-3" id="h9-0-3" class="i">+    [&#39;alch&#39;, 0.20],
+</a><a href="#h9-0-4" id="h9-0-4" class="i">+    [&#39;chaos&#39;, 1.00],
+</a><a href="#h9-0-5" id="h9-0-5" class="i">+    [&#39;gcp&#39;, 0.58],
+</a><a href="#h9-0-6" id="h9-0-6" class="i">+    [&#39;exa&#39;, 40.00],
+</a><a href="#h9-0-7" id="h9-0-7" class="i">+    [&#39;chrom&#39;, 0.08],
+</a><a href="#h9-0-8" id="h9-0-8" class="i">+    [&#39;jew&#39;, 0.11],
+</a><a href="#h9-0-9" id="h9-0-9" class="i">+    [&#39;chance&#39;, 0.13],
+</a><a href="#h9-0-10" id="h9-0-10" class="i">+    [&#39;chisel&#39;, 0.31],
+</a><a href="#h9-0-11" id="h9-0-11" class="i">+    [&#39;scour&#39;, 0.50],
+</a><a href="#h9-0-12" id="h9-0-12" class="i">+    [&#39;blessed&#39;, 0.43],
+</a><a href="#h9-0-13" id="h9-0-13" class="i">+    [&#39;regret&#39;, 0.90],
+</a><a href="#h9-0-14" id="h9-0-14" class="i">+    [&#39;regal&#39;, 0.50],
+</a><a href="#h9-0-15" id="h9-0-15" class="i">+    [&#39;divine&#39;, 10.00],
+</a><a href="#h9-0-16" id="h9-0-16" class="i">+]);
+</a><a href="#h9-0-17" id="h9-0-17" class="i">+
+</a><a href="#h9-0-18" id="h9-0-18" class="i">+export default rates;</a><a href="#h9-0-19" id="h9-0-19" class="i">+
+\ No newline at end of file
+</a><b>diff --git a/<a id="h10" href="../file/src/models/Currency.tsx.html">src/models/Currency.tsx</a> b/<a href="../file/src/models/Currency.tsx.html">src/models/Currency.tsx</a></b>
+<a href="#h10-0" id="h10-0" class="h">@@ -0,0 +1,34 @@
+</a><a href="#h10-0-0" id="h10-0-0" class="i">+import React from &#39;react&#39;;
+</a><a href="#h10-0-1" id="h10-0-1" class="i">+import currenciesArgs from &#39;../data/currencyData&#39;;
+</a><a href="#h10-0-2" id="h10-0-2" class="i">+
+</a><a href="#h10-0-3" id="h10-0-3" class="i">+export class Currency {
+</a><a href="#h10-0-4" id="h10-0-4" class="i">+    alias: string;
+</a><a href="#h10-0-5" id="h10-0-5" class="i">+    name: string;
+</a><a href="#h10-0-6" id="h10-0-6" class="i">+    image: string;
+</a><a href="#h10-0-7" id="h10-0-7" class="i">+
+</a><a href="#h10-0-8" id="h10-0-8" class="i">+    constructor(alias: string, name: string, image: string) {
+</a><a href="#h10-0-9" id="h10-0-9" class="i">+        this.alias = alias;
+</a><a href="#h10-0-10" id="h10-0-10" class="i">+        this.name = name;
+</a><a href="#h10-0-11" id="h10-0-11" class="i">+        this.image = image;
+</a><a href="#h10-0-12" id="h10-0-12" class="i">+    }
+</a><a href="#h10-0-13" id="h10-0-13" class="i">+
+</a><a href="#h10-0-14" id="h10-0-14" class="i">+    get imageUrl(): string {
+</a><a href="#h10-0-15" id="h10-0-15" class="i">+        return `https://web.poecdn.com/image/Art/2DItems/Currency/${this.image}.png?scale=1&amp;w=1&amp;h=1`;
+</a><a href="#h10-0-16" id="h10-0-16" class="i">+    }
+</a><a href="#h10-0-17" id="h10-0-17" class="i">+
+</a><a href="#h10-0-18" id="h10-0-18" class="i">+    get optionStyle(): object {
+</a><a href="#h10-0-19" id="h10-0-19" class="i">+        return {
+</a><a href="#h10-0-20" id="h10-0-20" class="i">+            backgroundImage: `url(&#39;${this.imageUrl}&#39;)`,
+</a><a href="#h10-0-21" id="h10-0-21" class="i">+        }
+</a><a href="#h10-0-22" id="h10-0-22" class="i">+    }
+</a><a href="#h10-0-23" id="h10-0-23" class="i">+
+</a><a href="#h10-0-24" id="h10-0-24" class="i">+    toOption(): JSX.Element {
+</a><a href="#h10-0-25" id="h10-0-25" class="i">+        return &lt;option key={this.alias} value={this.alias} style={this.optionStyle}&gt;{this.name}&lt;/option&gt;;
+</a><a href="#h10-0-26" id="h10-0-26" class="i">+    }
+</a><a href="#h10-0-27" id="h10-0-27" class="i">+
+</a><a href="#h10-0-28" id="h10-0-28" class="i">+    toImg(): JSX.Element {
+</a><a href="#h10-0-29" id="h10-0-29" class="i">+        return &lt;img src={this.imageUrl} alt={this.alias}/&gt;;
+</a><a href="#h10-0-30" id="h10-0-30" class="i">+    }
+</a><a href="#h10-0-31" id="h10-0-31" class="i">+}
+</a><a href="#h10-0-32" id="h10-0-32" class="i">+
+</a><a href="#h10-0-33" id="h10-0-33" class="i">+export const currencies: Map&lt;string, Currency&gt; = new Map(currenciesArgs.map(args =&gt; new Currency(...args)).map(c =&gt; [c.alias, c]));
+</a><b>diff --git a/<a id="h11" href="../file/src/models/CurrencyAmount.tsx.html">src/models/CurrencyAmount.tsx</a> b/<a href="../file/src/models/CurrencyAmount.tsx.html">src/models/CurrencyAmount.tsx</a></b>
+<a href="#h11-0" id="h11-0" class="h">@@ -0,0 +1,37 @@
+</a><a href="#h11-0-0" id="h11-0-0" class="i">+import { Currency, currencies } from &quot;./Currency&quot;;
+</a><a href="#h11-0-1" id="h11-0-1" class="i">+
+</a><a href="#h11-0-2" id="h11-0-2" class="i">+export class CurrencyAmount {
+</a><a href="#h11-0-3" id="h11-0-3" class="i">+    static base: Currency = currencies.get(&#39;chaos&#39;) as Currency;
+</a><a href="#h11-0-4" id="h11-0-4" class="i">+
+</a><a href="#h11-0-5" id="h11-0-5" class="i">+    currency: Currency;
+</a><a href="#h11-0-6" id="h11-0-6" class="i">+    amount: number;
+</a><a href="#h11-0-7" id="h11-0-7" class="i">+    rate: number;
+</a><a href="#h11-0-8" id="h11-0-8" class="i">+
+</a><a href="#h11-0-9" id="h11-0-9" class="i">+    constructor(currency: Currency, rate: number) {
+</a><a href="#h11-0-10" id="h11-0-10" class="i">+        this.currency = currency;
+</a><a href="#h11-0-11" id="h11-0-11" class="i">+        this.amount = 1;
+</a><a href="#h11-0-12" id="h11-0-12" class="i">+        this.rate = rate;
+</a><a href="#h11-0-13" id="h11-0-13" class="i">+    }
+</a><a href="#h11-0-14" id="h11-0-14" class="i">+
+</a><a href="#h11-0-15" id="h11-0-15" class="i">+    get chaos(): number {
+</a><a href="#h11-0-16" id="h11-0-16" class="i">+        return this.amount * this.rate;
+</a><a href="#h11-0-17" id="h11-0-17" class="i">+    }
+</a><a href="#h11-0-18" id="h11-0-18" class="i">+
+</a><a href="#h11-0-19" id="h11-0-19" class="i">+    set chaos(value: number) {
+</a><a href="#h11-0-20" id="h11-0-20" class="i">+        this.amount = Math.ceil(value / this.rate);
+</a><a href="#h11-0-21" id="h11-0-21" class="i">+    }
+</a><a href="#h11-0-22" id="h11-0-22" class="i">+
+</a><a href="#h11-0-23" id="h11-0-23" class="i">+    next() {
+</a><a href="#h11-0-24" id="h11-0-24" class="i">+        this.amount += 1;
+</a><a href="#h11-0-25" id="h11-0-25" class="i">+    }
+</a><a href="#h11-0-26" id="h11-0-26" class="i">+
+</a><a href="#h11-0-27" id="h11-0-27" class="i">+    toCell(value: string | number, currency: Currency): JSX.Element {
+</a><a href="#h11-0-28" id="h11-0-28" class="i">+        return &lt;td&gt;{value} {currency.toImg()} {currency.name}&lt;/td&gt;;
+</a><a href="#h11-0-29" id="h11-0-29" class="i">+    }
+</a><a href="#h11-0-30" id="h11-0-30" class="i">+
+</a><a href="#h11-0-31" id="h11-0-31" class="i">+    toRow(): JSX.Element {
+</a><a href="#h11-0-32" id="h11-0-32" class="i">+        const chaos = this.toCell(this.chaos.toFixed(2), CurrencyAmount.base);
+</a><a href="#h11-0-33" id="h11-0-33" class="i">+        const currency = this.toCell(this.amount, this.currency);
+</a><a href="#h11-0-34" id="h11-0-34" class="i">+        return &lt;tr key={this.currency.alias}&gt;{chaos}{currency}&lt;/tr&gt;;
+</a><a href="#h11-0-35" id="h11-0-35" class="i">+    }
+</a><a href="#h11-0-36" id="h11-0-36" class="i">+}
+</a></pre>
+</div>
+</body>
+</html>

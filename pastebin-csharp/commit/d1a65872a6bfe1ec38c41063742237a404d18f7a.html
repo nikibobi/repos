@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>First commit - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/d1a65872a6bfe1ec38c41063742237a404d18f7a.html">d1a65872a6bfe1ec38c41063742237a404d18f7a</a>
+<b>Author:</b> nikibobi &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Sun, 24 Mar 2013 13:51:19 +0200
+
+First commit
+
+<b>Diffstat:</b>
+<table><tr><td class="A">A</td><td><a href="#h0">.gitattributes</a></td><td> | </td><td class="num">22</td><td><span class="i">++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h1">.gitignore</a></td><td> | </td><td class="num">163</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h2">Example/Example.csproj</a></td><td> | </td><td class="num">64</td><td><span class="i">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h3">Example/Program.cs</a></td><td> | </td><td class="num">16</td><td><span class="i">++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h4">Example/Properties/AssemblyInfo.cs</a></td><td> | </td><td class="num">36</td><td><span class="i">++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h5">PastebinAPI.sln</a></td><td> | </td><td class="num">42</td><td><span class="i">++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h6">PastebinAPI/Pastebin.cs</a></td><td> | </td><td class="num">286</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h7">PastebinAPI/PastebinAPI.csproj</a></td><td> | </td><td class="num">55</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h8">PastebinAPI/Properties/AssemblyInfo.cs</a></td><td> | </td><td class="num">36</td><td><span class="i">++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h9">README.md</a></td><td> | </td><td class="num">5</td><td><span class="i">+++++</span><span class="d"></span></td></tr>
+</table></pre><pre>10 files changed, 725 insertions(+), 0 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/.gitattributes.html">.gitattributes</a> b/<a href="../file/.gitattributes.html">.gitattributes</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -0,0 +1,22 @@
+</a><a href="#h0-0-0" id="h0-0-0" class="i">+# Auto detect text files and perform LF normalization
+</a><a href="#h0-0-1" id="h0-0-1" class="i">+* text=auto
+</a><a href="#h0-0-2" id="h0-0-2" class="i">+
+</a><a href="#h0-0-3" id="h0-0-3" class="i">+# Custom for Visual Studio
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+*.cs     diff=csharp
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+*.sln    merge=union
+</a><a href="#h0-0-6" id="h0-0-6" class="i">+*.csproj merge=union
+</a><a href="#h0-0-7" id="h0-0-7" class="i">+*.vbproj merge=union
+</a><a href="#h0-0-8" id="h0-0-8" class="i">+*.fsproj merge=union
+</a><a href="#h0-0-9" id="h0-0-9" class="i">+*.dbproj merge=union
+</a><a href="#h0-0-10" id="h0-0-10" class="i">+
+</a><a href="#h0-0-11" id="h0-0-11" class="i">+# Standard to msysgit
+</a><a href="#h0-0-12" id="h0-0-12" class="i">+*.doc	 diff=astextplain
+</a><a href="#h0-0-13" id="h0-0-13" class="i">+*.DOC	 diff=astextplain
+</a><a href="#h0-0-14" id="h0-0-14" class="i">+*.docx diff=astextplain
+</a><a href="#h0-0-15" id="h0-0-15" class="i">+*.DOCX diff=astextplain
+</a><a href="#h0-0-16" id="h0-0-16" class="i">+*.dot  diff=astextplain
+</a><a href="#h0-0-17" id="h0-0-17" class="i">+*.DOT  diff=astextplain
+</a><a href="#h0-0-18" id="h0-0-18" class="i">+*.pdf  diff=astextplain
+</a><a href="#h0-0-19" id="h0-0-19" class="i">+*.PDF	 diff=astextplain
+</a><a href="#h0-0-20" id="h0-0-20" class="i">+*.rtf	 diff=astextplain
+</a><a href="#h0-0-21" id="h0-0-21" class="i">+*.RTF	 diff=astextplain
+</a><b>diff --git a/<a id="h1" href="../file/.gitignore.html">.gitignore</a> b/<a href="../file/.gitignore.html">.gitignore</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -0,0 +1,163 @@
+</a><a href="#h1-0-0" id="h1-0-0" class="i">+#################
+</a><a href="#h1-0-1" id="h1-0-1" class="i">+## Eclipse
+</a><a href="#h1-0-2" id="h1-0-2" class="i">+#################
+</a><a href="#h1-0-3" id="h1-0-3" class="i">+
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+*.pydevproject
+</a><a href="#h1-0-5" id="h1-0-5" class="i">+.project
+</a><a href="#h1-0-6" id="h1-0-6" class="i">+.metadata
+</a><a href="#h1-0-7" id="h1-0-7" class="i">+bin/
+</a><a href="#h1-0-8" id="h1-0-8" class="i">+tmp/
+</a><a href="#h1-0-9" id="h1-0-9" class="i">+*.tmp
+</a><a href="#h1-0-10" id="h1-0-10" class="i">+*.bak
+</a><a href="#h1-0-11" id="h1-0-11" class="i">+*.swp
+</a><a href="#h1-0-12" id="h1-0-12" class="i">+*~.nib
+</a><a href="#h1-0-13" id="h1-0-13" class="i">+local.properties
+</a><a href="#h1-0-14" id="h1-0-14" class="i">+.classpath
+</a><a href="#h1-0-15" id="h1-0-15" class="i">+.settings/
+</a><a href="#h1-0-16" id="h1-0-16" class="i">+.loadpath
+</a><a href="#h1-0-17" id="h1-0-17" class="i">+
+</a><a href="#h1-0-18" id="h1-0-18" class="i">+# External tool builders
+</a><a href="#h1-0-19" id="h1-0-19" class="i">+.externalToolBuilders/
+</a><a href="#h1-0-20" id="h1-0-20" class="i">+
+</a><a href="#h1-0-21" id="h1-0-21" class="i">+# Locally stored &quot;Eclipse launch configurations&quot;
+</a><a href="#h1-0-22" id="h1-0-22" class="i">+*.launch
+</a><a href="#h1-0-23" id="h1-0-23" class="i">+
+</a><a href="#h1-0-24" id="h1-0-24" class="i">+# CDT-specific
+</a><a href="#h1-0-25" id="h1-0-25" class="i">+.cproject
+</a><a href="#h1-0-26" id="h1-0-26" class="i">+
+</a><a href="#h1-0-27" id="h1-0-27" class="i">+# PDT-specific
+</a><a href="#h1-0-28" id="h1-0-28" class="i">+.buildpath
+</a><a href="#h1-0-29" id="h1-0-29" class="i">+
+</a><a href="#h1-0-30" id="h1-0-30" class="i">+
+</a><a href="#h1-0-31" id="h1-0-31" class="i">+#################
+</a><a href="#h1-0-32" id="h1-0-32" class="i">+## Visual Studio
+</a><a href="#h1-0-33" id="h1-0-33" class="i">+#################
+</a><a href="#h1-0-34" id="h1-0-34" class="i">+
+</a><a href="#h1-0-35" id="h1-0-35" class="i">+## Ignore Visual Studio temporary files, build results, and
+</a><a href="#h1-0-36" id="h1-0-36" class="i">+## files generated by popular Visual Studio add-ons.
+</a><a href="#h1-0-37" id="h1-0-37" class="i">+
+</a><a href="#h1-0-38" id="h1-0-38" class="i">+# User-specific files
+</a><a href="#h1-0-39" id="h1-0-39" class="i">+*.suo
+</a><a href="#h1-0-40" id="h1-0-40" class="i">+*.user
+</a><a href="#h1-0-41" id="h1-0-41" class="i">+*.sln.docstates
+</a><a href="#h1-0-42" id="h1-0-42" class="i">+
+</a><a href="#h1-0-43" id="h1-0-43" class="i">+# Build results
+</a><a href="#h1-0-44" id="h1-0-44" class="i">+[Dd]ebug/
+</a><a href="#h1-0-45" id="h1-0-45" class="i">+[Rr]elease/
+</a><a href="#h1-0-46" id="h1-0-46" class="i">+*_i.c
+</a><a href="#h1-0-47" id="h1-0-47" class="i">+*_p.c
+</a><a href="#h1-0-48" id="h1-0-48" class="i">+*.ilk
+</a><a href="#h1-0-49" id="h1-0-49" class="i">+*.meta
+</a><a href="#h1-0-50" id="h1-0-50" class="i">+*.obj
+</a><a href="#h1-0-51" id="h1-0-51" class="i">+*.pch
+</a><a href="#h1-0-52" id="h1-0-52" class="i">+*.pdb
+</a><a href="#h1-0-53" id="h1-0-53" class="i">+*.pgc
+</a><a href="#h1-0-54" id="h1-0-54" class="i">+*.pgd
+</a><a href="#h1-0-55" id="h1-0-55" class="i">+*.rsp
+</a><a href="#h1-0-56" id="h1-0-56" class="i">+*.sbr
+</a><a href="#h1-0-57" id="h1-0-57" class="i">+*.tlb
+</a><a href="#h1-0-58" id="h1-0-58" class="i">+*.tli
+</a><a href="#h1-0-59" id="h1-0-59" class="i">+*.tlh
+</a><a href="#h1-0-60" id="h1-0-60" class="i">+*.tmp
+</a><a href="#h1-0-61" id="h1-0-61" class="i">+*.vspscc
+</a><a href="#h1-0-62" id="h1-0-62" class="i">+.builds
+</a><a href="#h1-0-63" id="h1-0-63" class="i">+*.dotCover
+</a><a href="#h1-0-64" id="h1-0-64" class="i">+
+</a><a href="#h1-0-65" id="h1-0-65" class="i">+## TODO: If you have NuGet Package Restore enabled, uncomment this
+</a><a href="#h1-0-66" id="h1-0-66" class="i">+#packages/
+</a><a href="#h1-0-67" id="h1-0-67" class="i">+
+</a><a href="#h1-0-68" id="h1-0-68" class="i">+# Visual C++ cache files
+</a><a href="#h1-0-69" id="h1-0-69" class="i">+ipch/
+</a><a href="#h1-0-70" id="h1-0-70" class="i">+*.aps
+</a><a href="#h1-0-71" id="h1-0-71" class="i">+*.ncb
+</a><a href="#h1-0-72" id="h1-0-72" class="i">+*.opensdf
+</a><a href="#h1-0-73" id="h1-0-73" class="i">+*.sdf
+</a><a href="#h1-0-74" id="h1-0-74" class="i">+
+</a><a href="#h1-0-75" id="h1-0-75" class="i">+# Visual Studio profiler
+</a><a href="#h1-0-76" id="h1-0-76" class="i">+*.psess
+</a><a href="#h1-0-77" id="h1-0-77" class="i">+*.vsp
+</a><a href="#h1-0-78" id="h1-0-78" class="i">+
+</a><a href="#h1-0-79" id="h1-0-79" class="i">+# ReSharper is a .NET coding add-in
+</a><a href="#h1-0-80" id="h1-0-80" class="i">+_ReSharper*
+</a><a href="#h1-0-81" id="h1-0-81" class="i">+
+</a><a href="#h1-0-82" id="h1-0-82" class="i">+# Installshield output folder
+</a><a href="#h1-0-83" id="h1-0-83" class="i">+[Ee]xpress
+</a><a href="#h1-0-84" id="h1-0-84" class="i">+
+</a><a href="#h1-0-85" id="h1-0-85" class="i">+# DocProject is a documentation generator add-in
+</a><a href="#h1-0-86" id="h1-0-86" class="i">+DocProject/buildhelp/
+</a><a href="#h1-0-87" id="h1-0-87" class="i">+DocProject/Help/*.HxT
+</a><a href="#h1-0-88" id="h1-0-88" class="i">+DocProject/Help/*.HxC
+</a><a href="#h1-0-89" id="h1-0-89" class="i">+DocProject/Help/*.hhc
+</a><a href="#h1-0-90" id="h1-0-90" class="i">+DocProject/Help/*.hhk
+</a><a href="#h1-0-91" id="h1-0-91" class="i">+DocProject/Help/*.hhp
+</a><a href="#h1-0-92" id="h1-0-92" class="i">+DocProject/Help/Html2
+</a><a href="#h1-0-93" id="h1-0-93" class="i">+DocProject/Help/html
+</a><a href="#h1-0-94" id="h1-0-94" class="i">+
+</a><a href="#h1-0-95" id="h1-0-95" class="i">+# Click-Once directory
+</a><a href="#h1-0-96" id="h1-0-96" class="i">+publish
+</a><a href="#h1-0-97" id="h1-0-97" class="i">+
+</a><a href="#h1-0-98" id="h1-0-98" class="i">+# Others
+</a><a href="#h1-0-99" id="h1-0-99" class="i">+[Bb]in
+</a><a href="#h1-0-100" id="h1-0-100" class="i">+[Oo]bj
+</a><a href="#h1-0-101" id="h1-0-101" class="i">+sql
+</a><a href="#h1-0-102" id="h1-0-102" class="i">+TestResults
+</a><a href="#h1-0-103" id="h1-0-103" class="i">+*.Cache
+</a><a href="#h1-0-104" id="h1-0-104" class="i">+ClientBin
+</a><a href="#h1-0-105" id="h1-0-105" class="i">+stylecop.*
+</a><a href="#h1-0-106" id="h1-0-106" class="i">+~$*
+</a><a href="#h1-0-107" id="h1-0-107" class="i">+*.dbmdl
+</a><a href="#h1-0-108" id="h1-0-108" class="i">+Generated_Code #added for RIA/Silverlight projects
+</a><a href="#h1-0-109" id="h1-0-109" class="i">+
+</a><a href="#h1-0-110" id="h1-0-110" class="i">+# Backup &amp; report files from converting an old project file to a newer
+</a><a href="#h1-0-111" id="h1-0-111" class="i">+# Visual Studio version. Backup files are not needed, because we have git ;-)
+</a><a href="#h1-0-112" id="h1-0-112" class="i">+_UpgradeReport_Files/
+</a><a href="#h1-0-113" id="h1-0-113" class="i">+Backup*/
+</a><a href="#h1-0-114" id="h1-0-114" class="i">+UpgradeLog*.XML
+</a><a href="#h1-0-115" id="h1-0-115" class="i">+
+</a><a href="#h1-0-116" id="h1-0-116" class="i">+
+</a><a href="#h1-0-117" id="h1-0-117" class="i">+
+</a><a href="#h1-0-118" id="h1-0-118" class="i">+############
+</a><a href="#h1-0-119" id="h1-0-119" class="i">+## Windows
+</a><a href="#h1-0-120" id="h1-0-120" class="i">+############
+</a><a href="#h1-0-121" id="h1-0-121" class="i">+
+</a><a href="#h1-0-122" id="h1-0-122" class="i">+# Windows image file caches
+</a><a href="#h1-0-123" id="h1-0-123" class="i">+Thumbs.db
+</a><a href="#h1-0-124" id="h1-0-124" class="i">+
+</a><a href="#h1-0-125" id="h1-0-125" class="i">+# Folder config file
+</a><a href="#h1-0-126" id="h1-0-126" class="i">+Desktop.ini
+</a><a href="#h1-0-127" id="h1-0-127" class="i">+
+</a><a href="#h1-0-128" id="h1-0-128" class="i">+
+</a><a href="#h1-0-129" id="h1-0-129" class="i">+#############
+</a><a href="#h1-0-130" id="h1-0-130" class="i">+## Python
+</a><a href="#h1-0-131" id="h1-0-131" class="i">+#############
+</a><a href="#h1-0-132" id="h1-0-132" class="i">+
+</a><a href="#h1-0-133" id="h1-0-133" class="i">+*.py[co]
+</a><a href="#h1-0-134" id="h1-0-134" class="i">+
+</a><a href="#h1-0-135" id="h1-0-135" class="i">+# Packages
+</a><a href="#h1-0-136" id="h1-0-136" class="i">+*.egg
+</a><a href="#h1-0-137" id="h1-0-137" class="i">+*.egg-info
+</a><a href="#h1-0-138" id="h1-0-138" class="i">+dist
+</a><a href="#h1-0-139" id="h1-0-139" class="i">+build
+</a><a href="#h1-0-140" id="h1-0-140" class="i">+eggs
+</a><a href="#h1-0-141" id="h1-0-141" class="i">+parts
+</a><a href="#h1-0-142" id="h1-0-142" class="i">+bin
+</a><a href="#h1-0-143" id="h1-0-143" class="i">+var
+</a><a href="#h1-0-144" id="h1-0-144" class="i">+sdist
+</a><a href="#h1-0-145" id="h1-0-145" class="i">+develop-eggs
+</a><a href="#h1-0-146" id="h1-0-146" class="i">+.installed.cfg
+</a><a href="#h1-0-147" id="h1-0-147" class="i">+
+</a><a href="#h1-0-148" id="h1-0-148" class="i">+# Installer logs
+</a><a href="#h1-0-149" id="h1-0-149" class="i">+pip-log.txt
+</a><a href="#h1-0-150" id="h1-0-150" class="i">+
+</a><a href="#h1-0-151" id="h1-0-151" class="i">+# Unit test / coverage reports
+</a><a href="#h1-0-152" id="h1-0-152" class="i">+.coverage
+</a><a href="#h1-0-153" id="h1-0-153" class="i">+.tox
+</a><a href="#h1-0-154" id="h1-0-154" class="i">+
+</a><a href="#h1-0-155" id="h1-0-155" class="i">+#Translations
+</a><a href="#h1-0-156" id="h1-0-156" class="i">+*.mo
+</a><a href="#h1-0-157" id="h1-0-157" class="i">+
+</a><a href="#h1-0-158" id="h1-0-158" class="i">+#Mr Developer
+</a><a href="#h1-0-159" id="h1-0-159" class="i">+.mr.developer.cfg
+</a><a href="#h1-0-160" id="h1-0-160" class="i">+
+</a><a href="#h1-0-161" id="h1-0-161" class="i">+# Mac crap
+</a><a href="#h1-0-162" id="h1-0-162" class="i">+.DS_Store
+</a><b>diff --git a/<a id="h2" href="../file/Example/Example.csproj.html">Example/Example.csproj</a> b/<a href="../file/Example/Example.csproj.html">Example/Example.csproj</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -0,0 +1,63 @@
+</a><a href="#h2-0-0" id="h2-0-0" class="i">+﻿&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+</a><a href="#h2-0-1" id="h2-0-1" class="i">+&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+</a><a href="#h2-0-2" id="h2-0-2" class="i">+  &lt;PropertyGroup&gt;
+</a><a href="#h2-0-3" id="h2-0-3" class="i">+    &lt;Configuration Condition=&quot; &#39;$(Configuration)&#39; == &#39;&#39; &quot;&gt;Debug&lt;/Configuration&gt;
+</a><a href="#h2-0-4" id="h2-0-4" class="i">+    &lt;Platform Condition=&quot; &#39;$(Platform)&#39; == &#39;&#39; &quot;&gt;x86&lt;/Platform&gt;
+</a><a href="#h2-0-5" id="h2-0-5" class="i">+    &lt;ProductVersion&gt;8.0.30703&lt;/ProductVersion&gt;
+</a><a href="#h2-0-6" id="h2-0-6" class="i">+    &lt;SchemaVersion&gt;2.0&lt;/SchemaVersion&gt;
+</a><a href="#h2-0-7" id="h2-0-7" class="i">+    &lt;ProjectGuid&gt;{101F0348-D6D6-40B6-B85F-368FEEB46E38}&lt;/ProjectGuid&gt;
+</a><a href="#h2-0-8" id="h2-0-8" class="i">+    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+</a><a href="#h2-0-9" id="h2-0-9" class="i">+    &lt;AppDesignerFolder&gt;Properties&lt;/AppDesignerFolder&gt;
+</a><a href="#h2-0-10" id="h2-0-10" class="i">+    &lt;RootNamespace&gt;Example&lt;/RootNamespace&gt;
+</a><a href="#h2-0-11" id="h2-0-11" class="i">+    &lt;AssemblyName&gt;Example&lt;/AssemblyName&gt;
+</a><a href="#h2-0-12" id="h2-0-12" class="i">+    &lt;TargetFrameworkVersion&gt;v4.0&lt;/TargetFrameworkVersion&gt;
+</a><a href="#h2-0-13" id="h2-0-13" class="i">+    &lt;TargetFrameworkProfile&gt;Client&lt;/TargetFrameworkProfile&gt;
+</a><a href="#h2-0-14" id="h2-0-14" class="i">+    &lt;FileAlignment&gt;512&lt;/FileAlignment&gt;
+</a><a href="#h2-0-15" id="h2-0-15" class="i">+  &lt;/PropertyGroup&gt;
+</a><a href="#h2-0-16" id="h2-0-16" class="i">+  &lt;PropertyGroup Condition=&quot; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|x86&#39; &quot;&gt;
+</a><a href="#h2-0-17" id="h2-0-17" class="i">+    &lt;PlatformTarget&gt;x86&lt;/PlatformTarget&gt;
+</a><a href="#h2-0-18" id="h2-0-18" class="i">+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+</a><a href="#h2-0-19" id="h2-0-19" class="i">+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+</a><a href="#h2-0-20" id="h2-0-20" class="i">+    &lt;Optimize&gt;false&lt;/Optimize&gt;
+</a><a href="#h2-0-21" id="h2-0-21" class="i">+    &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
+</a><a href="#h2-0-22" id="h2-0-22" class="i">+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+</a><a href="#h2-0-23" id="h2-0-23" class="i">+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+</a><a href="#h2-0-24" id="h2-0-24" class="i">+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+</a><a href="#h2-0-25" id="h2-0-25" class="i">+  &lt;/PropertyGroup&gt;
+</a><a href="#h2-0-26" id="h2-0-26" class="i">+  &lt;PropertyGroup Condition=&quot; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|x86&#39; &quot;&gt;
+</a><a href="#h2-0-27" id="h2-0-27" class="i">+    &lt;PlatformTarget&gt;x86&lt;/PlatformTarget&gt;
+</a><a href="#h2-0-28" id="h2-0-28" class="i">+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+</a><a href="#h2-0-29" id="h2-0-29" class="i">+    &lt;Optimize&gt;true&lt;/Optimize&gt;
+</a><a href="#h2-0-30" id="h2-0-30" class="i">+    &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
+</a><a href="#h2-0-31" id="h2-0-31" class="i">+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+</a><a href="#h2-0-32" id="h2-0-32" class="i">+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+</a><a href="#h2-0-33" id="h2-0-33" class="i">+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+</a><a href="#h2-0-34" id="h2-0-34" class="i">+  &lt;/PropertyGroup&gt;
+</a><a href="#h2-0-35" id="h2-0-35" class="i">+  &lt;ItemGroup&gt;
+</a><a href="#h2-0-36" id="h2-0-36" class="i">+    &lt;Reference Include=&quot;System&quot; /&gt;
+</a><a href="#h2-0-37" id="h2-0-37" class="i">+    &lt;Reference Include=&quot;System.Core&quot; /&gt;
+</a><a href="#h2-0-38" id="h2-0-38" class="i">+    &lt;Reference Include=&quot;System.Xml.Linq&quot; /&gt;
+</a><a href="#h2-0-39" id="h2-0-39" class="i">+    &lt;Reference Include=&quot;System.Data.DataSetExtensions&quot; /&gt;
+</a><a href="#h2-0-40" id="h2-0-40" class="i">+    &lt;Reference Include=&quot;Microsoft.CSharp&quot; /&gt;
+</a><a href="#h2-0-41" id="h2-0-41" class="i">+    &lt;Reference Include=&quot;System.Data&quot; /&gt;
+</a><a href="#h2-0-42" id="h2-0-42" class="i">+    &lt;Reference Include=&quot;System.Xml&quot; /&gt;
+</a><a href="#h2-0-43" id="h2-0-43" class="i">+  &lt;/ItemGroup&gt;
+</a><a href="#h2-0-44" id="h2-0-44" class="i">+  &lt;ItemGroup&gt;
+</a><a href="#h2-0-45" id="h2-0-45" class="i">+    &lt;Compile Include=&quot;Program.cs&quot; /&gt;
+</a><a href="#h2-0-46" id="h2-0-46" class="i">+    &lt;Compile Include=&quot;Properties\AssemblyInfo.cs&quot; /&gt;
+</a><a href="#h2-0-47" id="h2-0-47" class="i">+  &lt;/ItemGroup&gt;
+</a><a href="#h2-0-48" id="h2-0-48" class="i">+  &lt;ItemGroup&gt;
+</a><a href="#h2-0-49" id="h2-0-49" class="i">+    &lt;ProjectReference Include=&quot;..\PastebinAPI\PastebinAPI.csproj&quot;&gt;
+</a><a href="#h2-0-50" id="h2-0-50" class="i">+      &lt;Project&gt;{258E90D4-CAAD-4102-939D-56E7372A2E60}&lt;/Project&gt;
+</a><a href="#h2-0-51" id="h2-0-51" class="i">+      &lt;Name&gt;PastebinAPI&lt;/Name&gt;
+</a><a href="#h2-0-52" id="h2-0-52" class="i">+    &lt;/ProjectReference&gt;
+</a><a href="#h2-0-53" id="h2-0-53" class="i">+  &lt;/ItemGroup&gt;
+</a><a href="#h2-0-54" id="h2-0-54" class="i">+  &lt;Import Project=&quot;$(MSBuildToolsPath)\Microsoft.CSharp.targets&quot; /&gt;
+</a><a href="#h2-0-55" id="h2-0-55" class="i">+  &lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+</a><a href="#h2-0-56" id="h2-0-56" class="i">+       Other similar extension points exist, see Microsoft.Common.targets.
+</a><a href="#h2-0-57" id="h2-0-57" class="i">+  &lt;Target Name=&quot;BeforeBuild&quot;&gt;
+</a><a href="#h2-0-58" id="h2-0-58" class="i">+  &lt;/Target&gt;
+</a><a href="#h2-0-59" id="h2-0-59" class="i">+  &lt;Target Name=&quot;AfterBuild&quot;&gt;
+</a><a href="#h2-0-60" id="h2-0-60" class="i">+  &lt;/Target&gt;
+</a><a href="#h2-0-61" id="h2-0-61" class="i">+  --&gt;
+</a><a href="#h2-0-62" id="h2-0-62" class="i">+&lt;/Project&gt;</a><a href="#h2-0-63" id="h2-0-63" class="i">+
+\ No newline at end of file
+</a><b>diff --git a/<a id="h3" href="../file/Example/Program.cs.html">Example/Program.cs</a> b/<a href="../file/Example/Program.cs.html">Example/Program.cs</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -0,0 +1,16 @@
+</a><a href="#h3-0-0" id="h3-0-0" class="i">+﻿using System;
+</a><a href="#h3-0-1" id="h3-0-1" class="i">+using System.Collections.Generic;
+</a><a href="#h3-0-2" id="h3-0-2" class="i">+using System.Linq;
+</a><a href="#h3-0-3" id="h3-0-3" class="i">+using System.Text;
+</a><a href="#h3-0-4" id="h3-0-4" class="i">+using PastebinAPI;
+</a><a href="#h3-0-5" id="h3-0-5" class="i">+
+</a><a href="#h3-0-6" id="h3-0-6" class="i">+namespace Example
+</a><a href="#h3-0-7" id="h3-0-7" class="i">+{
+</a><a href="#h3-0-8" id="h3-0-8" class="i">+    class Program
+</a><a href="#h3-0-9" id="h3-0-9" class="i">+    {
+</a><a href="#h3-0-10" id="h3-0-10" class="i">+        static void Main(string[] args)
+</a><a href="#h3-0-11" id="h3-0-11" class="i">+        {
+</a><a href="#h3-0-12" id="h3-0-12" class="i">+            Pastebin pastebin = new Pastebin(&quot;your key&quot;);
+</a><a href="#h3-0-13" id="h3-0-13" class="i">+        }
+</a><a href="#h3-0-14" id="h3-0-14" class="i">+    }
+</a><a href="#h3-0-15" id="h3-0-15" class="i">+}
+</a><b>diff --git a/<a id="h4" href="../file/Example/Properties/AssemblyInfo.cs.html">Example/Properties/AssemblyInfo.cs</a> b/<a href="../file/Example/Properties/AssemblyInfo.cs.html">Example/Properties/AssemblyInfo.cs</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -0,0 +1,36 @@
+</a><a href="#h4-0-0" id="h4-0-0" class="i">+﻿using System.Reflection;
+</a><a href="#h4-0-1" id="h4-0-1" class="i">+using System.Runtime.CompilerServices;
+</a><a href="#h4-0-2" id="h4-0-2" class="i">+using System.Runtime.InteropServices;
+</a><a href="#h4-0-3" id="h4-0-3" class="i">+
+</a><a href="#h4-0-4" id="h4-0-4" class="i">+// General Information about an assembly is controlled through the following 
+</a><a href="#h4-0-5" id="h4-0-5" class="i">+// set of attributes. Change these attribute values to modify the information
+</a><a href="#h4-0-6" id="h4-0-6" class="i">+// associated with an assembly.
+</a><a href="#h4-0-7" id="h4-0-7" class="i">+[assembly: AssemblyTitle(&quot;Example&quot;)]
+</a><a href="#h4-0-8" id="h4-0-8" class="i">+[assembly: AssemblyDescription(&quot;&quot;)]
+</a><a href="#h4-0-9" id="h4-0-9" class="i">+[assembly: AssemblyConfiguration(&quot;&quot;)]
+</a><a href="#h4-0-10" id="h4-0-10" class="i">+[assembly: AssemblyCompany(&quot;Doma&quot;)]
+</a><a href="#h4-0-11" id="h4-0-11" class="i">+[assembly: AssemblyProduct(&quot;Example&quot;)]
+</a><a href="#h4-0-12" id="h4-0-12" class="i">+[assembly: AssemblyCopyright(&quot;Copyright © Doma 2013&quot;)]
+</a><a href="#h4-0-13" id="h4-0-13" class="i">+[assembly: AssemblyTrademark(&quot;&quot;)]
+</a><a href="#h4-0-14" id="h4-0-14" class="i">+[assembly: AssemblyCulture(&quot;&quot;)]
+</a><a href="#h4-0-15" id="h4-0-15" class="i">+
+</a><a href="#h4-0-16" id="h4-0-16" class="i">+// Setting ComVisible to false makes the types in this assembly not visible 
+</a><a href="#h4-0-17" id="h4-0-17" class="i">+// to COM components.  If you need to access a type in this assembly from 
+</a><a href="#h4-0-18" id="h4-0-18" class="i">+// COM, set the ComVisible attribute to true on that type.
+</a><a href="#h4-0-19" id="h4-0-19" class="i">+[assembly: ComVisible(false)]
+</a><a href="#h4-0-20" id="h4-0-20" class="i">+
+</a><a href="#h4-0-21" id="h4-0-21" class="i">+// The following GUID is for the ID of the typelib if this project is exposed to COM
+</a><a href="#h4-0-22" id="h4-0-22" class="i">+[assembly: Guid(&quot;1e605afc-9d4e-4683-a4f7-0c0f7281cd97&quot;)]
+</a><a href="#h4-0-23" id="h4-0-23" class="i">+
+</a><a href="#h4-0-24" id="h4-0-24" class="i">+// Version information for an assembly consists of the following four values:
+</a><a href="#h4-0-25" id="h4-0-25" class="i">+//
+</a><a href="#h4-0-26" id="h4-0-26" class="i">+//      Major Version
+</a><a href="#h4-0-27" id="h4-0-27" class="i">+//      Minor Version 
+</a><a href="#h4-0-28" id="h4-0-28" class="i">+//      Build Number
+</a><a href="#h4-0-29" id="h4-0-29" class="i">+//      Revision
+</a><a href="#h4-0-30" id="h4-0-30" class="i">+//
+</a><a href="#h4-0-31" id="h4-0-31" class="i">+// You can specify all the values or you can default the Build and Revision Numbers 
+</a><a href="#h4-0-32" id="h4-0-32" class="i">+// by using the &#39;*&#39; as shown below:
+</a><a href="#h4-0-33" id="h4-0-33" class="i">+// [assembly: AssemblyVersion(&quot;1.0.*&quot;)]
+</a><a href="#h4-0-34" id="h4-0-34" class="i">+[assembly: AssemblyVersion(&quot;1.0.0.0&quot;)]
+</a><a href="#h4-0-35" id="h4-0-35" class="i">+[assembly: AssemblyFileVersion(&quot;1.0.0.0&quot;)]
+</a><b>diff --git a/<a id="h5" href="../file/PastebinAPI.sln.html">PastebinAPI.sln</a> b/<a href="../file/PastebinAPI.sln.html">PastebinAPI.sln</a></b>
+<a href="#h5-0" id="h5-0" class="h">@@ -0,0 +1,42 @@
+</a><a href="#h5-0-0" id="h5-0-0" class="i">+﻿
+</a><a href="#h5-0-1" id="h5-0-1" class="i">+Microsoft Visual Studio Solution File, Format Version 11.00
+</a><a href="#h5-0-2" id="h5-0-2" class="i">+# Visual Studio 2010
+</a><a href="#h5-0-3" id="h5-0-3" class="i">+Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;PastebinAPI&quot;, &quot;PastebinAPI\PastebinAPI.csproj&quot;, &quot;{258E90D4-CAAD-4102-939D-56E7372A2E60}&quot;
+</a><a href="#h5-0-4" id="h5-0-4" class="i">+EndProject
+</a><a href="#h5-0-5" id="h5-0-5" class="i">+Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;Example&quot;, &quot;Example\Example.csproj&quot;, &quot;{101F0348-D6D6-40B6-B85F-368FEEB46E38}&quot;
+</a><a href="#h5-0-6" id="h5-0-6" class="i">+EndProject
+</a><a href="#h5-0-7" id="h5-0-7" class="i">+Global
+</a><a href="#h5-0-8" id="h5-0-8" class="i">+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+</a><a href="#h5-0-9" id="h5-0-9" class="i">+		Debug|Any CPU = Debug|Any CPU
+</a><a href="#h5-0-10" id="h5-0-10" class="i">+		Debug|Mixed Platforms = Debug|Mixed Platforms
+</a><a href="#h5-0-11" id="h5-0-11" class="i">+		Debug|x86 = Debug|x86
+</a><a href="#h5-0-12" id="h5-0-12" class="i">+		Release|Any CPU = Release|Any CPU
+</a><a href="#h5-0-13" id="h5-0-13" class="i">+		Release|Mixed Platforms = Release|Mixed Platforms
+</a><a href="#h5-0-14" id="h5-0-14" class="i">+		Release|x86 = Release|x86
+</a><a href="#h5-0-15" id="h5-0-15" class="i">+	EndGlobalSection
+</a><a href="#h5-0-16" id="h5-0-16" class="i">+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+</a><a href="#h5-0-17" id="h5-0-17" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+</a><a href="#h5-0-18" id="h5-0-18" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+</a><a href="#h5-0-19" id="h5-0-19" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+</a><a href="#h5-0-20" id="h5-0-20" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+</a><a href="#h5-0-21" id="h5-0-21" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Debug|x86.ActiveCfg = Debug|Any CPU
+</a><a href="#h5-0-22" id="h5-0-22" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+</a><a href="#h5-0-23" id="h5-0-23" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Any CPU.Build.0 = Release|Any CPU
+</a><a href="#h5-0-24" id="h5-0-24" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+</a><a href="#h5-0-25" id="h5-0-25" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+</a><a href="#h5-0-26" id="h5-0-26" class="i">+		{258E90D4-CAAD-4102-939D-56E7372A2E60}.Release|x86.ActiveCfg = Release|Any CPU
+</a><a href="#h5-0-27" id="h5-0-27" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|Any CPU.ActiveCfg = Debug|x86
+</a><a href="#h5-0-28" id="h5-0-28" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+</a><a href="#h5-0-29" id="h5-0-29" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|Mixed Platforms.Build.0 = Debug|x86
+</a><a href="#h5-0-30" id="h5-0-30" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|x86.ActiveCfg = Debug|x86
+</a><a href="#h5-0-31" id="h5-0-31" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Debug|x86.Build.0 = Debug|x86
+</a><a href="#h5-0-32" id="h5-0-32" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|Any CPU.ActiveCfg = Release|x86
+</a><a href="#h5-0-33" id="h5-0-33" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|Mixed Platforms.ActiveCfg = Release|x86
+</a><a href="#h5-0-34" id="h5-0-34" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|Mixed Platforms.Build.0 = Release|x86
+</a><a href="#h5-0-35" id="h5-0-35" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|x86.ActiveCfg = Release|x86
+</a><a href="#h5-0-36" id="h5-0-36" class="i">+		{101F0348-D6D6-40B6-B85F-368FEEB46E38}.Release|x86.Build.0 = Release|x86
+</a><a href="#h5-0-37" id="h5-0-37" class="i">+	EndGlobalSection
+</a><a href="#h5-0-38" id="h5-0-38" class="i">+	GlobalSection(SolutionProperties) = preSolution
+</a><a href="#h5-0-39" id="h5-0-39" class="i">+		HideSolutionNode = FALSE
+</a><a href="#h5-0-40" id="h5-0-40" class="i">+	EndGlobalSection
+</a><a href="#h5-0-41" id="h5-0-41" class="i">+EndGlobal
+</a><b>diff --git a/<a id="h6" href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a> b/<a href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a></b>
+<a href="#h6-0" id="h6-0" class="h">@@ -0,0 +1,286 @@
+</a><a href="#h6-0-0" id="h6-0-0" class="i">+﻿using System;
+</a><a href="#h6-0-1" id="h6-0-1" class="i">+using System.Collections.Generic;
+</a><a href="#h6-0-2" id="h6-0-2" class="i">+using System.Net;
+</a><a href="#h6-0-3" id="h6-0-3" class="i">+using System.IO;
+</a><a href="#h6-0-4" id="h6-0-4" class="i">+using System.Text;
+</a><a href="#h6-0-5" id="h6-0-5" class="i">+
+</a><a href="#h6-0-6" id="h6-0-6" class="i">+namespace PastebinAPI
+</a><a href="#h6-0-7" id="h6-0-7" class="i">+{
+</a><a href="#h6-0-8" id="h6-0-8" class="i">+    public class Pastebin
+</a><a href="#h6-0-9" id="h6-0-9" class="i">+    {
+</a><a href="#h6-0-10" id="h6-0-10" class="i">+        public class Expiration
+</a><a href="#h6-0-11" id="h6-0-11" class="i">+        {
+</a><a href="#h6-0-12" id="h6-0-12" class="i">+            public const string DFAULT = &quot;N&quot;;
+</a><a href="#h6-0-13" id="h6-0-13" class="i">+
+</a><a href="#h6-0-14" id="h6-0-14" class="i">+            public static readonly Expiration Never = new Expiration(&quot;N&quot;);
+</a><a href="#h6-0-15" id="h6-0-15" class="i">+            public static readonly Expiration TenMinutes = new Expiration(&quot;10M&quot;);
+</a><a href="#h6-0-16" id="h6-0-16" class="i">+            public static readonly Expiration OneHour = new Expiration(&quot;1H&quot;);
+</a><a href="#h6-0-17" id="h6-0-17" class="i">+            public static readonly Expiration OneDay = new Expiration(&quot;1D&quot;);
+</a><a href="#h6-0-18" id="h6-0-18" class="i">+            public static readonly Expiration OneMonth = new Expiration(&quot;1M&quot;);
+</a><a href="#h6-0-19" id="h6-0-19" class="i">+
+</a><a href="#h6-0-20" id="h6-0-20" class="i">+            private readonly string value;
+</a><a href="#h6-0-21" id="h6-0-21" class="i">+            private Expiration(string value)
+</a><a href="#h6-0-22" id="h6-0-22" class="i">+            {
+</a><a href="#h6-0-23" id="h6-0-23" class="i">+                this.value = value;
+</a><a href="#h6-0-24" id="h6-0-24" class="i">+            }
+</a><a href="#h6-0-25" id="h6-0-25" class="i">+            public override string ToString()
+</a><a href="#h6-0-26" id="h6-0-26" class="i">+            {
+</a><a href="#h6-0-27" id="h6-0-27" class="i">+                return value;
+</a><a href="#h6-0-28" id="h6-0-28" class="i">+            }
+</a><a href="#h6-0-29" id="h6-0-29" class="i">+        }
+</a><a href="#h6-0-30" id="h6-0-30" class="i">+
+</a><a href="#h6-0-31" id="h6-0-31" class="i">+        public enum Visibility
+</a><a href="#h6-0-32" id="h6-0-32" class="i">+        {
+</a><a href="#h6-0-33" id="h6-0-33" class="i">+            Public = 0,
+</a><a href="#h6-0-34" id="h6-0-34" class="i">+            Unlisted = 1,
+</a><a href="#h6-0-35" id="h6-0-35" class="i">+            Private = 2
+</a><a href="#h6-0-36" id="h6-0-36" class="i">+        }
+</a><a href="#h6-0-37" id="h6-0-37" class="i">+
+</a><a href="#h6-0-38" id="h6-0-38" class="i">+        #region Errors
+</a><a href="#h6-0-39" id="h6-0-39" class="i">+
+</a><a href="#h6-0-40" id="h6-0-40" class="i">+        private static readonly Dictionary&lt;string, List&lt;string&gt;&gt; errors = new Dictionary&lt;string, List&lt;string&gt;&gt;
+</a><a href="#h6-0-41" id="h6-0-41" class="i">+        {
+</a><a href="#h6-0-42" id="h6-0-42" class="i">+            {
+</a><a href="#h6-0-43" id="h6-0-43" class="i">+                &quot;paste&quot;, new List&lt;string&gt;
+</a><a href="#h6-0-44" id="h6-0-44" class="i">+                            {
+</a><a href="#h6-0-45" id="h6-0-45" class="i">+                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h6-0-46" id="h6-0-46" class="i">+                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h6-0-47" id="h6-0-47" class="i">+                                &quot;Bad API request, IP blocked&quot;,
+</a><a href="#h6-0-48" id="h6-0-48" class="i">+                                &quot;Bad API request, maximum number of 25 unlisted pastes for your free account&quot;,
+</a><a href="#h6-0-49" id="h6-0-49" class="i">+                                &quot;Bad API request, maximum number of 10 private pastes for your free account&quot;,
+</a><a href="#h6-0-50" id="h6-0-50" class="i">+                                &quot;Bad API request, api_paste_code was empty&quot;,
+</a><a href="#h6-0-51" id="h6-0-51" class="i">+                                &quot;Bad API request, maximum paste file size exceeded&quot;,
+</a><a href="#h6-0-52" id="h6-0-52" class="i">+                                &quot;Bad API request, invalid api_expire_date&quot;,
+</a><a href="#h6-0-53" id="h6-0-53" class="i">+                                &quot;Bad API request, invalid api_paste_private&quot;,
+</a><a href="#h6-0-54" id="h6-0-54" class="i">+                                &quot;Bad API request, invalid api_paste_format&quot;
+</a><a href="#h6-0-55" id="h6-0-55" class="i">+                            }
+</a><a href="#h6-0-56" id="h6-0-56" class="i">+                },
+</a><a href="#h6-0-57" id="h6-0-57" class="i">+            {
+</a><a href="#h6-0-58" id="h6-0-58" class="i">+                &quot;login&quot;, new List&lt;string&gt;
+</a><a href="#h6-0-59" id="h6-0-59" class="i">+                            {
+</a><a href="#h6-0-60" id="h6-0-60" class="i">+                                &quot;Bad API request, use POST request, not GET&quot;,
+</a><a href="#h6-0-61" id="h6-0-61" class="i">+                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h6-0-62" id="h6-0-62" class="i">+                                &quot;Bad API request, invalid login&quot;,
+</a><a href="#h6-0-63" id="h6-0-63" class="i">+                                &quot;Bad API request, account not active&quot;,
+</a><a href="#h6-0-64" id="h6-0-64" class="i">+                                &quot;Bad API request, invalid POST parameters&quot;
+</a><a href="#h6-0-65" id="h6-0-65" class="i">+                            }
+</a><a href="#h6-0-66" id="h6-0-66" class="i">+                },
+</a><a href="#h6-0-67" id="h6-0-67" class="i">+            {
+</a><a href="#h6-0-68" id="h6-0-68" class="i">+                &quot;list&quot;, new List&lt;string&gt;
+</a><a href="#h6-0-69" id="h6-0-69" class="i">+                            {
+</a><a href="#h6-0-70" id="h6-0-70" class="i">+                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h6-0-71" id="h6-0-71" class="i">+                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h6-0-72" id="h6-0-72" class="i">+                                &quot;Bad API request, invalid api_user_key&quot;
+</a><a href="#h6-0-73" id="h6-0-73" class="i">+                            }
+</a><a href="#h6-0-74" id="h6-0-74" class="i">+                },
+</a><a href="#h6-0-75" id="h6-0-75" class="i">+            {
+</a><a href="#h6-0-76" id="h6-0-76" class="i">+                &quot;trends&quot;, new List&lt;string&gt;
+</a><a href="#h6-0-77" id="h6-0-77" class="i">+                            {
+</a><a href="#h6-0-78" id="h6-0-78" class="i">+                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h6-0-79" id="h6-0-79" class="i">+                                &quot;Bad API request, invalid api_dev_key&quot;
+</a><a href="#h6-0-80" id="h6-0-80" class="i">+                            }
+</a><a href="#h6-0-81" id="h6-0-81" class="i">+                },
+</a><a href="#h6-0-82" id="h6-0-82" class="i">+            {
+</a><a href="#h6-0-83" id="h6-0-83" class="i">+                &quot;delete&quot;, new List&lt;string&gt;
+</a><a href="#h6-0-84" id="h6-0-84" class="i">+                            {
+</a><a href="#h6-0-85" id="h6-0-85" class="i">+                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h6-0-86" id="h6-0-86" class="i">+                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h6-0-87" id="h6-0-87" class="i">+                                &quot;Bad API request, invalid api_user_key&quot;,
+</a><a href="#h6-0-88" id="h6-0-88" class="i">+                                &quot;Bad API request, invalid permission to remove paste&quot;
+</a><a href="#h6-0-89" id="h6-0-89" class="i">+                            }
+</a><a href="#h6-0-90" id="h6-0-90" class="i">+                },
+</a><a href="#h6-0-91" id="h6-0-91" class="i">+            {
+</a><a href="#h6-0-92" id="h6-0-92" class="i">+                &quot;userdetails&quot;, new List&lt;string&gt;
+</a><a href="#h6-0-93" id="h6-0-93" class="i">+                            {
+</a><a href="#h6-0-94" id="h6-0-94" class="i">+                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h6-0-95" id="h6-0-95" class="i">+                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h6-0-96" id="h6-0-96" class="i">+                                &quot;Bad API request, invalid api_user_key&quot;
+</a><a href="#h6-0-97" id="h6-0-97" class="i">+                            }
+</a><a href="#h6-0-98" id="h6-0-98" class="i">+                }
+</a><a href="#h6-0-99" id="h6-0-99" class="i">+        };
+</a><a href="#h6-0-100" id="h6-0-100" class="i">+        #endregion
+</a><a href="#h6-0-101" id="h6-0-101" class="i">+
+</a><a href="#h6-0-102" id="h6-0-102" class="i">+        private readonly string devKey;
+</a><a href="#h6-0-103" id="h6-0-103" class="i">+        private string userKey;
+</a><a href="#h6-0-104" id="h6-0-104" class="i">+
+</a><a href="#h6-0-105" id="h6-0-105" class="i">+        /// &lt;summary&gt;
+</a><a href="#h6-0-106" id="h6-0-106" class="i">+        /// Creates new Pastebin object
+</a><a href="#h6-0-107" id="h6-0-107" class="i">+        /// &lt;/summary&gt;
+</a><a href="#h6-0-108" id="h6-0-108" class="i">+        /// &lt;param name=&quot;devKey&quot;&gt;Your api dev key&lt;/param&gt;
+</a><a href="#h6-0-109" id="h6-0-109" class="i">+        public Pastebin(string devKey)
+</a><a href="#h6-0-110" id="h6-0-110" class="i">+        {
+</a><a href="#h6-0-111" id="h6-0-111" class="i">+            this.devKey = devKey;
+</a><a href="#h6-0-112" id="h6-0-112" class="i">+            userKey = string.Empty;
+</a><a href="#h6-0-113" id="h6-0-113" class="i">+        }
+</a><a href="#h6-0-114" id="h6-0-114" class="i">+
+</a><a href="#h6-0-115" id="h6-0-115" class="i">+        public void Login(string username, string password)
+</a><a href="#h6-0-116" id="h6-0-116" class="i">+        {
+</a><a href="#h6-0-117" id="h6-0-117" class="i">+            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h6-0-118" id="h6-0-118" class="i">+                                                   {
+</a><a href="#h6-0-119" id="h6-0-119" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h6-0-120" id="h6-0-120" class="i">+                                                       &quot;api_user_name=&quot; + username,
+</a><a href="#h6-0-121" id="h6-0-121" class="i">+                                                       &quot;api_user_password=&quot; + password
+</a><a href="#h6-0-122" id="h6-0-122" class="i">+                                                   });
+</a><a href="#h6-0-123" id="h6-0-123" class="i">+
+</a><a href="#h6-0-124" id="h6-0-124" class="i">+            var result = PostRequest(@&quot;http://pastebin.com/api/api_login.php&quot;, postData);
+</a><a href="#h6-0-125" id="h6-0-125" class="i">+
+</a><a href="#h6-0-126" id="h6-0-126" class="i">+            if (errors[&quot;login&quot;].Contains(result))
+</a><a href="#h6-0-127" id="h6-0-127" class="i">+                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h6-0-128" id="h6-0-128" class="i">+
+</a><a href="#h6-0-129" id="h6-0-129" class="i">+            userKey = result;
+</a><a href="#h6-0-130" id="h6-0-130" class="i">+        }
+</a><a href="#h6-0-131" id="h6-0-131" class="i">+
+</a><a href="#h6-0-132" id="h6-0-132" class="i">+        public void Logout()
+</a><a href="#h6-0-133" id="h6-0-133" class="i">+        {
+</a><a href="#h6-0-134" id="h6-0-134" class="i">+            if (userKey == string.Empty)
+</a><a href="#h6-0-135" id="h6-0-135" class="i">+                throw new InvalidOperationException(&quot;Must first login to logout&quot;);
+</a><a href="#h6-0-136" id="h6-0-136" class="i">+            userKey = &quot;&quot;;
+</a><a href="#h6-0-137" id="h6-0-137" class="i">+        }
+</a><a href="#h6-0-138" id="h6-0-138" class="i">+
+</a><a href="#h6-0-139" id="h6-0-139" class="i">+        /// &lt;summary&gt;
+</a><a href="#h6-0-140" id="h6-0-140" class="i">+        /// Creates new paste and uploads it to pastebin
+</a><a href="#h6-0-141" id="h6-0-141" class="i">+        /// &lt;/summary&gt;
+</a><a href="#h6-0-142" id="h6-0-142" class="i">+        /// &lt;param name=&quot;text&quot;&gt;The text/code of the paste&lt;/param&gt;
+</a><a href="#h6-0-143" id="h6-0-143" class="i">+        /// &lt;param name=&quot;title&quot;&gt;The title of the paste&lt;/param&gt;
+</a><a href="#h6-0-144" id="h6-0-144" class="i">+        /// &lt;param name=&quot;language&quot;&gt;The language for the paste see http://pastebin.com/api#5 for valid formats&lt;/param&gt;
+</a><a href="#h6-0-145" id="h6-0-145" class="i">+        /// &lt;param name=&quot;visibility&quot;&gt;The visibility/privacy of the paste&lt;/param&gt;
+</a><a href="#h6-0-146" id="h6-0-146" class="i">+        /// &lt;param name=&quot;expiration&quot;&gt;The expiration date of the paste&lt;/param&gt;
+</a><a href="#h6-0-147" id="h6-0-147" class="i">+        /// &lt;returns&gt;Responce from pastebin. If it succeeded it will return the paste url&lt;/returns&gt;
+</a><a href="#h6-0-148" id="h6-0-148" class="i">+        public string Create(string text, string title = &quot;&quot;, string language = &quot;text&quot;, Visibility visibility = 0, Expiration expiration = null)
+</a><a href="#h6-0-149" id="h6-0-149" class="i">+        {
+</a><a href="#h6-0-150" id="h6-0-150" class="i">+            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h6-0-151" id="h6-0-151" class="i">+                                                   {
+</a><a href="#h6-0-152" id="h6-0-152" class="i">+                                                       //required parameters
+</a><a href="#h6-0-153" id="h6-0-153" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h6-0-154" id="h6-0-154" class="i">+                                                       &quot;api_option=&quot; + &quot;paste&quot;,
+</a><a href="#h6-0-155" id="h6-0-155" class="i">+                                                       &quot;api_paste_code=&quot; + Uri.EscapeDataString(text),
+</a><a href="#h6-0-156" id="h6-0-156" class="i">+                                                       //optional parameters
+</a><a href="#h6-0-157" id="h6-0-157" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h6-0-158" id="h6-0-158" class="i">+                                                       &quot;api_paste_name=&quot; + Uri.EscapeDataString(title),
+</a><a href="#h6-0-159" id="h6-0-159" class="i">+                                                       &quot;api_paste_format=&quot; + language,
+</a><a href="#h6-0-160" id="h6-0-160" class="i">+                                                       &quot;api_paste_private=&quot; + (int) visibility,
+</a><a href="#h6-0-161" id="h6-0-161" class="i">+                                                       &quot;api_paste_expire_date=&quot; + expiration
+</a><a href="#h6-0-162" id="h6-0-162" class="i">+                                                   });
+</a><a href="#h6-0-163" id="h6-0-163" class="i">+            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h6-0-164" id="h6-0-164" class="i">+
+</a><a href="#h6-0-165" id="h6-0-165" class="i">+            if (errors[&quot;paste&quot;].Contains(result))
+</a><a href="#h6-0-166" id="h6-0-166" class="i">+                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h6-0-167" id="h6-0-167" class="i">+
+</a><a href="#h6-0-168" id="h6-0-168" class="i">+            return result;
+</a><a href="#h6-0-169" id="h6-0-169" class="i">+        }
+</a><a href="#h6-0-170" id="h6-0-170" class="i">+
+</a><a href="#h6-0-171" id="h6-0-171" class="i">+        public string ListPastesByUser(int resultsLimit = 50)
+</a><a href="#h6-0-172" id="h6-0-172" class="i">+        {
+</a><a href="#h6-0-173" id="h6-0-173" class="i">+            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h6-0-174" id="h6-0-174" class="i">+                                                   {
+</a><a href="#h6-0-175" id="h6-0-175" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h6-0-176" id="h6-0-176" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h6-0-177" id="h6-0-177" class="i">+                                                       &quot;api_results_limit=&quot; + resultsLimit,
+</a><a href="#h6-0-178" id="h6-0-178" class="i">+                                                       &quot;api_option=&quot; + &quot;list&quot;
+</a><a href="#h6-0-179" id="h6-0-179" class="i">+                                                   });
+</a><a href="#h6-0-180" id="h6-0-180" class="i">+
+</a><a href="#h6-0-181" id="h6-0-181" class="i">+            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h6-0-182" id="h6-0-182" class="i">+
+</a><a href="#h6-0-183" id="h6-0-183" class="i">+            if (errors[&quot;list&quot;].Contains(result))
+</a><a href="#h6-0-184" id="h6-0-184" class="i">+                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h6-0-185" id="h6-0-185" class="i">+
+</a><a href="#h6-0-186" id="h6-0-186" class="i">+            return result;
+</a><a href="#h6-0-187" id="h6-0-187" class="i">+        }
+</a><a href="#h6-0-188" id="h6-0-188" class="i">+
+</a><a href="#h6-0-189" id="h6-0-189" class="i">+        public string ListTrendingPastes()
+</a><a href="#h6-0-190" id="h6-0-190" class="i">+        {
+</a><a href="#h6-0-191" id="h6-0-191" class="i">+            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h6-0-192" id="h6-0-192" class="i">+                                                   {
+</a><a href="#h6-0-193" id="h6-0-193" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h6-0-194" id="h6-0-194" class="i">+                                                       &quot;api_option=&quot; + &quot;trends&quot;
+</a><a href="#h6-0-195" id="h6-0-195" class="i">+                                                   });
+</a><a href="#h6-0-196" id="h6-0-196" class="i">+
+</a><a href="#h6-0-197" id="h6-0-197" class="i">+            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h6-0-198" id="h6-0-198" class="i">+
+</a><a href="#h6-0-199" id="h6-0-199" class="i">+            if (errors[&quot;trends&quot;].Contains(result))
+</a><a href="#h6-0-200" id="h6-0-200" class="i">+                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h6-0-201" id="h6-0-201" class="i">+
+</a><a href="#h6-0-202" id="h6-0-202" class="i">+            return result;
+</a><a href="#h6-0-203" id="h6-0-203" class="i">+        }
+</a><a href="#h6-0-204" id="h6-0-204" class="i">+
+</a><a href="#h6-0-205" id="h6-0-205" class="i">+        public void DeletePasteByUser(string pasteKey)
+</a><a href="#h6-0-206" id="h6-0-206" class="i">+        {
+</a><a href="#h6-0-207" id="h6-0-207" class="i">+            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h6-0-208" id="h6-0-208" class="i">+                                                   {
+</a><a href="#h6-0-209" id="h6-0-209" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h6-0-210" id="h6-0-210" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h6-0-211" id="h6-0-211" class="i">+                                                       &quot;api_paste_key=&quot; + pasteKey,
+</a><a href="#h6-0-212" id="h6-0-212" class="i">+                                                       &quot;api_option=&quot; + &quot;delete&quot;
+</a><a href="#h6-0-213" id="h6-0-213" class="i">+                                                   });
+</a><a href="#h6-0-214" id="h6-0-214" class="i">+
+</a><a href="#h6-0-215" id="h6-0-215" class="i">+            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h6-0-216" id="h6-0-216" class="i">+
+</a><a href="#h6-0-217" id="h6-0-217" class="i">+            if (errors[&quot;delete&quot;].Contains(result) || result != &quot;Paste Removed&quot;)
+</a><a href="#h6-0-218" id="h6-0-218" class="i">+                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h6-0-219" id="h6-0-219" class="i">+        }
+</a><a href="#h6-0-220" id="h6-0-220" class="i">+
+</a><a href="#h6-0-221" id="h6-0-221" class="i">+        public string GetUserInfo()
+</a><a href="#h6-0-222" id="h6-0-222" class="i">+        {
+</a><a href="#h6-0-223" id="h6-0-223" class="i">+            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h6-0-224" id="h6-0-224" class="i">+                                                   {
+</a><a href="#h6-0-225" id="h6-0-225" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h6-0-226" id="h6-0-226" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h6-0-227" id="h6-0-227" class="i">+                                                       &quot;api_option=&quot; + &quot;userdetails&quot;
+</a><a href="#h6-0-228" id="h6-0-228" class="i">+                                                   });
+</a><a href="#h6-0-229" id="h6-0-229" class="i">+
+</a><a href="#h6-0-230" id="h6-0-230" class="i">+            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h6-0-231" id="h6-0-231" class="i">+
+</a><a href="#h6-0-232" id="h6-0-232" class="i">+            if (errors[&quot;userdetails&quot;].Contains(result))
+</a><a href="#h6-0-233" id="h6-0-233" class="i">+                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h6-0-234" id="h6-0-234" class="i">+
+</a><a href="#h6-0-235" id="h6-0-235" class="i">+            return result;
+</a><a href="#h6-0-236" id="h6-0-236" class="i">+        }
+</a><a href="#h6-0-237" id="h6-0-237" class="i">+
+</a><a href="#h6-0-238" id="h6-0-238" class="i">+        public string GetRaw(string pasteKey)
+</a><a href="#h6-0-239" id="h6-0-239" class="i">+        {
+</a><a href="#h6-0-240" id="h6-0-240" class="i">+            var url = &quot;http://pastebin.com/raw.php?i=&quot; + pasteKey;
+</a><a href="#h6-0-241" id="h6-0-241" class="i">+            return PostRequest(url, &quot;&quot;);
+</a><a href="#h6-0-242" id="h6-0-242" class="i">+        }
+</a><a href="#h6-0-243" id="h6-0-243" class="i">+
+</a><a href="#h6-0-244" id="h6-0-244" class="i">+        public static string UrlToPasteKey(string url)
+</a><a href="#h6-0-245" id="h6-0-245" class="i">+        {
+</a><a href="#h6-0-246" id="h6-0-246" class="i">+            return url.Replace(&quot;http://pastebin.com/&quot;, &quot;&quot;);
+</a><a href="#h6-0-247" id="h6-0-247" class="i">+        }
+</a><a href="#h6-0-248" id="h6-0-248" class="i">+
+</a><a href="#h6-0-249" id="h6-0-249" class="i">+        public static string PasteKeyToUrl(string pasteKey)
+</a><a href="#h6-0-250" id="h6-0-250" class="i">+        {
+</a><a href="#h6-0-251" id="h6-0-251" class="i">+            return &quot;http://pastebin.com/&quot; + pasteKey;
+</a><a href="#h6-0-252" id="h6-0-252" class="i">+        }
+</a><a href="#h6-0-253" id="h6-0-253" class="i">+
+</a><a href="#h6-0-254" id="h6-0-254" class="i">+        private static string PostRequest(string url, string postString)
+</a><a href="#h6-0-255" id="h6-0-255" class="i">+        {
+</a><a href="#h6-0-256" id="h6-0-256" class="i">+            WebRequest request = WebRequest.Create(url);
+</a><a href="#h6-0-257" id="h6-0-257" class="i">+            request.Method = &quot;POST&quot;;
+</a><a href="#h6-0-258" id="h6-0-258" class="i">+            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+</a><a href="#h6-0-259" id="h6-0-259" class="i">+            request.ContentType = &quot;application/x-www-form-urlencoded&quot;;
+</a><a href="#h6-0-260" id="h6-0-260" class="i">+            request.ContentLength = byteArray.Length;
+</a><a href="#h6-0-261" id="h6-0-261" class="i">+            using (var dataStream = request.GetRequestStream())
+</a><a href="#h6-0-262" id="h6-0-262" class="i">+            {
+</a><a href="#h6-0-263" id="h6-0-263" class="i">+                dataStream.Write(byteArray, 0, byteArray.Length);
+</a><a href="#h6-0-264" id="h6-0-264" class="i">+            }
+</a><a href="#h6-0-265" id="h6-0-265" class="i">+            using (var response = request.GetResponse())
+</a><a href="#h6-0-266" id="h6-0-266" class="i">+            {
+</a><a href="#h6-0-267" id="h6-0-267" class="i">+                if (((HttpWebResponse)response).StatusDescription != &quot;OK&quot;)
+</a><a href="#h6-0-268" id="h6-0-268" class="i">+                {
+</a><a href="#h6-0-269" id="h6-0-269" class="i">+                    Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+</a><a href="#h6-0-270" id="h6-0-270" class="i">+                }
+</a><a href="#h6-0-271" id="h6-0-271" class="i">+                using (var dataStream = response.GetResponseStream())
+</a><a href="#h6-0-272" id="h6-0-272" class="i">+                {
+</a><a href="#h6-0-273" id="h6-0-273" class="i">+                    if (dataStream != null)
+</a><a href="#h6-0-274" id="h6-0-274" class="i">+                    {
+</a><a href="#h6-0-275" id="h6-0-275" class="i">+                        using (var reader = new StreamReader(dataStream))
+</a><a href="#h6-0-276" id="h6-0-276" class="i">+                        {
+</a><a href="#h6-0-277" id="h6-0-277" class="i">+                            return reader.ReadToEnd();
+</a><a href="#h6-0-278" id="h6-0-278" class="i">+                        }
+</a><a href="#h6-0-279" id="h6-0-279" class="i">+                    }
+</a><a href="#h6-0-280" id="h6-0-280" class="i">+                    throw new NullReferenceException(&quot;dataStream from responce is null&quot;);
+</a><a href="#h6-0-281" id="h6-0-281" class="i">+                }
+</a><a href="#h6-0-282" id="h6-0-282" class="i">+            }
+</a><a href="#h6-0-283" id="h6-0-283" class="i">+        }
+</a><a href="#h6-0-284" id="h6-0-284" class="i">+    }
+</a><a href="#h6-0-285" id="h6-0-285" class="i">+}
+</a><b>diff --git a/<a id="h7" href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a> b/<a href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a></b>
+<a href="#h7-0" id="h7-0" class="h">@@ -0,0 +1,54 @@
+</a><a href="#h7-0-0" id="h7-0-0" class="i">+﻿&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+</a><a href="#h7-0-1" id="h7-0-1" class="i">+&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+</a><a href="#h7-0-2" id="h7-0-2" class="i">+  &lt;PropertyGroup&gt;
+</a><a href="#h7-0-3" id="h7-0-3" class="i">+    &lt;Configuration Condition=&quot; &#39;$(Configuration)&#39; == &#39;&#39; &quot;&gt;Debug&lt;/Configuration&gt;
+</a><a href="#h7-0-4" id="h7-0-4" class="i">+    &lt;Platform Condition=&quot; &#39;$(Platform)&#39; == &#39;&#39; &quot;&gt;AnyCPU&lt;/Platform&gt;
+</a><a href="#h7-0-5" id="h7-0-5" class="i">+    &lt;ProductVersion&gt;8.0.30703&lt;/ProductVersion&gt;
+</a><a href="#h7-0-6" id="h7-0-6" class="i">+    &lt;SchemaVersion&gt;2.0&lt;/SchemaVersion&gt;
+</a><a href="#h7-0-7" id="h7-0-7" class="i">+    &lt;ProjectGuid&gt;{258E90D4-CAAD-4102-939D-56E7372A2E60}&lt;/ProjectGuid&gt;
+</a><a href="#h7-0-8" id="h7-0-8" class="i">+    &lt;OutputType&gt;Library&lt;/OutputType&gt;
+</a><a href="#h7-0-9" id="h7-0-9" class="i">+    &lt;AppDesignerFolder&gt;Properties&lt;/AppDesignerFolder&gt;
+</a><a href="#h7-0-10" id="h7-0-10" class="i">+    &lt;RootNamespace&gt;PastebinAPI&lt;/RootNamespace&gt;
+</a><a href="#h7-0-11" id="h7-0-11" class="i">+    &lt;AssemblyName&gt;PastebinAPI&lt;/AssemblyName&gt;
+</a><a href="#h7-0-12" id="h7-0-12" class="i">+    &lt;TargetFrameworkVersion&gt;v4.0&lt;/TargetFrameworkVersion&gt;
+</a><a href="#h7-0-13" id="h7-0-13" class="i">+    &lt;FileAlignment&gt;512&lt;/FileAlignment&gt;
+</a><a href="#h7-0-14" id="h7-0-14" class="i">+  &lt;/PropertyGroup&gt;
+</a><a href="#h7-0-15" id="h7-0-15" class="i">+  &lt;PropertyGroup Condition=&quot; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &quot;&gt;
+</a><a href="#h7-0-16" id="h7-0-16" class="i">+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+</a><a href="#h7-0-17" id="h7-0-17" class="i">+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+</a><a href="#h7-0-18" id="h7-0-18" class="i">+    &lt;Optimize&gt;false&lt;/Optimize&gt;
+</a><a href="#h7-0-19" id="h7-0-19" class="i">+    &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
+</a><a href="#h7-0-20" id="h7-0-20" class="i">+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+</a><a href="#h7-0-21" id="h7-0-21" class="i">+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+</a><a href="#h7-0-22" id="h7-0-22" class="i">+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+</a><a href="#h7-0-23" id="h7-0-23" class="i">+  &lt;/PropertyGroup&gt;
+</a><a href="#h7-0-24" id="h7-0-24" class="i">+  &lt;PropertyGroup Condition=&quot; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &quot;&gt;
+</a><a href="#h7-0-25" id="h7-0-25" class="i">+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+</a><a href="#h7-0-26" id="h7-0-26" class="i">+    &lt;Optimize&gt;true&lt;/Optimize&gt;
+</a><a href="#h7-0-27" id="h7-0-27" class="i">+    &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
+</a><a href="#h7-0-28" id="h7-0-28" class="i">+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+</a><a href="#h7-0-29" id="h7-0-29" class="i">+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+</a><a href="#h7-0-30" id="h7-0-30" class="i">+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+</a><a href="#h7-0-31" id="h7-0-31" class="i">+  &lt;/PropertyGroup&gt;
+</a><a href="#h7-0-32" id="h7-0-32" class="i">+  &lt;ItemGroup&gt;
+</a><a href="#h7-0-33" id="h7-0-33" class="i">+    &lt;Reference Include=&quot;System&quot; /&gt;
+</a><a href="#h7-0-34" id="h7-0-34" class="i">+    &lt;Reference Include=&quot;System.Core&quot; /&gt;
+</a><a href="#h7-0-35" id="h7-0-35" class="i">+    &lt;Reference Include=&quot;System.Xml.Linq&quot; /&gt;
+</a><a href="#h7-0-36" id="h7-0-36" class="i">+    &lt;Reference Include=&quot;System.Data.DataSetExtensions&quot; /&gt;
+</a><a href="#h7-0-37" id="h7-0-37" class="i">+    &lt;Reference Include=&quot;Microsoft.CSharp&quot; /&gt;
+</a><a href="#h7-0-38" id="h7-0-38" class="i">+    &lt;Reference Include=&quot;System.Data&quot; /&gt;
+</a><a href="#h7-0-39" id="h7-0-39" class="i">+    &lt;Reference Include=&quot;System.Xml&quot; /&gt;
+</a><a href="#h7-0-40" id="h7-0-40" class="i">+  &lt;/ItemGroup&gt;
+</a><a href="#h7-0-41" id="h7-0-41" class="i">+  &lt;ItemGroup&gt;
+</a><a href="#h7-0-42" id="h7-0-42" class="i">+    &lt;Compile Include=&quot;Pastebin.cs&quot; /&gt;
+</a><a href="#h7-0-43" id="h7-0-43" class="i">+    &lt;Compile Include=&quot;Properties\AssemblyInfo.cs&quot; /&gt;
+</a><a href="#h7-0-44" id="h7-0-44" class="i">+  &lt;/ItemGroup&gt;
+</a><a href="#h7-0-45" id="h7-0-45" class="i">+  &lt;Import Project=&quot;$(MSBuildToolsPath)\Microsoft.CSharp.targets&quot; /&gt;
+</a><a href="#h7-0-46" id="h7-0-46" class="i">+  &lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+</a><a href="#h7-0-47" id="h7-0-47" class="i">+       Other similar extension points exist, see Microsoft.Common.targets.
+</a><a href="#h7-0-48" id="h7-0-48" class="i">+  &lt;Target Name=&quot;BeforeBuild&quot;&gt;
+</a><a href="#h7-0-49" id="h7-0-49" class="i">+  &lt;/Target&gt;
+</a><a href="#h7-0-50" id="h7-0-50" class="i">+  &lt;Target Name=&quot;AfterBuild&quot;&gt;
+</a><a href="#h7-0-51" id="h7-0-51" class="i">+  &lt;/Target&gt;
+</a><a href="#h7-0-52" id="h7-0-52" class="i">+  --&gt;
+</a><a href="#h7-0-53" id="h7-0-53" class="i">+&lt;/Project&gt;</a><a href="#h7-0-54" id="h7-0-54" class="i">+
+\ No newline at end of file
+</a><b>diff --git a/<a id="h8" href="../file/PastebinAPI/Properties/AssemblyInfo.cs.html">PastebinAPI/Properties/AssemblyInfo.cs</a> b/<a href="../file/PastebinAPI/Properties/AssemblyInfo.cs.html">PastebinAPI/Properties/AssemblyInfo.cs</a></b>
+<a href="#h8-0" id="h8-0" class="h">@@ -0,0 +1,36 @@
+</a><a href="#h8-0-0" id="h8-0-0" class="i">+﻿using System.Reflection;
+</a><a href="#h8-0-1" id="h8-0-1" class="i">+using System.Runtime.CompilerServices;
+</a><a href="#h8-0-2" id="h8-0-2" class="i">+using System.Runtime.InteropServices;
+</a><a href="#h8-0-3" id="h8-0-3" class="i">+
+</a><a href="#h8-0-4" id="h8-0-4" class="i">+// General Information about an assembly is controlled through the following 
+</a><a href="#h8-0-5" id="h8-0-5" class="i">+// set of attributes. Change these attribute values to modify the information
+</a><a href="#h8-0-6" id="h8-0-6" class="i">+// associated with an assembly.
+</a><a href="#h8-0-7" id="h8-0-7" class="i">+[assembly: AssemblyTitle(&quot;PastebinAPI&quot;)]
+</a><a href="#h8-0-8" id="h8-0-8" class="i">+[assembly: AssemblyDescription(&quot;&quot;)]
+</a><a href="#h8-0-9" id="h8-0-9" class="i">+[assembly: AssemblyConfiguration(&quot;&quot;)]
+</a><a href="#h8-0-10" id="h8-0-10" class="i">+[assembly: AssemblyCompany(&quot;Doma&quot;)]
+</a><a href="#h8-0-11" id="h8-0-11" class="i">+[assembly: AssemblyProduct(&quot;PastebinAPI&quot;)]
+</a><a href="#h8-0-12" id="h8-0-12" class="i">+[assembly: AssemblyCopyright(&quot;Copyright © Doma 2013&quot;)]
+</a><a href="#h8-0-13" id="h8-0-13" class="i">+[assembly: AssemblyTrademark(&quot;&quot;)]
+</a><a href="#h8-0-14" id="h8-0-14" class="i">+[assembly: AssemblyCulture(&quot;&quot;)]
+</a><a href="#h8-0-15" id="h8-0-15" class="i">+
+</a><a href="#h8-0-16" id="h8-0-16" class="i">+// Setting ComVisible to false makes the types in this assembly not visible 
+</a><a href="#h8-0-17" id="h8-0-17" class="i">+// to COM components.  If you need to access a type in this assembly from 
+</a><a href="#h8-0-18" id="h8-0-18" class="i">+// COM, set the ComVisible attribute to true on that type.
+</a><a href="#h8-0-19" id="h8-0-19" class="i">+[assembly: ComVisible(false)]
+</a><a href="#h8-0-20" id="h8-0-20" class="i">+
+</a><a href="#h8-0-21" id="h8-0-21" class="i">+// The following GUID is for the ID of the typelib if this project is exposed to COM
+</a><a href="#h8-0-22" id="h8-0-22" class="i">+[assembly: Guid(&quot;cd02333d-c0bc-4c4e-9fd5-23c5d025aa80&quot;)]
+</a><a href="#h8-0-23" id="h8-0-23" class="i">+
+</a><a href="#h8-0-24" id="h8-0-24" class="i">+// Version information for an assembly consists of the following four values:
+</a><a href="#h8-0-25" id="h8-0-25" class="i">+//
+</a><a href="#h8-0-26" id="h8-0-26" class="i">+//      Major Version
+</a><a href="#h8-0-27" id="h8-0-27" class="i">+//      Minor Version 
+</a><a href="#h8-0-28" id="h8-0-28" class="i">+//      Build Number
+</a><a href="#h8-0-29" id="h8-0-29" class="i">+//      Revision
+</a><a href="#h8-0-30" id="h8-0-30" class="i">+//
+</a><a href="#h8-0-31" id="h8-0-31" class="i">+// You can specify all the values or you can default the Build and Revision Numbers 
+</a><a href="#h8-0-32" id="h8-0-32" class="i">+// by using the &#39;*&#39; as shown below:
+</a><a href="#h8-0-33" id="h8-0-33" class="i">+// [assembly: AssemblyVersion(&quot;1.0.*&quot;)]
+</a><a href="#h8-0-34" id="h8-0-34" class="i">+[assembly: AssemblyVersion(&quot;1.0.0.0&quot;)]
+</a><a href="#h8-0-35" id="h8-0-35" class="i">+[assembly: AssemblyFileVersion(&quot;1.0.0.0&quot;)]
+</a><b>diff --git a/<a id="h9" href="../file/README.md.html">README.md</a> b/<a href="../file/README.md.html">README.md</a></b>
+<a href="#h9-0" id="h9-0" class="h">@@ -0,0 +1,4 @@
+</a><a href="#h9-0-0" id="h9-0-0" class="i">+Pastebin API for C#
+</a><a href="#h9-0-1" id="h9-0-1" class="i">+===================
+</a><a href="#h9-0-2" id="h9-0-2" class="i">+
+</a><a href="#h9-0-3" id="h9-0-3" class="i">+This is a simple library for accessing pastebin in C#</a><a href="#h9-0-4" id="h9-0-4" class="i">+
+\ No newline at end of file
+</a></pre>
+</div>
+</body>
+</html>

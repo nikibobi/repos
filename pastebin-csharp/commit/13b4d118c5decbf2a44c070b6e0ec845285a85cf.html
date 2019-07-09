@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Optimized Expiration - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/13b4d118c5decbf2a44c070b6e0ec845285a85cf.html">13b4d118c5decbf2a44c070b6e0ec845285a85cf</a>
+<b>parent</b> <a href="../commit/f79aec003d257f87bcff57048c1ff5a03e52638d.html">f79aec003d257f87bcff57048c1ff5a03e52638d</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Tue, 20 Aug 2013 19:24:39 +0300
+
+Optimized Expiration
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Expiration.cs</a></td><td> | </td><td class="num">13</td><td><span class="i">+++++</span><span class="d">--------</span></td></tr>
+</table></pre><pre>1 file changed, 5 insertions(+), 8 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a> b/<a href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -6,38 +6,38 @@ namespace PastebinAPI
+</a> {
+     public class Expiration
+     {
+<a href="#h0-0-3" id="h0-0-3" class="i">+        public static readonly Expiration Never;
+</a>         public static readonly Expiration TenMinutes;
+         public static readonly Expiration OneHour;
+         public static readonly Expiration OneDay;
+         public static readonly Expiration OneWeek;
+         public static readonly Expiration TwoWeeks;
+         public static readonly Expiration OneMonth;
+<a href="#h0-0-10" id="h0-0-10" class="d">-        public static readonly Expiration Never;
+</a>         public static readonly Expiration Default;
+         public static readonly IEnumerable&lt;Expiration&gt; All;
+ 
+         static Expiration()
+         {
+<a href="#h0-0-16" id="h0-0-16" class="i">+            Never = new Expiration(&quot;N&quot;, TimeSpan.Zero);
+</a>             TenMinutes = new Expiration(&quot;10M&quot;, TimeSpan.FromMinutes(10));
+             OneHour = new Expiration(&quot;1H&quot;, TimeSpan.FromHours(1));
+             OneDay = new Expiration(&quot;1D&quot;, TimeSpan.FromDays(1));
+             OneWeek = new Expiration(&quot;1W&quot;, TimeSpan.FromDays(7));
+             TwoWeeks = new Expiration(&quot;2W&quot;, TimeSpan.FromDays(14));
+             OneMonth = new Expiration(&quot;1M&quot;, TimeSpan.FromDays(30));
+<a href="#h0-0-23" id="h0-0-23" class="d">-            Never = new Expiration(&quot;N&quot;, TimeSpan.MaxValue);
+</a>             Default = Never;
+             All = getExpirations();
+         }
+ 
+         private static IEnumerable&lt;Expiration&gt; getExpirations()
+         {
+<a href="#h0-0-30" id="h0-0-30" class="i">+            yield return Never;
+</a>             yield return TenMinutes;
+             yield return OneHour;
+             yield return OneDay;
+             yield return OneWeek;
+             yield return TwoWeeks;
+             yield return OneMonth;
+<a href="#h0-0-37" id="h0-0-37" class="d">-            yield return Never;
+</a>         }
+ 
+         public static Expiration Parse(string s)
+<a href="#h0-1" id="h0-1" class="h">@@ -68,11 +68,8 @@ public static bool TryParse(string s, out Expiration result)
+</a> 
+         public static Expiration FromTimeSpan(TimeSpan timeSpan)
+         {
+<a href="#h0-1-3" id="h0-1-3" class="d">-            //return All.First(e =&gt; timeSpan &lt;= e.time); //maybe use this?
+</a><a href="#h0-1-4" id="h0-1-4" class="d">-            foreach (Expiration expiration in All)
+</a><a href="#h0-1-5" id="h0-1-5" class="d">-                if (timeSpan &lt;= expiration.time)
+</a><a href="#h0-1-6" id="h0-1-6" class="d">-                    return expiration;
+</a><a href="#h0-1-7" id="h0-1-7" class="d">-            throw new InvalidOperationException(string.Format(&quot;Unreachable code reached! timeSpan = {0}&quot;, timeSpan));
+</a><a href="#h0-1-8" id="h0-1-8" class="i">+            //if timespan &lt;= 0 or &gt; OneMonth then return never
+</a><a href="#h0-1-9" id="h0-1-9" class="i">+            return All.FirstOrDefault(e =&gt; timeSpan &lt;= e.time) ?? Never;
+</a>         }
+ 
+         private readonly string value;
+</pre>
+</div>
+</body>
+</html>

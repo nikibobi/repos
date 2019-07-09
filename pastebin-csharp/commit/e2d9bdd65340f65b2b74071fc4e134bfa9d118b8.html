@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Changed PasteFormat to be like Expiration - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/e2d9bdd65340f65b2b74071fc4e134bfa9d118b8.html">e2d9bdd65340f65b2b74071fc4e134bfa9d118b8</a>
+<b>parent</b> <a href="../commit/1f04b9c0991a50da179268eb74e77dbb9beea5b7.html">1f04b9c0991a50da179268eb74e77dbb9beea5b7</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Sun,  2 Jun 2013 22:38:55 +0300
+
+Changed PasteFormat to be like Expiration
+
+Added Parse and TryParse to PasteFormat and Expiration classes
+Fixed UserInfro to use &lt;user&gt; node and not the root in the XML parsing
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Expiration.cs</a></td><td> | </td><td class="num">35</td><td><span class="i">+++++++++++++++++++++++++++++++</span><span class="d">----</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">PastebinAPI/PasteFormat.cs</a></td><td> | </td><td class="num">692</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d">--------------------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI/User.cs</a></td><td> | </td><td class="num">4</td><td><span class="i">++</span><span class="d">--</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h3">PastebinAPI/UserInfo.cs</a></td><td> | </td><td class="num">30</td><td><span class="i">++++++++++++++++++</span><span class="d">------------</span></td></tr>
+</table></pre><pre>4 files changed, 521 insertions(+), 240 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a> b/<a href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,4 +1,5 @@
+</a><a href="#h0-0-0" id="h0-0-0" class="d">-﻿using System.Linq;
+</a><a href="#h0-0-1" id="h0-0-1" class="i">+﻿using System;
+</a><a href="#h0-0-2" id="h0-0-2" class="i">+using System.Linq;
+</a> using System.Collections;
+ using System.Collections.Generic;
+ 
+<a href="#h0-1" id="h0-1" class="h">@@ -6,6 +7,7 @@ namespace PastebinAPI
+</a> {
+     public class Expiration
+     {
+<a href="#h0-1-3" id="h0-1-3" class="i">+        #region Expirations
+</a>         public static Expiration Never { get { return Expirations[&quot;N&quot;]; } }
+         public static Expiration TenMinutes { get { return Expirations[&quot;10M&quot;]; } }
+         public static Expiration OneHour { get { return Expirations[&quot;1H&quot;]; } }
+<a href="#h0-2" id="h0-2" class="h">@@ -13,15 +15,40 @@ public class Expiration
+</a>         public static Expiration OneWeek { get { return Expirations[&quot;1W&quot;]; } }
+         public static Expiration TwoWeeks { get { return Expirations[&quot;2W&quot;]; } }
+         public static Expiration OneMonth { get { return Expirations[&quot;2W&quot;]; } }
+<a href="#h0-2-3" id="h0-2-3" class="i">+        #endregion
+</a>         public static Expiration Default { get { return Never; } }
+         public static IEnumerable&lt;Expiration&gt; All { get { return Expirations.Values; } }
+ 
+<a href="#h0-2-7" id="h0-2-7" class="d">-        internal static readonly Dictionary&lt;string, Expiration&gt; Expirations;
+</a><a href="#h0-2-8" id="h0-2-8" class="d">-
+</a><a href="#h0-2-9" id="h0-2-9" class="i">+        private static readonly Dictionary&lt;string, Expiration&gt; Expirations;
+</a>         static Expiration()
+         {
+             //lol wtf this is realy hacky xD
+<a href="#h0-2-13" id="h0-2-13" class="d">-            Expirations = (new[] { &quot;N&quot;, &quot;10M&quot;, &quot;1H&quot;, &quot;1D&quot;, &quot;1W&quot;, &quot;2W&quot;, &quot;1M&quot; }).ToDictionary(s=&gt;s, s=&gt;new Expiration(s));
+</a><a href="#h0-2-14" id="h0-2-14" class="i">+            Expirations = (new[] { &quot;N&quot;,
+</a><a href="#h0-2-15" id="h0-2-15" class="i">+                                   &quot;10M&quot;,
+</a><a href="#h0-2-16" id="h0-2-16" class="i">+                                   &quot;1H&quot;,
+</a><a href="#h0-2-17" id="h0-2-17" class="i">+                                   &quot;1D&quot;,
+</a><a href="#h0-2-18" id="h0-2-18" class="i">+                                   &quot;1W&quot;,
+</a><a href="#h0-2-19" id="h0-2-19" class="i">+                                   &quot;2W&quot;,
+</a><a href="#h0-2-20" id="h0-2-20" class="i">+                                   &quot;1M&quot; }).ToDictionary(s=&gt;s, s=&gt;new Expiration(s));
+</a><a href="#h0-2-21" id="h0-2-21" class="i">+        }
+</a><a href="#h0-2-22" id="h0-2-22" class="i">+
+</a><a href="#h0-2-23" id="h0-2-23" class="i">+        public static Expiration Parse(string s)
+</a><a href="#h0-2-24" id="h0-2-24" class="i">+        {
+</a><a href="#h0-2-25" id="h0-2-25" class="i">+            Expiration result;
+</a><a href="#h0-2-26" id="h0-2-26" class="i">+            if (s == null)
+</a><a href="#h0-2-27" id="h0-2-27" class="i">+                throw new ArgumentNullException(&quot;s&quot;);
+</a><a href="#h0-2-28" id="h0-2-28" class="i">+            if(TryParse(s, out result) == false)
+</a><a href="#h0-2-29" id="h0-2-29" class="i">+                throw new FormatException(string.Format(&quot;Format: {0} is not supported&quot;, s));
+</a><a href="#h0-2-30" id="h0-2-30" class="i">+            return result;
+</a><a href="#h0-2-31" id="h0-2-31" class="i">+        }
+</a><a href="#h0-2-32" id="h0-2-32" class="i">+
+</a><a href="#h0-2-33" id="h0-2-33" class="i">+        public static bool TryParse(string s, out Expiration result)
+</a><a href="#h0-2-34" id="h0-2-34" class="i">+        {
+</a><a href="#h0-2-35" id="h0-2-35" class="i">+            result = Default;
+</a><a href="#h0-2-36" id="h0-2-36" class="i">+            if (s == null || Expirations.ContainsKey(s) == false)
+</a><a href="#h0-2-37" id="h0-2-37" class="i">+                return false;
+</a><a href="#h0-2-38" id="h0-2-38" class="i">+            result = Expirations[s];
+</a><a href="#h0-2-39" id="h0-2-39" class="i">+            return true;
+</a>         }
+ 
+         private readonly string value;
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/PasteFormat.cs.html">PastebinAPI/PasteFormat.cs</a> b/<a href="../file/PastebinAPI/PasteFormat.cs.html">PastebinAPI/PasteFormat.cs</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -1,231 +1,479 @@
+</a><a href="#h1-0-0" id="h1-0-0" class="d">-﻿namespace PastebinAPI
+</a><a href="#h1-0-1" id="h1-0-1" class="i">+﻿using System;
+</a><a href="#h1-0-2" id="h1-0-2" class="i">+using System.Linq;
+</a><a href="#h1-0-3" id="h1-0-3" class="i">+using System.Collections.Generic;
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+
+</a><a href="#h1-0-5" id="h1-0-5" class="i">+namespace PastebinAPI
+</a> {
+     public class PasteFormat
+     {
+<a href="#h1-0-9" id="h1-0-9" class="d">-        #region PasteFormats
+</a><a href="#h1-0-10" id="h1-0-10" class="i">+        #region Formats
+</a>         // ReSharper disable InconsistentNaming
+<a href="#h1-0-12" id="h1-0-12" class="d">-        public static readonly PasteFormat _4CS = new PasteFormat(&quot;4cs&quot;);
+</a><a href="#h1-0-13" id="h1-0-13" class="d">-        public static readonly PasteFormat _6502ACMECrossAssembler = new PasteFormat(&quot;6502acme&quot;);
+</a><a href="#h1-0-14" id="h1-0-14" class="d">-        public static readonly PasteFormat _6502KickAssembler = new PasteFormat(&quot;6502kickass&quot;);
+</a><a href="#h1-0-15" id="h1-0-15" class="d">-        public static readonly PasteFormat _6502TASM64TASS = new PasteFormat(&quot;6502tasm&quot;);
+</a><a href="#h1-0-16" id="h1-0-16" class="d">-        public static readonly PasteFormat ABAP = new PasteFormat(&quot;abap&quot;);
+</a><a href="#h1-0-17" id="h1-0-17" class="d">-        public static readonly PasteFormat ActionScript = new PasteFormat(&quot;actionscript&quot;);
+</a><a href="#h1-0-18" id="h1-0-18" class="d">-        public static readonly PasteFormat ActionScript3 = new PasteFormat(&quot;actionscript3&quot;);
+</a><a href="#h1-0-19" id="h1-0-19" class="d">-        public static readonly PasteFormat Ada = new PasteFormat(&quot;ada&quot;);
+</a><a href="#h1-0-20" id="h1-0-20" class="d">-        public static readonly PasteFormat ALGOL68 = new PasteFormat(&quot;algol68&quot;);
+</a><a href="#h1-0-21" id="h1-0-21" class="d">-        public static readonly PasteFormat ApacheLog = new PasteFormat(&quot;apache&quot;);
+</a><a href="#h1-0-22" id="h1-0-22" class="d">-        public static readonly PasteFormat AppleScript = new PasteFormat(&quot;applescript&quot;);
+</a><a href="#h1-0-23" id="h1-0-23" class="d">-        public static readonly PasteFormat APTSources = new PasteFormat(&quot;apt_sources&quot;);
+</a><a href="#h1-0-24" id="h1-0-24" class="d">-        public static readonly PasteFormat ARM = new PasteFormat(&quot;arm&quot;);
+</a><a href="#h1-0-25" id="h1-0-25" class="d">-        public static readonly PasteFormat ASM = new PasteFormat(&quot;asm&quot;);
+</a><a href="#h1-0-26" id="h1-0-26" class="d">-        public static readonly PasteFormat ASP = new PasteFormat(&quot;asp&quot;);
+</a><a href="#h1-0-27" id="h1-0-27" class="d">-        public static readonly PasteFormat Asymptote = new PasteFormat(&quot;asymptote&quot;);
+</a><a href="#h1-0-28" id="h1-0-28" class="d">-        public static readonly PasteFormat autoconf = new PasteFormat(&quot;autoconf&quot;);
+</a><a href="#h1-0-29" id="h1-0-29" class="d">-        public static readonly PasteFormat Autohotkey = new PasteFormat(&quot;autohotkey&quot;);
+</a><a href="#h1-0-30" id="h1-0-30" class="d">-        public static readonly PasteFormat AutoIt = new PasteFormat(&quot;autoit&quot;);
+</a><a href="#h1-0-31" id="h1-0-31" class="d">-        public static readonly PasteFormat Avisynth = new PasteFormat(&quot;avisynth&quot;);
+</a><a href="#h1-0-32" id="h1-0-32" class="d">-        public static readonly PasteFormat Awk = new PasteFormat(&quot;awk&quot;);
+</a><a href="#h1-0-33" id="h1-0-33" class="d">-        public static readonly PasteFormat BASCOMAVR = new PasteFormat(&quot;bascomavr&quot;);
+</a><a href="#h1-0-34" id="h1-0-34" class="d">-        public static readonly PasteFormat Bash = new PasteFormat(&quot;bash&quot;);
+</a><a href="#h1-0-35" id="h1-0-35" class="d">-        public static readonly PasteFormat Basic4GL = new PasteFormat(&quot;basic4gl&quot;);
+</a><a href="#h1-0-36" id="h1-0-36" class="d">-        public static readonly PasteFormat BibTeX = new PasteFormat(&quot;bibtex&quot;);
+</a><a href="#h1-0-37" id="h1-0-37" class="d">-        public static readonly PasteFormat BlitzBasic = new PasteFormat(&quot;blitzbasic&quot;);
+</a><a href="#h1-0-38" id="h1-0-38" class="d">-        public static readonly PasteFormat BNF = new PasteFormat(&quot;bnf&quot;);
+</a><a href="#h1-0-39" id="h1-0-39" class="d">-        public static readonly PasteFormat BOO = new PasteFormat(&quot;boo&quot;);
+</a><a href="#h1-0-40" id="h1-0-40" class="d">-        public static readonly PasteFormat BrainFuck = new PasteFormat(&quot;bf&quot;);
+</a><a href="#h1-0-41" id="h1-0-41" class="d">-        public static readonly PasteFormat C = new PasteFormat(&quot;c&quot;);
+</a><a href="#h1-0-42" id="h1-0-42" class="d">-        public static readonly PasteFormat CforMacs = new PasteFormat(&quot;c_mac&quot;);
+</a><a href="#h1-0-43" id="h1-0-43" class="d">-        public static readonly PasteFormat CIntermediateLanguage = new PasteFormat(&quot;cil&quot;);
+</a><a href="#h1-0-44" id="h1-0-44" class="d">-        public static readonly PasteFormat CSharp = new PasteFormat(&quot;csharp&quot;);
+</a><a href="#h1-0-45" id="h1-0-45" class="d">-        public static readonly PasteFormat CPlusPlus = new PasteFormat(&quot;cpp&quot;);
+</a><a href="#h1-0-46" id="h1-0-46" class="d">-        public static readonly PasteFormat CPlusPlusQT = new PasteFormat(&quot;cpp-qt&quot;);
+</a><a href="#h1-0-47" id="h1-0-47" class="d">-        public static readonly PasteFormat CLoadrunner = new PasteFormat(&quot;c_loadrunner&quot;);
+</a><a href="#h1-0-48" id="h1-0-48" class="d">-        public static readonly PasteFormat CADDCL = new PasteFormat(&quot;caddcl&quot;);
+</a><a href="#h1-0-49" id="h1-0-49" class="d">-        public static readonly PasteFormat CADLisp = new PasteFormat(&quot;cadlisp&quot;);
+</a><a href="#h1-0-50" id="h1-0-50" class="d">-        public static readonly PasteFormat CFDG = new PasteFormat(&quot;cfdg&quot;);
+</a><a href="#h1-0-51" id="h1-0-51" class="d">-        public static readonly PasteFormat ChaiScript = new PasteFormat(&quot;chaiscript&quot;);
+</a><a href="#h1-0-52" id="h1-0-52" class="d">-        public static readonly PasteFormat Clojure = new PasteFormat(&quot;clojure&quot;);
+</a><a href="#h1-0-53" id="h1-0-53" class="d">-        public static readonly PasteFormat CloneC = new PasteFormat(&quot;klonec&quot;);
+</a><a href="#h1-0-54" id="h1-0-54" class="d">-        public static readonly PasteFormat CloneCPlusPlus = new PasteFormat(&quot;klonecpp&quot;);
+</a><a href="#h1-0-55" id="h1-0-55" class="d">-        public static readonly PasteFormat CMake = new PasteFormat(&quot;cmake&quot;);
+</a><a href="#h1-0-56" id="h1-0-56" class="d">-        public static readonly PasteFormat COBOL = new PasteFormat(&quot;cobol&quot;);
+</a><a href="#h1-0-57" id="h1-0-57" class="d">-        public static readonly PasteFormat CoffeeScript = new PasteFormat(&quot;coffeescript&quot;);
+</a><a href="#h1-0-58" id="h1-0-58" class="d">-        public static readonly PasteFormat ColdFusion = new PasteFormat(&quot;cfm&quot;);
+</a><a href="#h1-0-59" id="h1-0-59" class="d">-        public static readonly PasteFormat CSS = new PasteFormat(&quot;css&quot;);
+</a><a href="#h1-0-60" id="h1-0-60" class="d">-        public static readonly PasteFormat Cuesheet = new PasteFormat(&quot;cuesheet&quot;);
+</a><a href="#h1-0-61" id="h1-0-61" class="d">-        public static readonly PasteFormat D = new PasteFormat(&quot;d&quot;);
+</a><a href="#h1-0-62" id="h1-0-62" class="d">-        public static readonly PasteFormat DCL = new PasteFormat(&quot;dcl&quot;);
+</a><a href="#h1-0-63" id="h1-0-63" class="d">-        public static readonly PasteFormat DCPU16 = new PasteFormat(&quot;dcpu16&quot;);
+</a><a href="#h1-0-64" id="h1-0-64" class="d">-        public static readonly PasteFormat DCS = new PasteFormat(&quot;dcs&quot;);
+</a><a href="#h1-0-65" id="h1-0-65" class="d">-        public static readonly PasteFormat Delphi = new PasteFormat(&quot;delphi&quot;);
+</a><a href="#h1-0-66" id="h1-0-66" class="d">-        public static readonly PasteFormat Oxygene = new PasteFormat(&quot;oxygene&quot;);
+</a><a href="#h1-0-67" id="h1-0-67" class="d">-        public static readonly PasteFormat Diff = new PasteFormat(&quot;diff&quot;);
+</a><a href="#h1-0-68" id="h1-0-68" class="d">-        public static readonly PasteFormat DIV = new PasteFormat(&quot;div&quot;);
+</a><a href="#h1-0-69" id="h1-0-69" class="d">-        public static readonly PasteFormat DOS = new PasteFormat(&quot;dos&quot;);
+</a><a href="#h1-0-70" id="h1-0-70" class="d">-        public static readonly PasteFormat DOT = new PasteFormat(&quot;dot&quot;);
+</a><a href="#h1-0-71" id="h1-0-71" class="d">-        public static readonly PasteFormat E = new PasteFormat(&quot;e&quot;);
+</a><a href="#h1-0-72" id="h1-0-72" class="d">-        public static readonly PasteFormat ECMAScript = new PasteFormat(&quot;ecmascript&quot;);
+</a><a href="#h1-0-73" id="h1-0-73" class="d">-        public static readonly PasteFormat Eiffel = new PasteFormat(&quot;eiffel&quot;);
+</a><a href="#h1-0-74" id="h1-0-74" class="d">-        public static readonly PasteFormat Email = new PasteFormat(&quot;email&quot;);
+</a><a href="#h1-0-75" id="h1-0-75" class="d">-        public static readonly PasteFormat EPC = new PasteFormat(&quot;epc&quot;);
+</a><a href="#h1-0-76" id="h1-0-76" class="d">-        public static readonly PasteFormat Erlang = new PasteFormat(&quot;erlang&quot;);
+</a><a href="#h1-0-77" id="h1-0-77" class="d">-        public static readonly PasteFormat FSharp = new PasteFormat(&quot;fsharp&quot;);
+</a><a href="#h1-0-78" id="h1-0-78" class="d">-        public static readonly PasteFormat Falcon = new PasteFormat(&quot;falcon&quot;);
+</a><a href="#h1-0-79" id="h1-0-79" class="d">-        public static readonly PasteFormat FOLanguage = new PasteFormat(&quot;fo&quot;);
+</a><a href="#h1-0-80" id="h1-0-80" class="d">-        public static readonly PasteFormat FormulaOne = new PasteFormat(&quot;f1&quot;);
+</a><a href="#h1-0-81" id="h1-0-81" class="d">-        public static readonly PasteFormat Fortran = new PasteFormat(&quot;fortran&quot;);
+</a><a href="#h1-0-82" id="h1-0-82" class="d">-        public static readonly PasteFormat FreeBasic = new PasteFormat(&quot;freebasic&quot;);
+</a><a href="#h1-0-83" id="h1-0-83" class="d">-        public static readonly PasteFormat FreeSWITCH = new PasteFormat(&quot;freeswitch&quot;);
+</a><a href="#h1-0-84" id="h1-0-84" class="d">-        public static readonly PasteFormat GAMBAS = new PasteFormat(&quot;gambas&quot;);
+</a><a href="#h1-0-85" id="h1-0-85" class="d">-        public static readonly PasteFormat GameMaker = new PasteFormat(&quot;gml&quot;);
+</a><a href="#h1-0-86" id="h1-0-86" class="d">-        public static readonly PasteFormat GDB = new PasteFormat(&quot;gdb&quot;);
+</a><a href="#h1-0-87" id="h1-0-87" class="d">-        public static readonly PasteFormat Genero = new PasteFormat(&quot;genero&quot;);
+</a><a href="#h1-0-88" id="h1-0-88" class="d">-        public static readonly PasteFormat Genie = new PasteFormat(&quot;genie&quot;);
+</a><a href="#h1-0-89" id="h1-0-89" class="d">-        public static readonly PasteFormat GetText = new PasteFormat(&quot;gettext&quot;);
+</a><a href="#h1-0-90" id="h1-0-90" class="d">-        public static readonly PasteFormat Go = new PasteFormat(&quot;go&quot;);
+</a><a href="#h1-0-91" id="h1-0-91" class="d">-        public static readonly PasteFormat Groovy = new PasteFormat(&quot;groovy&quot;);
+</a><a href="#h1-0-92" id="h1-0-92" class="d">-        public static readonly PasteFormat GwBasic = new PasteFormat(&quot;gwbasic&quot;);
+</a><a href="#h1-0-93" id="h1-0-93" class="d">-        public static readonly PasteFormat Haskell = new PasteFormat(&quot;haskell&quot;);
+</a><a href="#h1-0-94" id="h1-0-94" class="d">-        public static readonly PasteFormat Haxe = new PasteFormat(&quot;haxe&quot;);
+</a><a href="#h1-0-95" id="h1-0-95" class="d">-        public static readonly PasteFormat HicEst = new PasteFormat(&quot;hicest&quot;);
+</a><a href="#h1-0-96" id="h1-0-96" class="d">-        public static readonly PasteFormat HQ9Plus = new PasteFormat(&quot;hq9plus&quot;);
+</a><a href="#h1-0-97" id="h1-0-97" class="d">-        public static readonly PasteFormat HTML = new PasteFormat(&quot;html4strict&quot;);
+</a><a href="#h1-0-98" id="h1-0-98" class="d">-        public static readonly PasteFormat HTML5 = new PasteFormat(&quot;html5&quot;);
+</a><a href="#h1-0-99" id="h1-0-99" class="d">-        public static readonly PasteFormat Icon = new PasteFormat(&quot;icon&quot;);
+</a><a href="#h1-0-100" id="h1-0-100" class="d">-        public static readonly PasteFormat IDL = new PasteFormat(&quot;idl&quot;);
+</a><a href="#h1-0-101" id="h1-0-101" class="d">-        public static readonly PasteFormat INIfile = new PasteFormat(&quot;ini&quot;);
+</a><a href="#h1-0-102" id="h1-0-102" class="d">-        public static readonly PasteFormat InnoScript = new PasteFormat(&quot;inno&quot;);
+</a><a href="#h1-0-103" id="h1-0-103" class="d">-        public static readonly PasteFormat INTERCAL = new PasteFormat(&quot;intercal&quot;);
+</a><a href="#h1-0-104" id="h1-0-104" class="d">-        public static readonly PasteFormat IO = new PasteFormat(&quot;io&quot;);
+</a><a href="#h1-0-105" id="h1-0-105" class="d">-        public static readonly PasteFormat J = new PasteFormat(&quot;j&quot;);
+</a><a href="#h1-0-106" id="h1-0-106" class="d">-        public static readonly PasteFormat Java = new PasteFormat(&quot;java&quot;);
+</a><a href="#h1-0-107" id="h1-0-107" class="d">-        public static readonly PasteFormat Java5 = new PasteFormat(&quot;java5&quot;);
+</a><a href="#h1-0-108" id="h1-0-108" class="d">-        public static readonly PasteFormat JavaScript = new PasteFormat(&quot;javascript&quot;);
+</a><a href="#h1-0-109" id="h1-0-109" class="d">-        public static readonly PasteFormat jQuery = new PasteFormat(&quot;jquery&quot;);
+</a><a href="#h1-0-110" id="h1-0-110" class="d">-        public static readonly PasteFormat KiXtart = new PasteFormat(&quot;kixtart&quot;);
+</a><a href="#h1-0-111" id="h1-0-111" class="d">-        public static readonly PasteFormat Latex = new PasteFormat(&quot;latex&quot;);
+</a><a href="#h1-0-112" id="h1-0-112" class="d">-        public static readonly PasteFormat LDIF = new PasteFormat(&quot;ldif&quot;);
+</a><a href="#h1-0-113" id="h1-0-113" class="d">-        public static readonly PasteFormat LibertyBASIC = new PasteFormat(&quot;lb&quot;);
+</a><a href="#h1-0-114" id="h1-0-114" class="d">-        public static readonly PasteFormat LindenScripting = new PasteFormat(&quot;lsl2&quot;);
+</a><a href="#h1-0-115" id="h1-0-115" class="d">-        public static readonly PasteFormat Lisp = new PasteFormat(&quot;lisp&quot;);
+</a><a href="#h1-0-116" id="h1-0-116" class="d">-        public static readonly PasteFormat LLVM = new PasteFormat(&quot;llvm&quot;);
+</a><a href="#h1-0-117" id="h1-0-117" class="d">-        public static readonly PasteFormat LocoBasic = new PasteFormat(&quot;locobasic&quot;);
+</a><a href="#h1-0-118" id="h1-0-118" class="d">-        public static readonly PasteFormat Logtalk = new PasteFormat(&quot;logtalk&quot;);
+</a><a href="#h1-0-119" id="h1-0-119" class="d">-        public static readonly PasteFormat LOLCode = new PasteFormat(&quot;lolcode&quot;);
+</a><a href="#h1-0-120" id="h1-0-120" class="d">-        public static readonly PasteFormat LotusFormulas = new PasteFormat(&quot;lotusformulas&quot;);
+</a><a href="#h1-0-121" id="h1-0-121" class="d">-        public static readonly PasteFormat LotusScript = new PasteFormat(&quot;lotusscript&quot;);
+</a><a href="#h1-0-122" id="h1-0-122" class="d">-        public static readonly PasteFormat LScript = new PasteFormat(&quot;lscript&quot;);
+</a><a href="#h1-0-123" id="h1-0-123" class="d">-        public static readonly PasteFormat Lua = new PasteFormat(&quot;lua&quot;);
+</a><a href="#h1-0-124" id="h1-0-124" class="d">-        public static readonly PasteFormat M68000Assembler = new PasteFormat(&quot;m68k&quot;);
+</a><a href="#h1-0-125" id="h1-0-125" class="d">-        public static readonly PasteFormat MagikSF = new PasteFormat(&quot;magiksf&quot;);
+</a><a href="#h1-0-126" id="h1-0-126" class="d">-        public static readonly PasteFormat Make = new PasteFormat(&quot;make&quot;);
+</a><a href="#h1-0-127" id="h1-0-127" class="d">-        public static readonly PasteFormat MapBasic = new PasteFormat(&quot;mapbasic&quot;);
+</a><a href="#h1-0-128" id="h1-0-128" class="d">-        public static readonly PasteFormat MatLab = new PasteFormat(&quot;matlab&quot;);
+</a><a href="#h1-0-129" id="h1-0-129" class="d">-        public static readonly PasteFormat mIRC = new PasteFormat(&quot;mirc&quot;);
+</a><a href="#h1-0-130" id="h1-0-130" class="d">-        public static readonly PasteFormat MIXAssembler = new PasteFormat(&quot;mmix&quot;);
+</a><a href="#h1-0-131" id="h1-0-131" class="d">-        public static readonly PasteFormat Modula2 = new PasteFormat(&quot;modula2&quot;);
+</a><a href="#h1-0-132" id="h1-0-132" class="d">-        public static readonly PasteFormat Modula3 = new PasteFormat(&quot;modula3&quot;);
+</a><a href="#h1-0-133" id="h1-0-133" class="d">-        public static readonly PasteFormat Motorola68000HiSoftDev = new PasteFormat(&quot;68000devpac&quot;);
+</a><a href="#h1-0-134" id="h1-0-134" class="d">-        public static readonly PasteFormat MPASM = new PasteFormat(&quot;mpasm&quot;);
+</a><a href="#h1-0-135" id="h1-0-135" class="d">-        public static readonly PasteFormat MXML = new PasteFormat(&quot;mxml&quot;);
+</a><a href="#h1-0-136" id="h1-0-136" class="d">-        public static readonly PasteFormat MySQL = new PasteFormat(&quot;mysql&quot;);
+</a><a href="#h1-0-137" id="h1-0-137" class="d">-        public static readonly PasteFormat Nagios = new PasteFormat(&quot;nagios&quot;);
+</a><a href="#h1-0-138" id="h1-0-138" class="d">-        public static readonly PasteFormat newLISP = new PasteFormat(&quot;newlisp&quot;);
+</a><a href="#h1-0-139" id="h1-0-139" class="d">-        public static readonly PasteFormat None = new PasteFormat(&quot;text&quot;);
+</a><a href="#h1-0-140" id="h1-0-140" class="d">-        public static readonly PasteFormat NullSoftInstaller = new PasteFormat(&quot;nsis&quot;);
+</a><a href="#h1-0-141" id="h1-0-141" class="d">-        public static readonly PasteFormat Oberon2 = new PasteFormat(&quot;oberon2&quot;);
+</a><a href="#h1-0-142" id="h1-0-142" class="d">-        public static readonly PasteFormat ObjeckProgrammingLangua = new PasteFormat(&quot;objeck&quot;);
+</a><a href="#h1-0-143" id="h1-0-143" class="d">-        public static readonly PasteFormat ObjectiveC = new PasteFormat(&quot;objc&quot;);
+</a><a href="#h1-0-144" id="h1-0-144" class="d">-        public static readonly PasteFormat OCalmBrief = new PasteFormat(&quot;ocaml-brief&quot;);
+</a><a href="#h1-0-145" id="h1-0-145" class="d">-        public static readonly PasteFormat OCaml = new PasteFormat(&quot;ocaml&quot;);
+</a><a href="#h1-0-146" id="h1-0-146" class="d">-        public static readonly PasteFormat Octave = new PasteFormat(&quot;octave&quot;);
+</a><a href="#h1-0-147" id="h1-0-147" class="d">-        public static readonly PasteFormat OpenBSDPACKETFILTER = new PasteFormat(&quot;pf&quot;);
+</a><a href="#h1-0-148" id="h1-0-148" class="d">-        public static readonly PasteFormat OpenGLShading = new PasteFormat(&quot;glsl&quot;);
+</a><a href="#h1-0-149" id="h1-0-149" class="d">-        public static readonly PasteFormat OpenofficeBASIC = new PasteFormat(&quot;oobas&quot;);
+</a><a href="#h1-0-150" id="h1-0-150" class="d">-        public static readonly PasteFormat Oracle11 = new PasteFormat(&quot;oracle11&quot;);
+</a><a href="#h1-0-151" id="h1-0-151" class="d">-        public static readonly PasteFormat Oracle8 = new PasteFormat(&quot;oracle8&quot;);
+</a><a href="#h1-0-152" id="h1-0-152" class="d">-        public static readonly PasteFormat Oz = new PasteFormat(&quot;oz&quot;);
+</a><a href="#h1-0-153" id="h1-0-153" class="d">-        public static readonly PasteFormat ParaSail = new PasteFormat(&quot;parasail&quot;);
+</a><a href="#h1-0-154" id="h1-0-154" class="d">-        public static readonly PasteFormat PARIGP = new PasteFormat(&quot;parigp&quot;);
+</a><a href="#h1-0-155" id="h1-0-155" class="d">-        public static readonly PasteFormat Pascal = new PasteFormat(&quot;pascal&quot;);
+</a><a href="#h1-0-156" id="h1-0-156" class="d">-        public static readonly PasteFormat PAWN = new PasteFormat(&quot;pawn&quot;);
+</a><a href="#h1-0-157" id="h1-0-157" class="d">-        public static readonly PasteFormat PCRE = new PasteFormat(&quot;pcre&quot;);
+</a><a href="#h1-0-158" id="h1-0-158" class="d">-        public static readonly PasteFormat Per = new PasteFormat(&quot;per&quot;);
+</a><a href="#h1-0-159" id="h1-0-159" class="d">-        public static readonly PasteFormat Perl = new PasteFormat(&quot;perl&quot;);
+</a><a href="#h1-0-160" id="h1-0-160" class="d">-        public static readonly PasteFormat Perl6 = new PasteFormat(&quot;perl6&quot;);
+</a><a href="#h1-0-161" id="h1-0-161" class="d">-        public static readonly PasteFormat PHP = new PasteFormat(&quot;php&quot;);
+</a><a href="#h1-0-162" id="h1-0-162" class="d">-        public static readonly PasteFormat PHPBrief = new PasteFormat(&quot;php-brief&quot;);
+</a><a href="#h1-0-163" id="h1-0-163" class="d">-        public static readonly PasteFormat Pic16 = new PasteFormat(&quot;pic16&quot;);
+</a><a href="#h1-0-164" id="h1-0-164" class="d">-        public static readonly PasteFormat Pike = new PasteFormat(&quot;pike&quot;);
+</a><a href="#h1-0-165" id="h1-0-165" class="d">-        public static readonly PasteFormat PixelBender = new PasteFormat(&quot;pixelbender&quot;);
+</a><a href="#h1-0-166" id="h1-0-166" class="d">-        public static readonly PasteFormat PLSQL = new PasteFormat(&quot;plsql&quot;);
+</a><a href="#h1-0-167" id="h1-0-167" class="d">-        public static readonly PasteFormat PostgreSQL = new PasteFormat(&quot;postgresql&quot;);
+</a><a href="#h1-0-168" id="h1-0-168" class="d">-        public static readonly PasteFormat POVRay = new PasteFormat(&quot;povray&quot;);
+</a><a href="#h1-0-169" id="h1-0-169" class="d">-        public static readonly PasteFormat PowerShell = new PasteFormat(&quot;powershell&quot;);
+</a><a href="#h1-0-170" id="h1-0-170" class="d">-        public static readonly PasteFormat PowerBuilder = new PasteFormat(&quot;powerbuilder&quot;);
+</a><a href="#h1-0-171" id="h1-0-171" class="d">-        public static readonly PasteFormat ProFTPd = new PasteFormat(&quot;proftpd&quot;);
+</a><a href="#h1-0-172" id="h1-0-172" class="d">-        public static readonly PasteFormat Progress = new PasteFormat(&quot;progress&quot;);
+</a><a href="#h1-0-173" id="h1-0-173" class="d">-        public static readonly PasteFormat Prolog = new PasteFormat(&quot;prolog&quot;);
+</a><a href="#h1-0-174" id="h1-0-174" class="d">-        public static readonly PasteFormat Properties = new PasteFormat(&quot;properties&quot;);
+</a><a href="#h1-0-175" id="h1-0-175" class="d">-        public static readonly PasteFormat ProvideX = new PasteFormat(&quot;providex&quot;);
+</a><a href="#h1-0-176" id="h1-0-176" class="d">-        public static readonly PasteFormat PureBasic = new PasteFormat(&quot;purebasic&quot;);
+</a><a href="#h1-0-177" id="h1-0-177" class="d">-        public static readonly PasteFormat PyCon = new PasteFormat(&quot;pycon&quot;);
+</a><a href="#h1-0-178" id="h1-0-178" class="d">-        public static readonly PasteFormat Python = new PasteFormat(&quot;python&quot;);
+</a><a href="#h1-0-179" id="h1-0-179" class="d">-        public static readonly PasteFormat PythonforS60 = new PasteFormat(&quot;pys60&quot;);
+</a><a href="#h1-0-180" id="h1-0-180" class="d">-        public static readonly PasteFormat qkdbplus = new PasteFormat(&quot;q&quot;);
+</a><a href="#h1-0-181" id="h1-0-181" class="d">-        public static readonly PasteFormat QBasic = new PasteFormat(&quot;qbasic&quot;);
+</a><a href="#h1-0-182" id="h1-0-182" class="d">-        public static readonly PasteFormat R = new PasteFormat(&quot;rsplus&quot;);
+</a><a href="#h1-0-183" id="h1-0-183" class="d">-        public static readonly PasteFormat Rails = new PasteFormat(&quot;rails&quot;);
+</a><a href="#h1-0-184" id="h1-0-184" class="d">-        public static readonly PasteFormat REBOL = new PasteFormat(&quot;rebol&quot;);
+</a><a href="#h1-0-185" id="h1-0-185" class="d">-        public static readonly PasteFormat REG = new PasteFormat(&quot;reg&quot;);
+</a><a href="#h1-0-186" id="h1-0-186" class="d">-        public static readonly PasteFormat Rexx = new PasteFormat(&quot;rexx&quot;);
+</a><a href="#h1-0-187" id="h1-0-187" class="d">-        public static readonly PasteFormat Robots = new PasteFormat(&quot;robots&quot;);
+</a><a href="#h1-0-188" id="h1-0-188" class="d">-        public static readonly PasteFormat RPMSpec = new PasteFormat(&quot;rpmspec&quot;);
+</a><a href="#h1-0-189" id="h1-0-189" class="d">-        public static readonly PasteFormat Ruby = new PasteFormat(&quot;ruby&quot;);
+</a><a href="#h1-0-190" id="h1-0-190" class="d">-        public static readonly PasteFormat RubyGnuplot = new PasteFormat(&quot;gnuplot&quot;);
+</a><a href="#h1-0-191" id="h1-0-191" class="d">-        public static readonly PasteFormat SAS = new PasteFormat(&quot;sas&quot;);
+</a><a href="#h1-0-192" id="h1-0-192" class="d">-        public static readonly PasteFormat Scala = new PasteFormat(&quot;scala&quot;);
+</a><a href="#h1-0-193" id="h1-0-193" class="d">-        public static readonly PasteFormat Scheme = new PasteFormat(&quot;scheme&quot;);
+</a><a href="#h1-0-194" id="h1-0-194" class="d">-        public static readonly PasteFormat Scilab = new PasteFormat(&quot;scilab&quot;);
+</a><a href="#h1-0-195" id="h1-0-195" class="d">-        public static readonly PasteFormat SdlBasic = new PasteFormat(&quot;sdlbasic&quot;);
+</a><a href="#h1-0-196" id="h1-0-196" class="d">-        public static readonly PasteFormat Smalltalk = new PasteFormat(&quot;smalltalk&quot;);
+</a><a href="#h1-0-197" id="h1-0-197" class="d">-        public static readonly PasteFormat Smarty = new PasteFormat(&quot;smarty&quot;);
+</a><a href="#h1-0-198" id="h1-0-198" class="d">-        public static readonly PasteFormat SPARK = new PasteFormat(&quot;spark&quot;);
+</a><a href="#h1-0-199" id="h1-0-199" class="d">-        public static readonly PasteFormat SPARQL = new PasteFormat(&quot;sparql&quot;);
+</a><a href="#h1-0-200" id="h1-0-200" class="d">-        public static readonly PasteFormat SQL = new PasteFormat(&quot;sql&quot;);
+</a><a href="#h1-0-201" id="h1-0-201" class="d">-        public static readonly PasteFormat StoneScript = new PasteFormat(&quot;stonescript&quot;);
+</a><a href="#h1-0-202" id="h1-0-202" class="d">-        public static readonly PasteFormat SystemVerilog = new PasteFormat(&quot;systemverilog&quot;);
+</a><a href="#h1-0-203" id="h1-0-203" class="d">-        public static readonly PasteFormat TSQL = new PasteFormat(&quot;tsql&quot;);
+</a><a href="#h1-0-204" id="h1-0-204" class="d">-        public static readonly PasteFormat TCL = new PasteFormat(&quot;tcl&quot;);
+</a><a href="#h1-0-205" id="h1-0-205" class="d">-        public static readonly PasteFormat TeraTerm = new PasteFormat(&quot;teraterm&quot;);
+</a><a href="#h1-0-206" id="h1-0-206" class="d">-        public static readonly PasteFormat thinBasic = new PasteFormat(&quot;thinbasic&quot;);
+</a><a href="#h1-0-207" id="h1-0-207" class="d">-        public static readonly PasteFormat TypoScript = new PasteFormat(&quot;typoscript&quot;);
+</a><a href="#h1-0-208" id="h1-0-208" class="d">-        public static readonly PasteFormat Unicon = new PasteFormat(&quot;unicon&quot;);
+</a><a href="#h1-0-209" id="h1-0-209" class="d">-        public static readonly PasteFormat UnrealScript = new PasteFormat(&quot;uscript&quot;);
+</a><a href="#h1-0-210" id="h1-0-210" class="d">-        public static readonly PasteFormat UPC = new PasteFormat(&quot;ups&quot;);
+</a><a href="#h1-0-211" id="h1-0-211" class="d">-        public static readonly PasteFormat Urbi = new PasteFormat(&quot;urbi&quot;);
+</a><a href="#h1-0-212" id="h1-0-212" class="d">-        public static readonly PasteFormat Vala = new PasteFormat(&quot;vala&quot;);
+</a><a href="#h1-0-213" id="h1-0-213" class="d">-        public static readonly PasteFormat VBNET = new PasteFormat(&quot;vbnet&quot;);
+</a><a href="#h1-0-214" id="h1-0-214" class="d">-        public static readonly PasteFormat Vedit = new PasteFormat(&quot;vedit&quot;);
+</a><a href="#h1-0-215" id="h1-0-215" class="d">-        public static readonly PasteFormat VeriLog = new PasteFormat(&quot;verilog&quot;);
+</a><a href="#h1-0-216" id="h1-0-216" class="d">-        public static readonly PasteFormat VHDL = new PasteFormat(&quot;vhdl&quot;);
+</a><a href="#h1-0-217" id="h1-0-217" class="d">-        public static readonly PasteFormat VIM = new PasteFormat(&quot;vim&quot;);
+</a><a href="#h1-0-218" id="h1-0-218" class="d">-        public static readonly PasteFormat VisualProLog = new PasteFormat(&quot;visualprolog&quot;);
+</a><a href="#h1-0-219" id="h1-0-219" class="d">-        public static readonly PasteFormat VisualBasic = new PasteFormat(&quot;vb&quot;);
+</a><a href="#h1-0-220" id="h1-0-220" class="d">-        public static readonly PasteFormat VisualFoxPro = new PasteFormat(&quot;visualfoxpro&quot;);
+</a><a href="#h1-0-221" id="h1-0-221" class="d">-        public static readonly PasteFormat WhiteSpace = new PasteFormat(&quot;whitespace&quot;);
+</a><a href="#h1-0-222" id="h1-0-222" class="d">-        public static readonly PasteFormat WHOIS = new PasteFormat(&quot;whois&quot;);
+</a><a href="#h1-0-223" id="h1-0-223" class="d">-        public static readonly PasteFormat Winbatch = new PasteFormat(&quot;winbatch&quot;);
+</a><a href="#h1-0-224" id="h1-0-224" class="d">-        public static readonly PasteFormat XBasic = new PasteFormat(&quot;xbasic&quot;);
+</a><a href="#h1-0-225" id="h1-0-225" class="d">-        public static readonly PasteFormat XML = new PasteFormat(&quot;xml&quot;);
+</a><a href="#h1-0-226" id="h1-0-226" class="d">-        public static readonly PasteFormat XorgConfig = new PasteFormat(&quot;xorg_conf&quot;);
+</a><a href="#h1-0-227" id="h1-0-227" class="d">-        public static readonly PasteFormat XPP = new PasteFormat(&quot;xpp&quot;);
+</a><a href="#h1-0-228" id="h1-0-228" class="d">-        public static readonly PasteFormat YAML = new PasteFormat(&quot;yaml&quot;);
+</a><a href="#h1-0-229" id="h1-0-229" class="d">-        public static readonly PasteFormat Z80Assembler = new PasteFormat(&quot;z80&quot;);
+</a><a href="#h1-0-230" id="h1-0-230" class="d">-        public static readonly PasteFormat ZXBasic = new PasteFormat(&quot;zxbasic&quot;);
+</a><a href="#h1-0-231" id="h1-0-231" class="d">-        public static readonly PasteFormat Default = None;
+</a><a href="#h1-0-232" id="h1-0-232" class="i">+        public static PasteFormat _4CS { get { return PasteFormats[&quot;4cs&quot;]; } }
+</a><a href="#h1-0-233" id="h1-0-233" class="i">+        public static PasteFormat _6502ACMECrossAssembler { get { return PasteFormats[&quot;6502acme&quot;]; } }
+</a><a href="#h1-0-234" id="h1-0-234" class="i">+        public static PasteFormat _6502KickAssembler { get { return PasteFormats[&quot;6502kickass&quot;]; } }
+</a><a href="#h1-0-235" id="h1-0-235" class="i">+        public static PasteFormat _6502TASM64TASS { get { return PasteFormats[&quot;6502tasm&quot;]; } }
+</a><a href="#h1-0-236" id="h1-0-236" class="i">+        public static PasteFormat ABAP { get { return PasteFormats[&quot;abap&quot;]; } }
+</a><a href="#h1-0-237" id="h1-0-237" class="i">+        public static PasteFormat ActionScript { get { return PasteFormats[&quot;actionscript&quot;]; } }
+</a><a href="#h1-0-238" id="h1-0-238" class="i">+        public static PasteFormat ActionScript3 { get { return PasteFormats[&quot;actionscript3&quot;]; } }
+</a><a href="#h1-0-239" id="h1-0-239" class="i">+        public static PasteFormat Ada { get { return PasteFormats[&quot;ada&quot;]; } }
+</a><a href="#h1-0-240" id="h1-0-240" class="i">+        public static PasteFormat ALGOL68 { get { return PasteFormats[&quot;algol68&quot;]; } }
+</a><a href="#h1-0-241" id="h1-0-241" class="i">+        public static PasteFormat ApacheLog { get { return PasteFormats[&quot;apache&quot;]; } }
+</a><a href="#h1-0-242" id="h1-0-242" class="i">+        public static PasteFormat AppleScript { get { return PasteFormats[&quot;applescript&quot;]; } }
+</a><a href="#h1-0-243" id="h1-0-243" class="i">+        public static PasteFormat APTSources { get { return PasteFormats[&quot;apt_sources&quot;]; } }
+</a><a href="#h1-0-244" id="h1-0-244" class="i">+        public static PasteFormat ARM { get { return PasteFormats[&quot;arm&quot;]; } }
+</a><a href="#h1-0-245" id="h1-0-245" class="i">+        public static PasteFormat ASM { get { return PasteFormats[&quot;asm&quot;]; } }
+</a><a href="#h1-0-246" id="h1-0-246" class="i">+        public static PasteFormat ASP { get { return PasteFormats[&quot;asp&quot;]; } }
+</a><a href="#h1-0-247" id="h1-0-247" class="i">+        public static PasteFormat Asymptote { get { return PasteFormats[&quot;asymptote&quot;]; } }
+</a><a href="#h1-0-248" id="h1-0-248" class="i">+        public static PasteFormat autoconf { get { return PasteFormats[&quot;autoconf&quot;]; } }
+</a><a href="#h1-0-249" id="h1-0-249" class="i">+        public static PasteFormat Autohotkey { get { return PasteFormats[&quot;autohotkey&quot;]; } }
+</a><a href="#h1-0-250" id="h1-0-250" class="i">+        public static PasteFormat AutoIt { get { return PasteFormats[&quot;autoit&quot;]; } }
+</a><a href="#h1-0-251" id="h1-0-251" class="i">+        public static PasteFormat Avisynth { get { return PasteFormats[&quot;avisynth&quot;]; } }
+</a><a href="#h1-0-252" id="h1-0-252" class="i">+        public static PasteFormat Awk { get { return PasteFormats[&quot;awk&quot;]; } }
+</a><a href="#h1-0-253" id="h1-0-253" class="i">+        public static PasteFormat BASCOMAVR { get { return PasteFormats[&quot;bascomavr&quot;]; } }
+</a><a href="#h1-0-254" id="h1-0-254" class="i">+        public static PasteFormat Bash { get { return PasteFormats[&quot;bash&quot;]; } }
+</a><a href="#h1-0-255" id="h1-0-255" class="i">+        public static PasteFormat Basic4GL { get { return PasteFormats[&quot;basic4gl&quot;]; } }
+</a><a href="#h1-0-256" id="h1-0-256" class="i">+        public static PasteFormat BibTeX { get { return PasteFormats[&quot;bibtex&quot;]; } }
+</a><a href="#h1-0-257" id="h1-0-257" class="i">+        public static PasteFormat BlitzBasic { get { return PasteFormats[&quot;blitzbasic&quot;]; } }
+</a><a href="#h1-0-258" id="h1-0-258" class="i">+        public static PasteFormat BNF { get { return PasteFormats[&quot;bnf&quot;]; } }
+</a><a href="#h1-0-259" id="h1-0-259" class="i">+        public static PasteFormat BOO { get { return PasteFormats[&quot;boo&quot;]; } }
+</a><a href="#h1-0-260" id="h1-0-260" class="i">+        public static PasteFormat BrainFuck { get { return PasteFormats[&quot;bf&quot;]; } }
+</a><a href="#h1-0-261" id="h1-0-261" class="i">+        public static PasteFormat C { get { return PasteFormats[&quot;c&quot;]; } }
+</a><a href="#h1-0-262" id="h1-0-262" class="i">+        public static PasteFormat CforMacs { get { return PasteFormats[&quot;c_mac&quot;]; } }
+</a><a href="#h1-0-263" id="h1-0-263" class="i">+        public static PasteFormat CIntermediateLanguage { get { return PasteFormats[&quot;cil&quot;]; } }
+</a><a href="#h1-0-264" id="h1-0-264" class="i">+        public static PasteFormat CSharp { get { return PasteFormats[&quot;csharp&quot;]; } }
+</a><a href="#h1-0-265" id="h1-0-265" class="i">+        public static PasteFormat CPlusPlus { get { return PasteFormats[&quot;cpp&quot;]; } }
+</a><a href="#h1-0-266" id="h1-0-266" class="i">+        public static PasteFormat CPlusPlusQT { get { return PasteFormats[&quot;cpp-qt&quot;]; } }
+</a><a href="#h1-0-267" id="h1-0-267" class="i">+        public static PasteFormat CLoadrunner { get { return PasteFormats[&quot;c_loadrunner&quot;]; } }
+</a><a href="#h1-0-268" id="h1-0-268" class="i">+        public static PasteFormat CADDCL { get { return PasteFormats[&quot;caddcl&quot;]; } }
+</a><a href="#h1-0-269" id="h1-0-269" class="i">+        public static PasteFormat CADLisp { get { return PasteFormats[&quot;cadlisp&quot;]; } }
+</a><a href="#h1-0-270" id="h1-0-270" class="i">+        public static PasteFormat CFDG { get { return PasteFormats[&quot;cfdg&quot;]; } }
+</a><a href="#h1-0-271" id="h1-0-271" class="i">+        public static PasteFormat ChaiScript { get { return PasteFormats[&quot;chaiscript&quot;]; } }
+</a><a href="#h1-0-272" id="h1-0-272" class="i">+        public static PasteFormat Clojure { get { return PasteFormats[&quot;clojure&quot;]; } }
+</a><a href="#h1-0-273" id="h1-0-273" class="i">+        public static PasteFormat CloneC { get { return PasteFormats[&quot;klonec&quot;]; } }
+</a><a href="#h1-0-274" id="h1-0-274" class="i">+        public static PasteFormat CloneCPlusPlus { get { return PasteFormats[&quot;klonecpp&quot;]; } }
+</a><a href="#h1-0-275" id="h1-0-275" class="i">+        public static PasteFormat CMake { get { return PasteFormats[&quot;cmake&quot;]; } }
+</a><a href="#h1-0-276" id="h1-0-276" class="i">+        public static PasteFormat COBOL { get { return PasteFormats[&quot;cobol&quot;]; } }
+</a><a href="#h1-0-277" id="h1-0-277" class="i">+        public static PasteFormat CoffeeScript { get { return PasteFormats[&quot;coffeescript&quot;]; } }
+</a><a href="#h1-0-278" id="h1-0-278" class="i">+        public static PasteFormat ColdFusion { get { return PasteFormats[&quot;cfm&quot;]; } }
+</a><a href="#h1-0-279" id="h1-0-279" class="i">+        public static PasteFormat CSS { get { return PasteFormats[&quot;css&quot;]; } }
+</a><a href="#h1-0-280" id="h1-0-280" class="i">+        public static PasteFormat Cuesheet { get { return PasteFormats[&quot;cuesheet&quot;]; } }
+</a><a href="#h1-0-281" id="h1-0-281" class="i">+        public static PasteFormat D { get { return PasteFormats[&quot;d&quot;]; } }
+</a><a href="#h1-0-282" id="h1-0-282" class="i">+        public static PasteFormat DCL { get { return PasteFormats[&quot;dcl&quot;]; } }
+</a><a href="#h1-0-283" id="h1-0-283" class="i">+        public static PasteFormat DCPU16 { get { return PasteFormats[&quot;dcpu16&quot;]; } }
+</a><a href="#h1-0-284" id="h1-0-284" class="i">+        public static PasteFormat DCS { get { return PasteFormats[&quot;dcs&quot;]; } }
+</a><a href="#h1-0-285" id="h1-0-285" class="i">+        public static PasteFormat Delphi { get { return PasteFormats[&quot;delphi&quot;]; } }
+</a><a href="#h1-0-286" id="h1-0-286" class="i">+        public static PasteFormat Oxygene { get { return PasteFormats[&quot;oxygene&quot;]; } }
+</a><a href="#h1-0-287" id="h1-0-287" class="i">+        public static PasteFormat Diff { get { return PasteFormats[&quot;diff&quot;]; } }
+</a><a href="#h1-0-288" id="h1-0-288" class="i">+        public static PasteFormat DIV { get { return PasteFormats[&quot;div&quot;]; } }
+</a><a href="#h1-0-289" id="h1-0-289" class="i">+        public static PasteFormat DOS { get { return PasteFormats[&quot;dos&quot;]; } }
+</a><a href="#h1-0-290" id="h1-0-290" class="i">+        public static PasteFormat DOT { get { return PasteFormats[&quot;dot&quot;]; } }
+</a><a href="#h1-0-291" id="h1-0-291" class="i">+        public static PasteFormat E { get { return PasteFormats[&quot;e&quot;]; } }
+</a><a href="#h1-0-292" id="h1-0-292" class="i">+        public static PasteFormat ECMAScript { get { return PasteFormats[&quot;ecmascript&quot;]; } }
+</a><a href="#h1-0-293" id="h1-0-293" class="i">+        public static PasteFormat Eiffel { get { return PasteFormats[&quot;eiffel&quot;]; } }
+</a><a href="#h1-0-294" id="h1-0-294" class="i">+        public static PasteFormat Email { get { return PasteFormats[&quot;email&quot;]; } }
+</a><a href="#h1-0-295" id="h1-0-295" class="i">+        public static PasteFormat EPC { get { return PasteFormats[&quot;epc&quot;]; } }
+</a><a href="#h1-0-296" id="h1-0-296" class="i">+        public static PasteFormat Erlang { get { return PasteFormats[&quot;erlang&quot;]; } }
+</a><a href="#h1-0-297" id="h1-0-297" class="i">+        public static PasteFormat FSharp { get { return PasteFormats[&quot;fsharp&quot;]; } }
+</a><a href="#h1-0-298" id="h1-0-298" class="i">+        public static PasteFormat Falcon { get { return PasteFormats[&quot;falcon&quot;]; } }
+</a><a href="#h1-0-299" id="h1-0-299" class="i">+        public static PasteFormat FOLanguage { get { return PasteFormats[&quot;fo&quot;]; } }
+</a><a href="#h1-0-300" id="h1-0-300" class="i">+        public static PasteFormat FormulaOne { get { return PasteFormats[&quot;f1&quot;]; } }
+</a><a href="#h1-0-301" id="h1-0-301" class="i">+        public static PasteFormat Fortran { get { return PasteFormats[&quot;fortran&quot;]; } }
+</a><a href="#h1-0-302" id="h1-0-302" class="i">+        public static PasteFormat FreeBasic { get { return PasteFormats[&quot;freebasic&quot;]; } }
+</a><a href="#h1-0-303" id="h1-0-303" class="i">+        public static PasteFormat FreeSWITCH { get { return PasteFormats[&quot;freeswitch&quot;]; } }
+</a><a href="#h1-0-304" id="h1-0-304" class="i">+        public static PasteFormat GAMBAS { get { return PasteFormats[&quot;gambas&quot;]; } }
+</a><a href="#h1-0-305" id="h1-0-305" class="i">+        public static PasteFormat GameMaker { get { return PasteFormats[&quot;gml&quot;]; } }
+</a><a href="#h1-0-306" id="h1-0-306" class="i">+        public static PasteFormat GDB { get { return PasteFormats[&quot;gdb&quot;]; } }
+</a><a href="#h1-0-307" id="h1-0-307" class="i">+        public static PasteFormat Genero { get { return PasteFormats[&quot;genero&quot;]; } }
+</a><a href="#h1-0-308" id="h1-0-308" class="i">+        public static PasteFormat Genie { get { return PasteFormats[&quot;genie&quot;]; } }
+</a><a href="#h1-0-309" id="h1-0-309" class="i">+        public static PasteFormat GetText { get { return PasteFormats[&quot;gettext&quot;]; } }
+</a><a href="#h1-0-310" id="h1-0-310" class="i">+        public static PasteFormat Go { get { return PasteFormats[&quot;go&quot;]; } }
+</a><a href="#h1-0-311" id="h1-0-311" class="i">+        public static PasteFormat Groovy { get { return PasteFormats[&quot;groovy&quot;]; } }
+</a><a href="#h1-0-312" id="h1-0-312" class="i">+        public static PasteFormat GwBasic { get { return PasteFormats[&quot;gwbasic&quot;]; } }
+</a><a href="#h1-0-313" id="h1-0-313" class="i">+        public static PasteFormat Haskell { get { return PasteFormats[&quot;haskell&quot;]; } }
+</a><a href="#h1-0-314" id="h1-0-314" class="i">+        public static PasteFormat Haxe { get { return PasteFormats[&quot;haxe&quot;]; } }
+</a><a href="#h1-0-315" id="h1-0-315" class="i">+        public static PasteFormat HicEst { get { return PasteFormats[&quot;hicest&quot;]; } }
+</a><a href="#h1-0-316" id="h1-0-316" class="i">+        public static PasteFormat HQ9Plus { get { return PasteFormats[&quot;hq9plus&quot;]; } }
+</a><a href="#h1-0-317" id="h1-0-317" class="i">+        public static PasteFormat HTML { get { return PasteFormats[&quot;html4strict&quot;]; } }
+</a><a href="#h1-0-318" id="h1-0-318" class="i">+        public static PasteFormat HTML5 { get { return PasteFormats[&quot;html5&quot;]; } }
+</a><a href="#h1-0-319" id="h1-0-319" class="i">+        public static PasteFormat Icon { get { return PasteFormats[&quot;icon&quot;]; } }
+</a><a href="#h1-0-320" id="h1-0-320" class="i">+        public static PasteFormat IDL { get { return PasteFormats[&quot;idl&quot;]; } }
+</a><a href="#h1-0-321" id="h1-0-321" class="i">+        public static PasteFormat INIfile { get { return PasteFormats[&quot;ini&quot;]; } }
+</a><a href="#h1-0-322" id="h1-0-322" class="i">+        public static PasteFormat InnoScript { get { return PasteFormats[&quot;inno&quot;]; } }
+</a><a href="#h1-0-323" id="h1-0-323" class="i">+        public static PasteFormat INTERCAL { get { return PasteFormats[&quot;intercal&quot;]; } }
+</a><a href="#h1-0-324" id="h1-0-324" class="i">+        public static PasteFormat IO { get { return PasteFormats[&quot;io&quot;]; } }
+</a><a href="#h1-0-325" id="h1-0-325" class="i">+        public static PasteFormat J { get { return PasteFormats[&quot;j&quot;]; } }
+</a><a href="#h1-0-326" id="h1-0-326" class="i">+        public static PasteFormat Java { get { return PasteFormats[&quot;java&quot;]; } }
+</a><a href="#h1-0-327" id="h1-0-327" class="i">+        public static PasteFormat Java5 { get { return PasteFormats[&quot;java5&quot;]; } }
+</a><a href="#h1-0-328" id="h1-0-328" class="i">+        public static PasteFormat JavaScript { get { return PasteFormats[&quot;javascript&quot;]; } }
+</a><a href="#h1-0-329" id="h1-0-329" class="i">+        public static PasteFormat jQuery { get { return PasteFormats[&quot;jquery&quot;]; } }
+</a><a href="#h1-0-330" id="h1-0-330" class="i">+        public static PasteFormat KiXtart { get { return PasteFormats[&quot;kixtart&quot;]; } }
+</a><a href="#h1-0-331" id="h1-0-331" class="i">+        public static PasteFormat Latex { get { return PasteFormats[&quot;latex&quot;]; } }
+</a><a href="#h1-0-332" id="h1-0-332" class="i">+        public static PasteFormat LDIF { get { return PasteFormats[&quot;ldif&quot;]; } }
+</a><a href="#h1-0-333" id="h1-0-333" class="i">+        public static PasteFormat LibertyBASIC { get { return PasteFormats[&quot;lb&quot;]; } }
+</a><a href="#h1-0-334" id="h1-0-334" class="i">+        public static PasteFormat LindenScripting { get { return PasteFormats[&quot;lsl2&quot;]; } }
+</a><a href="#h1-0-335" id="h1-0-335" class="i">+        public static PasteFormat Lisp { get { return PasteFormats[&quot;lisp&quot;]; } }
+</a><a href="#h1-0-336" id="h1-0-336" class="i">+        public static PasteFormat LLVM { get { return PasteFormats[&quot;llvm&quot;]; } }
+</a><a href="#h1-0-337" id="h1-0-337" class="i">+        public static PasteFormat LocoBasic { get { return PasteFormats[&quot;locobasic&quot;]; } }
+</a><a href="#h1-0-338" id="h1-0-338" class="i">+        public static PasteFormat Logtalk { get { return PasteFormats[&quot;logtalk&quot;]; } }
+</a><a href="#h1-0-339" id="h1-0-339" class="i">+        public static PasteFormat LOLCode { get { return PasteFormats[&quot;lolcode&quot;]; } }
+</a><a href="#h1-0-340" id="h1-0-340" class="i">+        public static PasteFormat LotusFormulas { get { return PasteFormats[&quot;lotusformulas&quot;]; } }
+</a><a href="#h1-0-341" id="h1-0-341" class="i">+        public static PasteFormat LotusScript { get { return PasteFormats[&quot;lotusscript&quot;]; } }
+</a><a href="#h1-0-342" id="h1-0-342" class="i">+        public static PasteFormat LScript { get { return PasteFormats[&quot;lscript&quot;]; } }
+</a><a href="#h1-0-343" id="h1-0-343" class="i">+        public static PasteFormat Lua { get { return PasteFormats[&quot;lua&quot;]; } }
+</a><a href="#h1-0-344" id="h1-0-344" class="i">+        public static PasteFormat M68000Assembler { get { return PasteFormats[&quot;m68k&quot;]; } }
+</a><a href="#h1-0-345" id="h1-0-345" class="i">+        public static PasteFormat MagikSF { get { return PasteFormats[&quot;magiksf&quot;]; } }
+</a><a href="#h1-0-346" id="h1-0-346" class="i">+        public static PasteFormat Make { get { return PasteFormats[&quot;make&quot;]; } }
+</a><a href="#h1-0-347" id="h1-0-347" class="i">+        public static PasteFormat MapBasic { get { return PasteFormats[&quot;mapbasic&quot;]; } }
+</a><a href="#h1-0-348" id="h1-0-348" class="i">+        public static PasteFormat MatLab { get { return PasteFormats[&quot;matlab&quot;]; } }
+</a><a href="#h1-0-349" id="h1-0-349" class="i">+        public static PasteFormat mIRC { get { return PasteFormats[&quot;mirc&quot;]; } }
+</a><a href="#h1-0-350" id="h1-0-350" class="i">+        public static PasteFormat MIXAssembler { get { return PasteFormats[&quot;mmix&quot;]; } }
+</a><a href="#h1-0-351" id="h1-0-351" class="i">+        public static PasteFormat Modula2 { get { return PasteFormats[&quot;modula2&quot;]; } }
+</a><a href="#h1-0-352" id="h1-0-352" class="i">+        public static PasteFormat Modula3 { get { return PasteFormats[&quot;modula3&quot;]; } }
+</a><a href="#h1-0-353" id="h1-0-353" class="i">+        public static PasteFormat Motorola68000HiSoftDev { get { return PasteFormats[&quot;68000devpac&quot;]; } }
+</a><a href="#h1-0-354" id="h1-0-354" class="i">+        public static PasteFormat MPASM { get { return PasteFormats[&quot;mpasm&quot;]; } }
+</a><a href="#h1-0-355" id="h1-0-355" class="i">+        public static PasteFormat MXML { get { return PasteFormats[&quot;mxml&quot;]; } }
+</a><a href="#h1-0-356" id="h1-0-356" class="i">+        public static PasteFormat MySQL { get { return PasteFormats[&quot;mysql&quot;]; } }
+</a><a href="#h1-0-357" id="h1-0-357" class="i">+        public static PasteFormat Nagios { get { return PasteFormats[&quot;nagios&quot;]; } }
+</a><a href="#h1-0-358" id="h1-0-358" class="i">+        public static PasteFormat newLISP { get { return PasteFormats[&quot;newlisp&quot;]; } }
+</a><a href="#h1-0-359" id="h1-0-359" class="i">+        public static PasteFormat None { get { return PasteFormats[&quot;text&quot;]; } }
+</a><a href="#h1-0-360" id="h1-0-360" class="i">+        public static PasteFormat NullSoftInstaller { get { return PasteFormats[&quot;nsis&quot;]; } }
+</a><a href="#h1-0-361" id="h1-0-361" class="i">+        public static PasteFormat Oberon2 { get { return PasteFormats[&quot;oberon2&quot;]; } }
+</a><a href="#h1-0-362" id="h1-0-362" class="i">+        public static PasteFormat ObjeckProgrammingLangua { get { return PasteFormats[&quot;objeck&quot;]; } }
+</a><a href="#h1-0-363" id="h1-0-363" class="i">+        public static PasteFormat ObjectiveC { get { return PasteFormats[&quot;objc&quot;]; } }
+</a><a href="#h1-0-364" id="h1-0-364" class="i">+        public static PasteFormat OCalmBrief { get { return PasteFormats[&quot;ocaml-brief&quot;]; } }
+</a><a href="#h1-0-365" id="h1-0-365" class="i">+        public static PasteFormat OCaml { get { return PasteFormats[&quot;ocaml&quot;]; } }
+</a><a href="#h1-0-366" id="h1-0-366" class="i">+        public static PasteFormat Octave { get { return PasteFormats[&quot;octave&quot;]; } }
+</a><a href="#h1-0-367" id="h1-0-367" class="i">+        public static PasteFormat OpenBSDPACKETFILTER { get { return PasteFormats[&quot;pf&quot;]; } }
+</a><a href="#h1-0-368" id="h1-0-368" class="i">+        public static PasteFormat OpenGLShading { get { return PasteFormats[&quot;glsl&quot;]; } }
+</a><a href="#h1-0-369" id="h1-0-369" class="i">+        public static PasteFormat OpenofficeBASIC { get { return PasteFormats[&quot;oobas&quot;]; } }
+</a><a href="#h1-0-370" id="h1-0-370" class="i">+        public static PasteFormat Oracle11 { get { return PasteFormats[&quot;oracle11&quot;]; } }
+</a><a href="#h1-0-371" id="h1-0-371" class="i">+        public static PasteFormat Oracle8 { get { return PasteFormats[&quot;oracle8&quot;]; } }
+</a><a href="#h1-0-372" id="h1-0-372" class="i">+        public static PasteFormat Oz { get { return PasteFormats[&quot;oz&quot;]; } }
+</a><a href="#h1-0-373" id="h1-0-373" class="i">+        public static PasteFormat ParaSail { get { return PasteFormats[&quot;parasail&quot;]; } }
+</a><a href="#h1-0-374" id="h1-0-374" class="i">+        public static PasteFormat PARIGP { get { return PasteFormats[&quot;parigp&quot;]; } }
+</a><a href="#h1-0-375" id="h1-0-375" class="i">+        public static PasteFormat Pascal { get { return PasteFormats[&quot;pascal&quot;]; } }
+</a><a href="#h1-0-376" id="h1-0-376" class="i">+        public static PasteFormat PAWN { get { return PasteFormats[&quot;pawn&quot;]; } }
+</a><a href="#h1-0-377" id="h1-0-377" class="i">+        public static PasteFormat PCRE { get { return PasteFormats[&quot;pcre&quot;]; } }
+</a><a href="#h1-0-378" id="h1-0-378" class="i">+        public static PasteFormat Per { get { return PasteFormats[&quot;per&quot;]; } }
+</a><a href="#h1-0-379" id="h1-0-379" class="i">+        public static PasteFormat Perl { get { return PasteFormats[&quot;perl&quot;]; } }
+</a><a href="#h1-0-380" id="h1-0-380" class="i">+        public static PasteFormat Perl6 { get { return PasteFormats[&quot;perl6&quot;]; } }
+</a><a href="#h1-0-381" id="h1-0-381" class="i">+        public static PasteFormat PHP { get { return PasteFormats[&quot;php&quot;]; } }
+</a><a href="#h1-0-382" id="h1-0-382" class="i">+        public static PasteFormat PHPBrief { get { return PasteFormats[&quot;php-brief&quot;]; } }
+</a><a href="#h1-0-383" id="h1-0-383" class="i">+        public static PasteFormat Pic16 { get { return PasteFormats[&quot;pic16&quot;]; } }
+</a><a href="#h1-0-384" id="h1-0-384" class="i">+        public static PasteFormat Pike { get { return PasteFormats[&quot;pike&quot;]; } }
+</a><a href="#h1-0-385" id="h1-0-385" class="i">+        public static PasteFormat PixelBender { get { return PasteFormats[&quot;pixelbender&quot;]; } }
+</a><a href="#h1-0-386" id="h1-0-386" class="i">+        public static PasteFormat PLSQL { get { return PasteFormats[&quot;plsql&quot;]; } }
+</a><a href="#h1-0-387" id="h1-0-387" class="i">+        public static PasteFormat PostgreSQL { get { return PasteFormats[&quot;postgresql&quot;]; } }
+</a><a href="#h1-0-388" id="h1-0-388" class="i">+        public static PasteFormat POVRay { get { return PasteFormats[&quot;povray&quot;]; } }
+</a><a href="#h1-0-389" id="h1-0-389" class="i">+        public static PasteFormat PowerShell { get { return PasteFormats[&quot;powershell&quot;]; } }
+</a><a href="#h1-0-390" id="h1-0-390" class="i">+        public static PasteFormat PowerBuilder { get { return PasteFormats[&quot;powerbuilder&quot;]; } }
+</a><a href="#h1-0-391" id="h1-0-391" class="i">+        public static PasteFormat ProFTPd { get { return PasteFormats[&quot;proftpd&quot;]; } }
+</a><a href="#h1-0-392" id="h1-0-392" class="i">+        public static PasteFormat Progress { get { return PasteFormats[&quot;progress&quot;]; } }
+</a><a href="#h1-0-393" id="h1-0-393" class="i">+        public static PasteFormat Prolog { get { return PasteFormats[&quot;prolog&quot;]; } }
+</a><a href="#h1-0-394" id="h1-0-394" class="i">+        public static PasteFormat Properties { get { return PasteFormats[&quot;properties&quot;]; } }
+</a><a href="#h1-0-395" id="h1-0-395" class="i">+        public static PasteFormat ProvideX { get { return PasteFormats[&quot;providex&quot;]; } }
+</a><a href="#h1-0-396" id="h1-0-396" class="i">+        public static PasteFormat PureBasic { get { return PasteFormats[&quot;purebasic&quot;]; } }
+</a><a href="#h1-0-397" id="h1-0-397" class="i">+        public static PasteFormat PyCon { get { return PasteFormats[&quot;pycon&quot;]; } }
+</a><a href="#h1-0-398" id="h1-0-398" class="i">+        public static PasteFormat Python { get { return PasteFormats[&quot;python&quot;]; } }
+</a><a href="#h1-0-399" id="h1-0-399" class="i">+        public static PasteFormat PythonforS60 { get { return PasteFormats[&quot;pys60&quot;]; } }
+</a><a href="#h1-0-400" id="h1-0-400" class="i">+        public static PasteFormat qkdbplus { get { return PasteFormats[&quot;q&quot;]; } }
+</a><a href="#h1-0-401" id="h1-0-401" class="i">+        public static PasteFormat QBasic { get { return PasteFormats[&quot;qbasic&quot;]; } }
+</a><a href="#h1-0-402" id="h1-0-402" class="i">+        public static PasteFormat R { get { return PasteFormats[&quot;rsplus&quot;]; } }
+</a><a href="#h1-0-403" id="h1-0-403" class="i">+        public static PasteFormat Rails { get { return PasteFormats[&quot;rails&quot;]; } }
+</a><a href="#h1-0-404" id="h1-0-404" class="i">+        public static PasteFormat REBOL { get { return PasteFormats[&quot;rebol&quot;]; } }
+</a><a href="#h1-0-405" id="h1-0-405" class="i">+        public static PasteFormat REG { get { return PasteFormats[&quot;reg&quot;]; } }
+</a><a href="#h1-0-406" id="h1-0-406" class="i">+        public static PasteFormat Rexx { get { return PasteFormats[&quot;rexx&quot;]; } }
+</a><a href="#h1-0-407" id="h1-0-407" class="i">+        public static PasteFormat Robots { get { return PasteFormats[&quot;robots&quot;]; } }
+</a><a href="#h1-0-408" id="h1-0-408" class="i">+        public static PasteFormat RPMSpec { get { return PasteFormats[&quot;rpmspec&quot;]; } }
+</a><a href="#h1-0-409" id="h1-0-409" class="i">+        public static PasteFormat Ruby { get { return PasteFormats[&quot;ruby&quot;]; } }
+</a><a href="#h1-0-410" id="h1-0-410" class="i">+        public static PasteFormat RubyGnuplot { get { return PasteFormats[&quot;gnuplot&quot;]; } }
+</a><a href="#h1-0-411" id="h1-0-411" class="i">+        public static PasteFormat SAS { get { return PasteFormats[&quot;sas&quot;]; } }
+</a><a href="#h1-0-412" id="h1-0-412" class="i">+        public static PasteFormat Scala { get { return PasteFormats[&quot;scala&quot;]; } }
+</a><a href="#h1-0-413" id="h1-0-413" class="i">+        public static PasteFormat Scheme { get { return PasteFormats[&quot;scheme&quot;]; } }
+</a><a href="#h1-0-414" id="h1-0-414" class="i">+        public static PasteFormat Scilab { get { return PasteFormats[&quot;scilab&quot;]; } }
+</a><a href="#h1-0-415" id="h1-0-415" class="i">+        public static PasteFormat SdlBasic { get { return PasteFormats[&quot;sdlbasic&quot;]; } }
+</a><a href="#h1-0-416" id="h1-0-416" class="i">+        public static PasteFormat Smalltalk { get { return PasteFormats[&quot;smalltalk&quot;]; } }
+</a><a href="#h1-0-417" id="h1-0-417" class="i">+        public static PasteFormat Smarty { get { return PasteFormats[&quot;smarty&quot;]; } }
+</a><a href="#h1-0-418" id="h1-0-418" class="i">+        public static PasteFormat SPARK { get { return PasteFormats[&quot;spark&quot;]; } }
+</a><a href="#h1-0-419" id="h1-0-419" class="i">+        public static PasteFormat SPARQL { get { return PasteFormats[&quot;sparql&quot;]; } }
+</a><a href="#h1-0-420" id="h1-0-420" class="i">+        public static PasteFormat SQL { get { return PasteFormats[&quot;sql&quot;]; } }
+</a><a href="#h1-0-421" id="h1-0-421" class="i">+        public static PasteFormat StoneScript { get { return PasteFormats[&quot;stonescript&quot;]; } }
+</a><a href="#h1-0-422" id="h1-0-422" class="i">+        public static PasteFormat SystemVerilog { get { return PasteFormats[&quot;systemverilog&quot;]; } }
+</a><a href="#h1-0-423" id="h1-0-423" class="i">+        public static PasteFormat TSQL { get { return PasteFormats[&quot;tsql&quot;]; } }
+</a><a href="#h1-0-424" id="h1-0-424" class="i">+        public static PasteFormat TCL { get { return PasteFormats[&quot;tcl&quot;]; } }
+</a><a href="#h1-0-425" id="h1-0-425" class="i">+        public static PasteFormat TeraTerm { get { return PasteFormats[&quot;teraterm&quot;]; } }
+</a><a href="#h1-0-426" id="h1-0-426" class="i">+        public static PasteFormat thinBasic { get { return PasteFormats[&quot;thinbasic&quot;]; } }
+</a><a href="#h1-0-427" id="h1-0-427" class="i">+        public static PasteFormat TypoScript { get { return PasteFormats[&quot;typoscript&quot;]; } }
+</a><a href="#h1-0-428" id="h1-0-428" class="i">+        public static PasteFormat Unicon { get { return PasteFormats[&quot;unicon&quot;]; } }
+</a><a href="#h1-0-429" id="h1-0-429" class="i">+        public static PasteFormat UnrealScript { get { return PasteFormats[&quot;uscript&quot;]; } }
+</a><a href="#h1-0-430" id="h1-0-430" class="i">+        public static PasteFormat UPC { get { return PasteFormats[&quot;ups&quot;]; } }
+</a><a href="#h1-0-431" id="h1-0-431" class="i">+        public static PasteFormat Urbi { get { return PasteFormats[&quot;urbi&quot;]; } }
+</a><a href="#h1-0-432" id="h1-0-432" class="i">+        public static PasteFormat Vala { get { return PasteFormats[&quot;vala&quot;]; } }
+</a><a href="#h1-0-433" id="h1-0-433" class="i">+        public static PasteFormat VBNET { get { return PasteFormats[&quot;vbnet&quot;]; } }
+</a><a href="#h1-0-434" id="h1-0-434" class="i">+        public static PasteFormat Vedit { get { return PasteFormats[&quot;vedit&quot;]; } }
+</a><a href="#h1-0-435" id="h1-0-435" class="i">+        public static PasteFormat VeriLog { get { return PasteFormats[&quot;verilog&quot;]; } }
+</a><a href="#h1-0-436" id="h1-0-436" class="i">+        public static PasteFormat VHDL { get { return PasteFormats[&quot;vhdl&quot;]; } }
+</a><a href="#h1-0-437" id="h1-0-437" class="i">+        public static PasteFormat VIM { get { return PasteFormats[&quot;vim&quot;]; } }
+</a><a href="#h1-0-438" id="h1-0-438" class="i">+        public static PasteFormat VisualProLog { get { return PasteFormats[&quot;visualprolog&quot;]; } }
+</a><a href="#h1-0-439" id="h1-0-439" class="i">+        public static PasteFormat VisualBasic { get { return PasteFormats[&quot;vb&quot;]; } }
+</a><a href="#h1-0-440" id="h1-0-440" class="i">+        public static PasteFormat VisualFoxPro { get { return PasteFormats[&quot;visualfoxpro&quot;]; } }
+</a><a href="#h1-0-441" id="h1-0-441" class="i">+        public static PasteFormat WhiteSpace { get { return PasteFormats[&quot;whitespace&quot;]; } }
+</a><a href="#h1-0-442" id="h1-0-442" class="i">+        public static PasteFormat WHOIS { get { return PasteFormats[&quot;whois&quot;]; } }
+</a><a href="#h1-0-443" id="h1-0-443" class="i">+        public static PasteFormat Winbatch { get { return PasteFormats[&quot;winbatch&quot;]; } }
+</a><a href="#h1-0-444" id="h1-0-444" class="i">+        public static PasteFormat XBasic { get { return PasteFormats[&quot;xbasic&quot;]; } }
+</a><a href="#h1-0-445" id="h1-0-445" class="i">+        public static PasteFormat XML { get { return PasteFormats[&quot;xml&quot;]; } }
+</a><a href="#h1-0-446" id="h1-0-446" class="i">+        public static PasteFormat XorgConfig { get { return PasteFormats[&quot;xorg_conf&quot;]; } }
+</a><a href="#h1-0-447" id="h1-0-447" class="i">+        public static PasteFormat XPP { get { return PasteFormats[&quot;xpp&quot;]; } }
+</a><a href="#h1-0-448" id="h1-0-448" class="i">+        public static PasteFormat YAML { get { return PasteFormats[&quot;yaml&quot;]; } }
+</a><a href="#h1-0-449" id="h1-0-449" class="i">+        public static PasteFormat Z80Assembler { get { return PasteFormats[&quot;z80&quot;]; } }
+</a><a href="#h1-0-450" id="h1-0-450" class="i">+        public static PasteFormat ZXBasic { get { return PasteFormats[&quot;zxbasic&quot;]; } }
+</a>         // ReSharper restore InconsistentNaming
+         #endregion
+<a href="#h1-0-453" id="h1-0-453" class="i">+        public static PasteFormat Default { get { return None; } }
+</a><a href="#h1-0-454" id="h1-0-454" class="i">+        public static IEnumerable&lt;PasteFormat&gt; All { get { return PasteFormats.Values; } }
+</a><a href="#h1-0-455" id="h1-0-455" class="i">+
+</a><a href="#h1-0-456" id="h1-0-456" class="i">+        private static readonly Dictionary&lt;string, PasteFormat&gt; PasteFormats;
+</a><a href="#h1-0-457" id="h1-0-457" class="i">+        static PasteFormat()
+</a><a href="#h1-0-458" id="h1-0-458" class="i">+        {
+</a><a href="#h1-0-459" id="h1-0-459" class="i">+            PasteFormats = (new[] { &quot;4cs&quot;,
+</a><a href="#h1-0-460" id="h1-0-460" class="i">+                                    &quot;6502acme&quot;,
+</a><a href="#h1-0-461" id="h1-0-461" class="i">+                                    &quot;6502kickass&quot;,
+</a><a href="#h1-0-462" id="h1-0-462" class="i">+                                    &quot;6502tasm&quot;,
+</a><a href="#h1-0-463" id="h1-0-463" class="i">+                                    &quot;abap&quot;,
+</a><a href="#h1-0-464" id="h1-0-464" class="i">+                                    &quot;actionscript&quot;,
+</a><a href="#h1-0-465" id="h1-0-465" class="i">+                                    &quot;actionscript3&quot;,
+</a><a href="#h1-0-466" id="h1-0-466" class="i">+                                    &quot;ada&quot;,
+</a><a href="#h1-0-467" id="h1-0-467" class="i">+                                    &quot;algol68&quot;,
+</a><a href="#h1-0-468" id="h1-0-468" class="i">+                                    &quot;apache&quot;,
+</a><a href="#h1-0-469" id="h1-0-469" class="i">+                                    &quot;applescript&quot;,
+</a><a href="#h1-0-470" id="h1-0-470" class="i">+                                    &quot;apt_sources&quot;,
+</a><a href="#h1-0-471" id="h1-0-471" class="i">+                                    &quot;arm&quot;,
+</a><a href="#h1-0-472" id="h1-0-472" class="i">+                                    &quot;asm&quot;,
+</a><a href="#h1-0-473" id="h1-0-473" class="i">+                                    &quot;asp&quot;,
+</a><a href="#h1-0-474" id="h1-0-474" class="i">+                                    &quot;asymptote&quot;,
+</a><a href="#h1-0-475" id="h1-0-475" class="i">+                                    &quot;autoconf&quot;,
+</a><a href="#h1-0-476" id="h1-0-476" class="i">+                                    &quot;autohotkey&quot;,
+</a><a href="#h1-0-477" id="h1-0-477" class="i">+                                    &quot;autoit&quot;,
+</a><a href="#h1-0-478" id="h1-0-478" class="i">+                                    &quot;avisynth&quot;,
+</a><a href="#h1-0-479" id="h1-0-479" class="i">+                                    &quot;awk&quot;,
+</a><a href="#h1-0-480" id="h1-0-480" class="i">+                                    &quot;bascomavr&quot;,
+</a><a href="#h1-0-481" id="h1-0-481" class="i">+                                    &quot;bash&quot;,
+</a><a href="#h1-0-482" id="h1-0-482" class="i">+                                    &quot;basic4gl&quot;,
+</a><a href="#h1-0-483" id="h1-0-483" class="i">+                                    &quot;bibtex&quot;,
+</a><a href="#h1-0-484" id="h1-0-484" class="i">+                                    &quot;blitzbasic&quot;,
+</a><a href="#h1-0-485" id="h1-0-485" class="i">+                                    &quot;bnf&quot;,
+</a><a href="#h1-0-486" id="h1-0-486" class="i">+                                    &quot;boo&quot;,
+</a><a href="#h1-0-487" id="h1-0-487" class="i">+                                    &quot;bf&quot;,
+</a><a href="#h1-0-488" id="h1-0-488" class="i">+                                    &quot;c&quot;,
+</a><a href="#h1-0-489" id="h1-0-489" class="i">+                                    &quot;c_mac&quot;,
+</a><a href="#h1-0-490" id="h1-0-490" class="i">+                                    &quot;cil&quot;,
+</a><a href="#h1-0-491" id="h1-0-491" class="i">+                                    &quot;csharp&quot;,
+</a><a href="#h1-0-492" id="h1-0-492" class="i">+                                    &quot;cpp&quot;,
+</a><a href="#h1-0-493" id="h1-0-493" class="i">+                                    &quot;cpp-qt&quot;,
+</a><a href="#h1-0-494" id="h1-0-494" class="i">+                                    &quot;c_loadrunner&quot;,
+</a><a href="#h1-0-495" id="h1-0-495" class="i">+                                    &quot;caddcl&quot;,
+</a><a href="#h1-0-496" id="h1-0-496" class="i">+                                    &quot;cadlisp&quot;,
+</a><a href="#h1-0-497" id="h1-0-497" class="i">+                                    &quot;cfdg&quot;,
+</a><a href="#h1-0-498" id="h1-0-498" class="i">+                                    &quot;chaiscript&quot;,
+</a><a href="#h1-0-499" id="h1-0-499" class="i">+                                    &quot;clojure&quot;,
+</a><a href="#h1-0-500" id="h1-0-500" class="i">+                                    &quot;klonec&quot;,
+</a><a href="#h1-0-501" id="h1-0-501" class="i">+                                    &quot;klonecpp&quot;,
+</a><a href="#h1-0-502" id="h1-0-502" class="i">+                                    &quot;cmake&quot;,
+</a><a href="#h1-0-503" id="h1-0-503" class="i">+                                    &quot;cobol&quot;,
+</a><a href="#h1-0-504" id="h1-0-504" class="i">+                                    &quot;coffeescript&quot;,
+</a><a href="#h1-0-505" id="h1-0-505" class="i">+                                    &quot;cfm&quot;,
+</a><a href="#h1-0-506" id="h1-0-506" class="i">+                                    &quot;css&quot;,
+</a><a href="#h1-0-507" id="h1-0-507" class="i">+                                    &quot;cuesheet&quot;,
+</a><a href="#h1-0-508" id="h1-0-508" class="i">+                                    &quot;d&quot;,
+</a><a href="#h1-0-509" id="h1-0-509" class="i">+                                    &quot;dcl&quot;,
+</a><a href="#h1-0-510" id="h1-0-510" class="i">+                                    &quot;dcpu16&quot;,
+</a><a href="#h1-0-511" id="h1-0-511" class="i">+                                    &quot;dcs&quot;,
+</a><a href="#h1-0-512" id="h1-0-512" class="i">+                                    &quot;delphi&quot;,
+</a><a href="#h1-0-513" id="h1-0-513" class="i">+                                    &quot;oxygene&quot;,
+</a><a href="#h1-0-514" id="h1-0-514" class="i">+                                    &quot;diff&quot;,
+</a><a href="#h1-0-515" id="h1-0-515" class="i">+                                    &quot;div&quot;,
+</a><a href="#h1-0-516" id="h1-0-516" class="i">+                                    &quot;dos&quot;,
+</a><a href="#h1-0-517" id="h1-0-517" class="i">+                                    &quot;dot&quot;,
+</a><a href="#h1-0-518" id="h1-0-518" class="i">+                                    &quot;e&quot;,
+</a><a href="#h1-0-519" id="h1-0-519" class="i">+                                    &quot;ecmascript&quot;,
+</a><a href="#h1-0-520" id="h1-0-520" class="i">+                                    &quot;eiffel&quot;,
+</a><a href="#h1-0-521" id="h1-0-521" class="i">+                                    &quot;email&quot;,
+</a><a href="#h1-0-522" id="h1-0-522" class="i">+                                    &quot;epc&quot;,
+</a><a href="#h1-0-523" id="h1-0-523" class="i">+                                    &quot;erlang&quot;,
+</a><a href="#h1-0-524" id="h1-0-524" class="i">+                                    &quot;fsharp&quot;,
+</a><a href="#h1-0-525" id="h1-0-525" class="i">+                                    &quot;falcon&quot;,
+</a><a href="#h1-0-526" id="h1-0-526" class="i">+                                    &quot;fo&quot;,
+</a><a href="#h1-0-527" id="h1-0-527" class="i">+                                    &quot;f1&quot;,
+</a><a href="#h1-0-528" id="h1-0-528" class="i">+                                    &quot;fortran&quot;,
+</a><a href="#h1-0-529" id="h1-0-529" class="i">+                                    &quot;freebasic&quot;,
+</a><a href="#h1-0-530" id="h1-0-530" class="i">+                                    &quot;freeswitch&quot;,
+</a><a href="#h1-0-531" id="h1-0-531" class="i">+                                    &quot;gambas&quot;,
+</a><a href="#h1-0-532" id="h1-0-532" class="i">+                                    &quot;gml&quot;,
+</a><a href="#h1-0-533" id="h1-0-533" class="i">+                                    &quot;gdb&quot;,
+</a><a href="#h1-0-534" id="h1-0-534" class="i">+                                    &quot;genero&quot;,
+</a><a href="#h1-0-535" id="h1-0-535" class="i">+                                    &quot;genie&quot;,
+</a><a href="#h1-0-536" id="h1-0-536" class="i">+                                    &quot;gettext&quot;,
+</a><a href="#h1-0-537" id="h1-0-537" class="i">+                                    &quot;go&quot;,
+</a><a href="#h1-0-538" id="h1-0-538" class="i">+                                    &quot;groovy&quot;,
+</a><a href="#h1-0-539" id="h1-0-539" class="i">+                                    &quot;gwbasic&quot;,
+</a><a href="#h1-0-540" id="h1-0-540" class="i">+                                    &quot;haskell&quot;,
+</a><a href="#h1-0-541" id="h1-0-541" class="i">+                                    &quot;haxe&quot;,
+</a><a href="#h1-0-542" id="h1-0-542" class="i">+                                    &quot;hicest&quot;,
+</a><a href="#h1-0-543" id="h1-0-543" class="i">+                                    &quot;hq9plus&quot;,
+</a><a href="#h1-0-544" id="h1-0-544" class="i">+                                    &quot;html4strict&quot;,
+</a><a href="#h1-0-545" id="h1-0-545" class="i">+                                    &quot;html5&quot;,
+</a><a href="#h1-0-546" id="h1-0-546" class="i">+                                    &quot;icon&quot;,
+</a><a href="#h1-0-547" id="h1-0-547" class="i">+                                    &quot;idl&quot;,
+</a><a href="#h1-0-548" id="h1-0-548" class="i">+                                    &quot;ini&quot;,
+</a><a href="#h1-0-549" id="h1-0-549" class="i">+                                    &quot;inno&quot;,
+</a><a href="#h1-0-550" id="h1-0-550" class="i">+                                    &quot;intercal&quot;,
+</a><a href="#h1-0-551" id="h1-0-551" class="i">+                                    &quot;io&quot;,
+</a><a href="#h1-0-552" id="h1-0-552" class="i">+                                    &quot;j&quot;,
+</a><a href="#h1-0-553" id="h1-0-553" class="i">+                                    &quot;java&quot;,
+</a><a href="#h1-0-554" id="h1-0-554" class="i">+                                    &quot;java5&quot;,
+</a><a href="#h1-0-555" id="h1-0-555" class="i">+                                    &quot;javascript&quot;,
+</a><a href="#h1-0-556" id="h1-0-556" class="i">+                                    &quot;jquery&quot;,
+</a><a href="#h1-0-557" id="h1-0-557" class="i">+                                    &quot;kixtart&quot;,
+</a><a href="#h1-0-558" id="h1-0-558" class="i">+                                    &quot;latex&quot;,
+</a><a href="#h1-0-559" id="h1-0-559" class="i">+                                    &quot;ldif&quot;,
+</a><a href="#h1-0-560" id="h1-0-560" class="i">+                                    &quot;lb&quot;,
+</a><a href="#h1-0-561" id="h1-0-561" class="i">+                                    &quot;lsl2&quot;,
+</a><a href="#h1-0-562" id="h1-0-562" class="i">+                                    &quot;lisp&quot;,
+</a><a href="#h1-0-563" id="h1-0-563" class="i">+                                    &quot;llvm&quot;,
+</a><a href="#h1-0-564" id="h1-0-564" class="i">+                                    &quot;locobasic&quot;,
+</a><a href="#h1-0-565" id="h1-0-565" class="i">+                                    &quot;logtalk&quot;,
+</a><a href="#h1-0-566" id="h1-0-566" class="i">+                                    &quot;lolcode&quot;,
+</a><a href="#h1-0-567" id="h1-0-567" class="i">+                                    &quot;lotusformulas&quot;,
+</a><a href="#h1-0-568" id="h1-0-568" class="i">+                                    &quot;lotusscript&quot;,
+</a><a href="#h1-0-569" id="h1-0-569" class="i">+                                    &quot;lscript&quot;,
+</a><a href="#h1-0-570" id="h1-0-570" class="i">+                                    &quot;lua&quot;,
+</a><a href="#h1-0-571" id="h1-0-571" class="i">+                                    &quot;m68k&quot;,
+</a><a href="#h1-0-572" id="h1-0-572" class="i">+                                    &quot;magiksf&quot;,
+</a><a href="#h1-0-573" id="h1-0-573" class="i">+                                    &quot;make&quot;,
+</a><a href="#h1-0-574" id="h1-0-574" class="i">+                                    &quot;mapbasic&quot;,
+</a><a href="#h1-0-575" id="h1-0-575" class="i">+                                    &quot;matlab&quot;,
+</a><a href="#h1-0-576" id="h1-0-576" class="i">+                                    &quot;mirc&quot;,
+</a><a href="#h1-0-577" id="h1-0-577" class="i">+                                    &quot;mmix&quot;,
+</a><a href="#h1-0-578" id="h1-0-578" class="i">+                                    &quot;modula2&quot;,
+</a><a href="#h1-0-579" id="h1-0-579" class="i">+                                    &quot;modula3&quot;,
+</a><a href="#h1-0-580" id="h1-0-580" class="i">+                                    &quot;68000devpac&quot;,
+</a><a href="#h1-0-581" id="h1-0-581" class="i">+                                    &quot;mpasm&quot;,
+</a><a href="#h1-0-582" id="h1-0-582" class="i">+                                    &quot;mxml&quot;,
+</a><a href="#h1-0-583" id="h1-0-583" class="i">+                                    &quot;mysql&quot;,
+</a><a href="#h1-0-584" id="h1-0-584" class="i">+                                    &quot;nagios&quot;,
+</a><a href="#h1-0-585" id="h1-0-585" class="i">+                                    &quot;newlisp&quot;,
+</a><a href="#h1-0-586" id="h1-0-586" class="i">+                                    &quot;text&quot;,
+</a><a href="#h1-0-587" id="h1-0-587" class="i">+                                    &quot;nsis&quot;,
+</a><a href="#h1-0-588" id="h1-0-588" class="i">+                                    &quot;oberon2&quot;,
+</a><a href="#h1-0-589" id="h1-0-589" class="i">+                                    &quot;objeck&quot;,
+</a><a href="#h1-0-590" id="h1-0-590" class="i">+                                    &quot;objc&quot;,
+</a><a href="#h1-0-591" id="h1-0-591" class="i">+                                    &quot;ocaml-brief&quot;,
+</a><a href="#h1-0-592" id="h1-0-592" class="i">+                                    &quot;ocaml&quot;,
+</a><a href="#h1-0-593" id="h1-0-593" class="i">+                                    &quot;octave&quot;,
+</a><a href="#h1-0-594" id="h1-0-594" class="i">+                                    &quot;pf&quot;,
+</a><a href="#h1-0-595" id="h1-0-595" class="i">+                                    &quot;glsl&quot;,
+</a><a href="#h1-0-596" id="h1-0-596" class="i">+                                    &quot;oobas&quot;,
+</a><a href="#h1-0-597" id="h1-0-597" class="i">+                                    &quot;oracle11&quot;,
+</a><a href="#h1-0-598" id="h1-0-598" class="i">+                                    &quot;oracle8&quot;,
+</a><a href="#h1-0-599" id="h1-0-599" class="i">+                                    &quot;oz&quot;,
+</a><a href="#h1-0-600" id="h1-0-600" class="i">+                                    &quot;parasail&quot;,
+</a><a href="#h1-0-601" id="h1-0-601" class="i">+                                    &quot;parigp&quot;,
+</a><a href="#h1-0-602" id="h1-0-602" class="i">+                                    &quot;pascal&quot;,
+</a><a href="#h1-0-603" id="h1-0-603" class="i">+                                    &quot;pawn&quot;,
+</a><a href="#h1-0-604" id="h1-0-604" class="i">+                                    &quot;pcre&quot;,
+</a><a href="#h1-0-605" id="h1-0-605" class="i">+                                    &quot;per&quot;,
+</a><a href="#h1-0-606" id="h1-0-606" class="i">+                                    &quot;perl&quot;,
+</a><a href="#h1-0-607" id="h1-0-607" class="i">+                                    &quot;perl6&quot;,
+</a><a href="#h1-0-608" id="h1-0-608" class="i">+                                    &quot;php&quot;,
+</a><a href="#h1-0-609" id="h1-0-609" class="i">+                                    &quot;php-brief&quot;,
+</a><a href="#h1-0-610" id="h1-0-610" class="i">+                                    &quot;pic16&quot;,
+</a><a href="#h1-0-611" id="h1-0-611" class="i">+                                    &quot;pike&quot;,
+</a><a href="#h1-0-612" id="h1-0-612" class="i">+                                    &quot;pixelbender&quot;,
+</a><a href="#h1-0-613" id="h1-0-613" class="i">+                                    &quot;plsql&quot;,
+</a><a href="#h1-0-614" id="h1-0-614" class="i">+                                    &quot;postgresql&quot;,
+</a><a href="#h1-0-615" id="h1-0-615" class="i">+                                    &quot;povray&quot;,
+</a><a href="#h1-0-616" id="h1-0-616" class="i">+                                    &quot;powershell&quot;,
+</a><a href="#h1-0-617" id="h1-0-617" class="i">+                                    &quot;powerbuilder&quot;,
+</a><a href="#h1-0-618" id="h1-0-618" class="i">+                                    &quot;proftpd&quot;,
+</a><a href="#h1-0-619" id="h1-0-619" class="i">+                                    &quot;progress&quot;,
+</a><a href="#h1-0-620" id="h1-0-620" class="i">+                                    &quot;prolog&quot;,
+</a><a href="#h1-0-621" id="h1-0-621" class="i">+                                    &quot;properties&quot;,
+</a><a href="#h1-0-622" id="h1-0-622" class="i">+                                    &quot;providex&quot;,
+</a><a href="#h1-0-623" id="h1-0-623" class="i">+                                    &quot;purebasic&quot;,
+</a><a href="#h1-0-624" id="h1-0-624" class="i">+                                    &quot;pycon&quot;,
+</a><a href="#h1-0-625" id="h1-0-625" class="i">+                                    &quot;python&quot;,
+</a><a href="#h1-0-626" id="h1-0-626" class="i">+                                    &quot;pys60&quot;,
+</a><a href="#h1-0-627" id="h1-0-627" class="i">+                                    &quot;q&quot;,
+</a><a href="#h1-0-628" id="h1-0-628" class="i">+                                    &quot;qbasic&quot;,
+</a><a href="#h1-0-629" id="h1-0-629" class="i">+                                    &quot;rsplus&quot;,
+</a><a href="#h1-0-630" id="h1-0-630" class="i">+                                    &quot;rails&quot;,
+</a><a href="#h1-0-631" id="h1-0-631" class="i">+                                    &quot;rebol&quot;,
+</a><a href="#h1-0-632" id="h1-0-632" class="i">+                                    &quot;reg&quot;,
+</a><a href="#h1-0-633" id="h1-0-633" class="i">+                                    &quot;rexx&quot;,
+</a><a href="#h1-0-634" id="h1-0-634" class="i">+                                    &quot;robots&quot;,
+</a><a href="#h1-0-635" id="h1-0-635" class="i">+                                    &quot;rpmspec&quot;,
+</a><a href="#h1-0-636" id="h1-0-636" class="i">+                                    &quot;ruby&quot;,
+</a><a href="#h1-0-637" id="h1-0-637" class="i">+                                    &quot;gnuplot&quot;,
+</a><a href="#h1-0-638" id="h1-0-638" class="i">+                                    &quot;sas&quot;,
+</a><a href="#h1-0-639" id="h1-0-639" class="i">+                                    &quot;scala&quot;,
+</a><a href="#h1-0-640" id="h1-0-640" class="i">+                                    &quot;scheme&quot;,
+</a><a href="#h1-0-641" id="h1-0-641" class="i">+                                    &quot;scilab&quot;,
+</a><a href="#h1-0-642" id="h1-0-642" class="i">+                                    &quot;sdlbasic&quot;,
+</a><a href="#h1-0-643" id="h1-0-643" class="i">+                                    &quot;smalltalk&quot;,
+</a><a href="#h1-0-644" id="h1-0-644" class="i">+                                    &quot;smarty&quot;,
+</a><a href="#h1-0-645" id="h1-0-645" class="i">+                                    &quot;spark&quot;,
+</a><a href="#h1-0-646" id="h1-0-646" class="i">+                                    &quot;sparql&quot;,
+</a><a href="#h1-0-647" id="h1-0-647" class="i">+                                    &quot;sql&quot;,
+</a><a href="#h1-0-648" id="h1-0-648" class="i">+                                    &quot;stonescript&quot;,
+</a><a href="#h1-0-649" id="h1-0-649" class="i">+                                    &quot;systemverilog&quot;,
+</a><a href="#h1-0-650" id="h1-0-650" class="i">+                                    &quot;tsql&quot;,
+</a><a href="#h1-0-651" id="h1-0-651" class="i">+                                    &quot;tcl&quot;,
+</a><a href="#h1-0-652" id="h1-0-652" class="i">+                                    &quot;teraterm&quot;,
+</a><a href="#h1-0-653" id="h1-0-653" class="i">+                                    &quot;thinbasic&quot;,
+</a><a href="#h1-0-654" id="h1-0-654" class="i">+                                    &quot;typoscript&quot;,
+</a><a href="#h1-0-655" id="h1-0-655" class="i">+                                    &quot;unicon&quot;,
+</a><a href="#h1-0-656" id="h1-0-656" class="i">+                                    &quot;uscript&quot;,
+</a><a href="#h1-0-657" id="h1-0-657" class="i">+                                    &quot;ups&quot;,
+</a><a href="#h1-0-658" id="h1-0-658" class="i">+                                    &quot;urbi&quot;,
+</a><a href="#h1-0-659" id="h1-0-659" class="i">+                                    &quot;vala&quot;,
+</a><a href="#h1-0-660" id="h1-0-660" class="i">+                                    &quot;vbnet&quot;,
+</a><a href="#h1-0-661" id="h1-0-661" class="i">+                                    &quot;vedit&quot;,
+</a><a href="#h1-0-662" id="h1-0-662" class="i">+                                    &quot;verilog&quot;,
+</a><a href="#h1-0-663" id="h1-0-663" class="i">+                                    &quot;vhdl&quot;,
+</a><a href="#h1-0-664" id="h1-0-664" class="i">+                                    &quot;vim&quot;,
+</a><a href="#h1-0-665" id="h1-0-665" class="i">+                                    &quot;visualprolog&quot;,
+</a><a href="#h1-0-666" id="h1-0-666" class="i">+                                    &quot;vb&quot;,
+</a><a href="#h1-0-667" id="h1-0-667" class="i">+                                    &quot;visualfoxpro&quot;,
+</a><a href="#h1-0-668" id="h1-0-668" class="i">+                                    &quot;whitespace&quot;,
+</a><a href="#h1-0-669" id="h1-0-669" class="i">+                                    &quot;whois&quot;,
+</a><a href="#h1-0-670" id="h1-0-670" class="i">+                                    &quot;winbatch&quot;,
+</a><a href="#h1-0-671" id="h1-0-671" class="i">+                                    &quot;xbasic&quot;,
+</a><a href="#h1-0-672" id="h1-0-672" class="i">+                                    &quot;xml&quot;,
+</a><a href="#h1-0-673" id="h1-0-673" class="i">+                                    &quot;xorg_conf&quot;,
+</a><a href="#h1-0-674" id="h1-0-674" class="i">+                                    &quot;xpp&quot;,
+</a><a href="#h1-0-675" id="h1-0-675" class="i">+                                    &quot;yaml&quot;,
+</a><a href="#h1-0-676" id="h1-0-676" class="i">+                                    &quot;z80&quot;,
+</a><a href="#h1-0-677" id="h1-0-677" class="i">+                                    &quot;zxbasic&quot; }).ToDictionary(s =&gt; s, s =&gt; new PasteFormat(s));
+</a><a href="#h1-0-678" id="h1-0-678" class="i">+        }
+</a><a href="#h1-0-679" id="h1-0-679" class="i">+
+</a><a href="#h1-0-680" id="h1-0-680" class="i">+        public static PasteFormat Parse(string s)
+</a><a href="#h1-0-681" id="h1-0-681" class="i">+        {
+</a><a href="#h1-0-682" id="h1-0-682" class="i">+            PasteFormat result;
+</a><a href="#h1-0-683" id="h1-0-683" class="i">+            if (s == null)
+</a><a href="#h1-0-684" id="h1-0-684" class="i">+                throw new ArgumentNullException(&quot;s&quot;);
+</a><a href="#h1-0-685" id="h1-0-685" class="i">+            if (TryParse(s, out result) == false)
+</a><a href="#h1-0-686" id="h1-0-686" class="i">+                throw new FormatException(string.Format(&quot;Format: {0} is not supported&quot;, s));
+</a><a href="#h1-0-687" id="h1-0-687" class="i">+            return result;
+</a><a href="#h1-0-688" id="h1-0-688" class="i">+        }
+</a><a href="#h1-0-689" id="h1-0-689" class="i">+
+</a><a href="#h1-0-690" id="h1-0-690" class="i">+        public static bool TryParse(string s, out PasteFormat result)
+</a><a href="#h1-0-691" id="h1-0-691" class="i">+        {
+</a><a href="#h1-0-692" id="h1-0-692" class="i">+            result = Default;
+</a><a href="#h1-0-693" id="h1-0-693" class="i">+            if (s == null || PasteFormats.ContainsKey(s) == false)
+</a><a href="#h1-0-694" id="h1-0-694" class="i">+                return false;
+</a><a href="#h1-0-695" id="h1-0-695" class="i">+            result = PasteFormats[s];
+</a><a href="#h1-0-696" id="h1-0-696" class="i">+            return true;
+</a><a href="#h1-0-697" id="h1-0-697" class="i">+        }
+</a> 
+         private readonly string value;
+         private PasteFormat(string value)
+<b>diff --git a/<a id="h2" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -28,7 +28,7 @@ public string ListPastes(int resultsLimit = 50)
+</a> 
+             if (result.Contains(Pastebin.ERROR))
+                 throw new PastebinException(result);
+<a href="#h2-0-3" id="h2-0-3" class="d">-
+</a><a href="#h2-0-4" id="h2-0-4" class="i">+            //TODO: parse XML
+</a>             return result;
+         }
+ 
+<a href="#h2-1" id="h2-1" class="h">@@ -58,7 +58,7 @@ public UserInfo GetUserInfo()
+</a>             if (result.Contains(Pastebin.ERROR))
+                 throw new PastebinException(result);
+ 
+<a href="#h2-1-3" id="h2-1-3" class="d">-            return UserInfo.Parse(result);
+</a><a href="#h2-1-4" id="h2-1-4" class="i">+            return UserInfo.FromXML(result);
+</a>         }
+     }
+ }
+<b>diff --git a/<a id="h3" href="../file/PastebinAPI/UserInfo.cs.html">PastebinAPI/UserInfo.cs</a> b/<a href="../file/PastebinAPI/UserInfo.cs.html">PastebinAPI/UserInfo.cs</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -22,26 +22,26 @@ public struct UserInfo
+</a> 	        &lt;user_account_type&gt;1&lt;/user_account_type&gt; (0 normal, 1 PRO)
+         &lt;/user&gt;
+          */
+<a href="#h3-0-3" id="h3-0-3" class="d">-        internal static UserInfo Parse(string s)
+</a><a href="#h3-0-4" id="h3-0-4" class="i">+        internal static UserInfo FromXML(string s)
+</a>         {
+<a href="#h3-0-6" id="h3-0-6" class="d">-            XDocument xml = XDocument.Parse(s);
+</a><a href="#h3-0-7" id="h3-0-7" class="i">+            XElement user = XDocument.Parse(s).Element(&quot;user&quot;);
+</a>             UserInfo userInfo = new UserInfo()
+             {
+<a href="#h3-0-10" id="h3-0-10" class="d">-                Name = xml.Element(&quot;user_name&quot;).Value,
+</a><a href="#h3-0-11" id="h3-0-11" class="d">-                FormatShort = xml.Element(&quot;user_format_short&quot;).Value,
+</a><a href="#h3-0-12" id="h3-0-12" class="d">-                Expiration = Expiration.Expirations[xml.Element(&quot;user_expiration&quot;).Value],
+</a><a href="#h3-0-13" id="h3-0-13" class="d">-                AvatarURL = xml.Element(&quot;user_avatar_url&quot;).Value,
+</a><a href="#h3-0-14" id="h3-0-14" class="d">-                Visibility = (Visibility)int.Parse(xml.Element(&quot;user_private&quot;).Value),
+</a><a href="#h3-0-15" id="h3-0-15" class="d">-                Website = xml.Element(&quot;user_website&quot;).Value,
+</a><a href="#h3-0-16" id="h3-0-16" class="d">-                Email = xml.Element(&quot;user_email&quot;).Value,
+</a><a href="#h3-0-17" id="h3-0-17" class="d">-                Location = xml.Element(&quot;user_location&quot;).Value,
+</a><a href="#h3-0-18" id="h3-0-18" class="d">-                IsPro = int.Parse(xml.Element(&quot;user_account_type&quot;).Value) == 1,
+</a><a href="#h3-0-19" id="h3-0-19" class="i">+                Name = user.Element(&quot;user_name&quot;).Value,
+</a><a href="#h3-0-20" id="h3-0-20" class="i">+                PasteFormat = PasteFormat.Parse(user.Element(&quot;user_format_short&quot;).Value),
+</a><a href="#h3-0-21" id="h3-0-21" class="i">+                Expiration = Expiration.Parse(user.Element(&quot;user_expiration&quot;).Value),
+</a><a href="#h3-0-22" id="h3-0-22" class="i">+                AvatarURL = user.Element(&quot;user_avatar_url&quot;).Value,
+</a><a href="#h3-0-23" id="h3-0-23" class="i">+                Visibility = (Visibility)int.Parse(user.Element(&quot;user_private&quot;).Value),
+</a><a href="#h3-0-24" id="h3-0-24" class="i">+                Website = user.Element(&quot;user_website&quot;).Value,
+</a><a href="#h3-0-25" id="h3-0-25" class="i">+                Email = user.Element(&quot;user_email&quot;).Value,
+</a><a href="#h3-0-26" id="h3-0-26" class="i">+                Location = user.Element(&quot;user_location&quot;).Value,
+</a><a href="#h3-0-27" id="h3-0-27" class="i">+                IsPro = int.Parse(user.Element(&quot;user_account_type&quot;).Value) == 1,
+</a>             };
+             return userInfo;
+         }
+ 
+         public string Name { get; private set; }
+<a href="#h3-0-33" id="h3-0-33" class="d">-        public string FormatShort { get; private set; }
+</a><a href="#h3-0-34" id="h3-0-34" class="i">+        public PasteFormat PasteFormat { get; private set; }
+</a>         public Expiration Expiration { get; private set; }
+         public string AvatarURL { get; private set; }
+         public Visibility Visibility { get; private set; }
+<a href="#h3-1" id="h3-1" class="h">@@ -49,5 +49,11 @@ internal static UserInfo Parse(string s)
+</a>         public string Email { get; private set; }
+         public string Location { get; private set; }
+         public bool IsPro { get; private set; }
+<a href="#h3-1-3" id="h3-1-3" class="i">+
+</a><a href="#h3-1-4" id="h3-1-4" class="i">+        public override string ToString()
+</a><a href="#h3-1-5" id="h3-1-5" class="i">+        {
+</a><a href="#h3-1-6" id="h3-1-6" class="i">+            //TODO: add a proper string format
+</a><a href="#h3-1-7" id="h3-1-7" class="i">+            return string.Format(&quot;{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}&quot;, Name, PasteFormat, Expiration, AvatarURL, Visibility, Website, Email, Location, IsPro);
+</a><a href="#h3-1-8" id="h3-1-8" class="i">+        }
+</a>     }
+ }
+</pre>
+</div>
+</body>
+</html>

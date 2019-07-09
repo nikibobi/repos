@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Fix getting datetime from ticks past 1970 - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/daeec0d6897799f4b00bbed887fd153b583afe67.html">daeec0d6897799f4b00bbed887fd153b583afe67</a>
+<b>parent</b> <a href="../commit/23eff46227aa4100d488d315aedffccab1b1d78a.html">23eff46227aa4100d488d315aedffccab1b1d78a</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Mon, 25 Sep 2017 23:29:09 +0300
+
+Fix getting datetime from ticks past 1970
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Utills.cs</a></td><td> | </td><td class="num">3</td><td><span class="i">+</span><span class="d">--</span></td></tr>
+</table></pre><pre>1 file changed, 1 insertion(+), 2 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a> b/<a href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -23,8 +23,7 @@ public static IEnumerable&lt;Paste&gt; PastesFromXML(string xml)
+</a> 
+         public static DateTime GetDate(long ticks)
+         {
+<a href="#h0-0-3" id="h0-0-3" class="d">-            //TODO: Make this accurate
+</a><a href="#h0-0-4" id="h0-0-4" class="d">-            return (new DateTime(1970, 1, 1).ToUniversalTime() - TimeSpan.FromHours(3) + TimeSpan.FromSeconds(ticks));
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+            return new DateTime(1970, 1, 1).AddSeconds(ticks).ToLocalTime();
+</a>         }
+ 
+         public static string PostRequest(string url, params string[] parameters)
+</pre>
+</div>
+</body>
+</html>

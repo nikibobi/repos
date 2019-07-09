@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Optimized User - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/c1acaac712e57b0cf31097f6504c157fb6ebbf32.html">c1acaac712e57b0cf31097f6504c157fb6ebbf32</a>
+<b>parent</b> <a href="../commit/0e350641a161449b343f821094e80d29c6b5307f.html">0e350641a161449b343f821094e80d29c6b5307f</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Tue, 20 Aug 2013 19:23:45 +0300
+
+Optimized User
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/User.cs</a></td><td> | </td><td class="num">24</td><td><span class="i">++++++++++++++++++</span><span class="d">------</span></td></tr>
+</table></pre><pre>1 file changed, 18 insertions(+), 6 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -10,17 +10,18 @@ public class User
+</a>         internal User(string userKey)
+         {
+             this.userKey = userKey;
+<a href="#h0-0-3" id="h0-0-3" class="d">-            RequestPreferences();
+</a>         }
+ 
+<a href="#h0-0-6" id="h0-0-6" class="i">+        /// &lt;summary&gt;Account name&lt;/summary&gt;
+</a>         public string Name { get; private set; }
+         public Language PreferedLanguage { get; private set; }
+         public Expiration PreferedExpiration { get; private set; }
+<a href="#h0-0-10" id="h0-0-10" class="d">-        public string AvatarURL { get; private set; }
+</a>         public Visibility PreferedVisibility { get; private set; }
+<a href="#h0-0-12" id="h0-0-12" class="i">+        public string AvatarURL { get; private set; }
+</a>         public string Website { get; private set; }
+         public string Email { get; private set; }
+         public string Location { get; private set; }
+<a href="#h0-0-16" id="h0-0-16" class="i">+        /// &lt;summary&gt;Weather this user has pro account or not&lt;/summary&gt;
+</a>         public bool IsPro { get; private set; }
+ 
+         /// &lt;summary&gt;
+<a href="#h0-1" id="h0-1" class="h">@@ -31,11 +32,16 @@ internal User(string userKey)
+</a>         /// &lt;param name=&quot;visibility&quot;&gt;If left out then user&#39;s PreferedVisibility will be used&lt;/param&gt;
+         /// &lt;param name=&quot;expiration&quot;&gt;If left out then user&#39;s PreferedExpiration will be used&lt;/param&gt;
+         /// &lt;returns&gt;Paste object containing the Url given from Pastebin&lt;/returns&gt;
+<a href="#h0-1-3" id="h0-1-3" class="d">-        public Paste CreatePaste(string text, string title = &quot;&quot;, Language language = null, Visibility? visibility = null, Expiration expiration = null)
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+        public Paste CreatePaste(string text, string title = null, Language language = null, Visibility? visibility = null, Expiration expiration = null)
+</a>         {
+             return Paste.Create(userKey, text, title, language ?? PreferedLanguage, visibility ?? PreferedVisibility, expiration ?? PreferedExpiration);
+         }
+ 
+<a href="#h0-1-9" id="h0-1-9" class="i">+        /// &lt;summary&gt;
+</a><a href="#h0-1-10" id="h0-1-10" class="i">+        /// Lists all pastes created by user
+</a><a href="#h0-1-11" id="h0-1-11" class="i">+        /// &lt;/summary&gt;
+</a><a href="#h0-1-12" id="h0-1-12" class="i">+        /// &lt;param name=&quot;resultsLimit&quot;&gt;limits the paste count&lt;/param&gt;
+</a><a href="#h0-1-13" id="h0-1-13" class="i">+        /// &lt;returns&gt;Enumerable of pastes of this user&lt;/returns&gt;
+</a>         public IEnumerable&lt;Paste&gt; ListPastes(int resultsLimit = 50)
+         {
+             var result = Utills.PostRequest(Utills.URL_API,
+<a href="#h0-2" id="h0-2" class="h">@@ -50,6 +56,9 @@ public IEnumerable&lt;Paste&gt; ListPastes(int resultsLimit = 50)
+</a>             return Utills.PastesFromXML(result);
+         }
+ 
+<a href="#h0-2-3" id="h0-2-3" class="i">+        /// &lt;summary&gt;
+</a><a href="#h0-2-4" id="h0-2-4" class="i">+        /// Deletes a paste created by this user
+</a><a href="#h0-2-5" id="h0-2-5" class="i">+        /// &lt;/summary&gt;
+</a>         public void DeletePaste(Paste paste)
+         {
+             var result = Utills.PostRequest(Utills.URL_API,
+<a href="#h0-3" id="h0-3" class="h">@@ -62,6 +71,9 @@ public void DeletePaste(Paste paste)
+</a>                 throw new PastebinException(result);
+         }
+ 
+<a href="#h0-3-3" id="h0-3-3" class="i">+        /// &lt;summary&gt;
+</a><a href="#h0-3-4" id="h0-3-4" class="i">+        /// Updates user preferences information properties
+</a><a href="#h0-3-5" id="h0-3-5" class="i">+        /// &lt;/summary&gt;
+</a>         public void RequestPreferences()
+         {
+             var result = Utills.PostRequest(Utills.URL_API,
+<a href="#h0-4" id="h0-4" class="h">@@ -84,16 +96,16 @@ public void RequestPreferences()
+</a>                  &lt;user_location&gt;New York&lt;/user_location&gt;
+                  &lt;user_account_type&gt;1&lt;/user_account_type&gt; (0 normal, 1 PRO)
+              &lt;/user&gt;*/
+<a href="#h0-4-3" id="h0-4-3" class="d">-            XElement xuser = XDocument.Parse(result).Element(&quot;user&quot;);
+</a><a href="#h0-4-4" id="h0-4-4" class="i">+            XElement xuser = XElement.Parse(result);
+</a>             Name = xuser.Element(&quot;user_name&quot;).Value;
+             PreferedLanguage = Language.Parse(xuser.Element(&quot;user_format_short&quot;).Value);
+             PreferedExpiration = Expiration.Parse(xuser.Element(&quot;user_expiration&quot;).Value);
+<a href="#h0-4-8" id="h0-4-8" class="i">+            PreferedVisibility = (Visibility)(int)xuser.Element(&quot;user_private&quot;);
+</a>             AvatarURL = xuser.Element(&quot;user_avatar_url&quot;).Value;
+<a href="#h0-4-10" id="h0-4-10" class="d">-            PreferedVisibility = (Visibility)int.Parse(xuser.Element(&quot;user_private&quot;).Value);
+</a>             Website = xuser.Element(&quot;user_website&quot;).Value;
+             Email = xuser.Element(&quot;user_email&quot;).Value;
+             Location = xuser.Element(&quot;user_location&quot;).Value;
+<a href="#h0-4-14" id="h0-4-14" class="d">-            IsPro = int.Parse(xuser.Element(&quot;user_account_type&quot;).Value) == 1;
+</a><a href="#h0-4-15" id="h0-4-15" class="i">+            IsPro = xuser.Element(&quot;user_account_type&quot;).Value == &quot;1&quot;;
+</a>         }
+ 
+         public override string ToString()
+</pre>
+</div>
+</body>
+</html>

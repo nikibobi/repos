@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>poe, branch HEAD</title>
+<subtitle>Path of Exile currency utility site
+</subtitle>
+<entry>
+<id>33091e18c4b00ed4a113abe71274544856e5a44e</id>
+<published>2019-06-11T21:53:59Z</published>
+<updated>2019-06-11T21:53:59Z</updated>
+<title type="text">refactor CurrencyAmount and CurrencyTable</title>
+<link rel="alternate" type="text/html" href="commit/33091e18c4b00ed4a113abe71274544856e5a44e.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 33091e18c4b00ed4a113abe71274544856e5a44e
+parent 6ea6beea1a4bec75afb73bf57086dfd9cdfdfefd
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Wed, 12 Jun 2019 00:53:59 +0300
+
+refactor CurrencyAmount and CurrencyTable
+
+</content>
+</entry>
+<entry>
+<id>6ea6beea1a4bec75afb73bf57086dfd9cdfdfefd</id>
+<published>2019-06-08T16:41:45Z</published>
+<updated>2019-06-08T16:41:45Z</updated>
+<title type="text">change favicon</title>
+<link rel="alternate" type="text/html" href="commit/6ea6beea1a4bec75afb73bf57086dfd9cdfdfefd.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 6ea6beea1a4bec75afb73bf57086dfd9cdfdfefd
+parent 905a0719aca5c6e31d919f2dd8e5be16159d5e14
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 19:41:45 +0300
+
+change favicon
+
+</content>
+</entry>
+<entry>
+<id>905a0719aca5c6e31d919f2dd8e5be16159d5e14</id>
+<published>2019-06-08T16:36:11Z</published>
+<updated>2019-06-08T16:36:11Z</updated>
+<title type="text">add build badge and remove test:ci</title>
+<link rel="alternate" type="text/html" href="commit/905a0719aca5c6e31d919f2dd8e5be16159d5e14.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 905a0719aca5c6e31d919f2dd8e5be16159d5e14
+parent bb6a29e8a684ed4b5c553950a19bf7fb80864913
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 19:36:11 +0300
+
+add build badge and remove test:ci
+
+</content>
+</entry>
+<entry>
+<id>bb6a29e8a684ed4b5c553950a19bf7fb80864913</id>
+<published>2019-06-08T16:28:29Z</published>
+<updated>2019-06-08T16:28:29Z</updated>
+<title type="text">Update azure-pipelines.yml for Azure Pipelines</title>
+<link rel="alternate" type="text/html" href="commit/bb6a29e8a684ed4b5c553950a19bf7fb80864913.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit bb6a29e8a684ed4b5c553950a19bf7fb80864913
+parent be9842a6cc7cb05620a7b66043fa0c80f762b56f
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 19:28:29 +0300
+
+Update azure-pipelines.yml for Azure Pipelines
+</content>
+</entry>
+<entry>
+<id>be9842a6cc7cb05620a7b66043fa0c80f762b56f</id>
+<published>2019-06-08T16:21:26Z</published>
+<updated>2019-06-08T16:21:26Z</updated>
+<title type="text">Update azure-pipelines.yml for Azure Pipelines</title>
+<link rel="alternate" type="text/html" href="commit/be9842a6cc7cb05620a7b66043fa0c80f762b56f.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit be9842a6cc7cb05620a7b66043fa0c80f762b56f
+parent 4d133558e8db4af8a1ea99da3f3998c45c9a6fef
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 19:21:26 +0300
+
+Update azure-pipelines.yml for Azure Pipelines
+</content>
+</entry>
+<entry>
+<id>4d133558e8db4af8a1ea99da3f3998c45c9a6fef</id>
+<published>2019-06-08T15:56:23Z</published>
+<updated>2019-06-08T15:56:23Z</updated>
+<title type="text">Update azure-pipelines.yml for Azure Pipelines</title>
+<link rel="alternate" type="text/html" href="commit/4d133558e8db4af8a1ea99da3f3998c45c9a6fef.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 4d133558e8db4af8a1ea99da3f3998c45c9a6fef
+parent d65bca5f7f94b4b9b33fd1407e77afd5fe40357b
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 18:56:23 +0300
+
+Update azure-pipelines.yml for Azure Pipelines
+</content>
+</entry>
+<entry>
+<id>d65bca5f7f94b4b9b33fd1407e77afd5fe40357b</id>
+<published>2019-06-08T15:52:58Z</published>
+<updated>2019-06-08T15:52:58Z</updated>
+<title type="text">Update azure-pipelines.yml for Azure Pipelines</title>
+<link rel="alternate" type="text/html" href="commit/d65bca5f7f94b4b9b33fd1407e77afd5fe40357b.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit d65bca5f7f94b4b9b33fd1407e77afd5fe40357b
+parent a139a8d596be9c40bcad062428df13b214277390
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 18:52:58 +0300
+
+Update azure-pipelines.yml for Azure Pipelines
+</content>
+</entry>
+<entry>
+<id>a139a8d596be9c40bcad062428df13b214277390</id>
+<published>2019-06-08T15:52:28Z</published>
+<updated>2019-06-08T15:52:28Z</updated>
+<title type="text">Merge branch &#39;react&#39; of https://github.com/nikibobi/poe into react</title>
+<link rel="alternate" type="text/html" href="commit/a139a8d596be9c40bcad062428df13b214277390.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit a139a8d596be9c40bcad062428df13b214277390
+parent db28134351168543f4bdca8ec21d5c69781aa832
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 18:52:28 +0300
+
+Merge branch &#39;react&#39; of https://github.com/nikibobi/poe into react
+
+</content>
+</entry>
+<entry>
+<id>db28134351168543f4bdca8ec21d5c69781aa832</id>
+<published>2019-06-08T15:52:22Z</published>
+<updated>2019-06-08T15:52:22Z</updated>
+<title type="text">add test:ci task</title>
+<link rel="alternate" type="text/html" href="commit/db28134351168543f4bdca8ec21d5c69781aa832.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit db28134351168543f4bdca8ec21d5c69781aa832
+parent 1f123106b7cece4186f1e7b65a5daa4a0a98dff7
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 18:52:22 +0300
+
+add test:ci task
+
+</content>
+</entry>
+<entry>
+<id>1f123106b7cece4186f1e7b65a5daa4a0a98dff7</id>
+<published>2019-06-08T14:55:38Z</published>
+<updated>2019-06-08T14:55:38Z</updated>
+<title type="text">remove unused App.css</title>
+<link rel="alternate" type="text/html" href="commit/1f123106b7cece4186f1e7b65a5daa4a0a98dff7.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 1f123106b7cece4186f1e7b65a5daa4a0a98dff7
+parent 8820fed294e054f2b2577dbcfcd63a5fed392e88
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 17:55:38 +0300
+
+remove unused App.css
+
+</content>
+</entry>
+<entry>
+<id>8820fed294e054f2b2577dbcfcd63a5fed392e88</id>
+<published>2019-06-08T14:54:12Z</published>
+<updated>2019-06-08T14:54:12Z</updated>
+<title type="text">update package.json with info and deploy</title>
+<link rel="alternate" type="text/html" href="commit/8820fed294e054f2b2577dbcfcd63a5fed392e88.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 8820fed294e054f2b2577dbcfcd63a5fed392e88
+parent e71d8ad47eec935dc20e0a1f2c2d32d22825fe06
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 17:54:12 +0300
+
+update package.json with info and deploy
+
+</content>
+</entry>
+<entry>
+<id>e71d8ad47eec935dc20e0a1f2c2d32d22825fe06</id>
+<published>2019-06-08T14:32:10Z</published>
+<updated>2019-06-08T14:32:10Z</updated>
+<title type="text">finish implementation</title>
+<link rel="alternate" type="text/html" href="commit/e71d8ad47eec935dc20e0a1f2c2d32d22825fe06.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit e71d8ad47eec935dc20e0a1f2c2d32d22825fe06
+parent e7edd79d426a2b24f65fd1d5c87cb00a71ba876e
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 17:32:10 +0300
+
+finish implementation
+
+</content>
+</entry>
+<entry>
+<id>e7edd79d426a2b24f65fd1d5c87cb00a71ba876e</id>
+<published>2019-06-07T22:31:42Z</published>
+<updated>2019-06-07T22:31:42Z</updated>
+<title type="text">add base alias prop to ValueDeltaInput</title>
+<link rel="alternate" type="text/html" href="commit/e7edd79d426a2b24f65fd1d5c87cb00a71ba876e.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit e7edd79d426a2b24f65fd1d5c87cb00a71ba876e
+parent 901d16db7532e7aece6f67b62cc23270e6249e25
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 01:31:42 +0300
+
+add base alias prop to ValueDeltaInput
+
+</content>
+</entry>
+<entry>
+<id>901d16db7532e7aece6f67b62cc23270e6249e25</id>
+<published>2019-06-07T22:23:10Z</published>
+<updated>2019-06-07T22:23:10Z</updated>
+<title type="text">implement selector and range inputs</title>
+<link rel="alternate" type="text/html" href="commit/901d16db7532e7aece6f67b62cc23270e6249e25.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 901d16db7532e7aece6f67b62cc23270e6249e25
+parent d07fa9fdb80cfd9c33b46e9d6a94017c90539d8c
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Sat,  8 Jun 2019 01:23:10 +0300
+
+implement selector and range inputs
+
+</content>
+</entry>
+<entry>
+<id>d07fa9fdb80cfd9c33b46e9d6a94017c90539d8c</id>
+<published>2019-06-06T22:38:17Z</published>
+<updated>2019-06-06T22:38:17Z</updated>
+<title type="text">added github corner hardcoded into index.html</title>
+<link rel="alternate" type="text/html" href="commit/d07fa9fdb80cfd9c33b46e9d6a94017c90539d8c.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit d07fa9fdb80cfd9c33b46e9d6a94017c90539d8c
+parent 87431a7fb002ab3ece0880373dfea573af9d8f77
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  7 Jun 2019 01:38:17 +0300
+
+added github corner hardcoded into index.html
+
+</content>
+</entry>
+<entry>
+<id>87431a7fb002ab3ece0880373dfea573af9d8f77</id>
+<published>2019-06-06T22:36:31Z</published>
+<updated>2019-06-06T22:36:31Z</updated>
+<title type="text">add basic markup and split into components</title>
+<link rel="alternate" type="text/html" href="commit/87431a7fb002ab3ece0880373dfea573af9d8f77.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 87431a7fb002ab3ece0880373dfea573af9d8f77
+parent f66954cca1e6ed29a26741b1c20f87fd8a305e27
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  7 Jun 2019 01:36:31 +0300
+
+add basic markup and split into components
+
+</content>
+</entry>
+<entry>
+<id>f66954cca1e6ed29a26741b1c20f87fd8a305e27</id>
+<published>2019-06-06T22:26:25Z</published>
+<updated>2019-06-06T22:26:25Z</updated>
+<title type="text">removed default logo</title>
+<link rel="alternate" type="text/html" href="commit/f66954cca1e6ed29a26741b1c20f87fd8a305e27.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit f66954cca1e6ed29a26741b1c20f87fd8a305e27
+parent 6f873531d23596845f1dd59101dc02fe9b09bb1b
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  7 Jun 2019 01:26:25 +0300
+
+removed default logo
+
+</content>
+</entry>
+<entry>
+<id>6f873531d23596845f1dd59101dc02fe9b09bb1b</id>
+<published>2019-06-06T22:19:42Z</published>
+<updated>2019-06-06T22:19:42Z</updated>
+<title type="text">update index and css</title>
+<link rel="alternate" type="text/html" href="commit/6f873531d23596845f1dd59101dc02fe9b09bb1b.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 6f873531d23596845f1dd59101dc02fe9b09bb1b
+parent bf3b943ca5a1179935d6ab5d45a55b5d721d864c
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  7 Jun 2019 01:19:42 +0300
+
+update index and css
+
+</content>
+</entry>
+<entry>
+<id>bf3b943ca5a1179935d6ab5d45a55b5d721d864c</id>
+<published>2019-06-06T22:12:54Z</published>
+<updated>2019-06-06T22:12:54Z</updated>
+<title type="text">add css and fonts</title>
+<link rel="alternate" type="text/html" href="commit/bf3b943ca5a1179935d6ab5d45a55b5d721d864c.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit bf3b943ca5a1179935d6ab5d45a55b5d721d864c
+parent 33a30516a0c5910f77d325a092496e7ce2898c7b
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  7 Jun 2019 01:12:54 +0300
+
+add css and fonts
+
+</content>
+</entry>
+<entry>
+<id>33a30516a0c5910f77d325a092496e7ce2898c7b</id>
+<published>2019-06-06T22:12:26Z</published>
+<updated>2019-06-06T22:12:26Z</updated>
+<title type="text">add readme and license</title>
+<link rel="alternate" type="text/html" href="commit/33a30516a0c5910f77d325a092496e7ce2898c7b.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 33a30516a0c5910f77d325a092496e7ce2898c7b
+parent 4cfe4a5cc31e5836b018a93fa3eecba2b35c6c80
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  7 Jun 2019 01:12:26 +0300
+
+add readme and license
+
+</content>
+</entry>
+<entry>
+<id>4cfe4a5cc31e5836b018a93fa3eecba2b35c6c80</id>
+<published>2019-06-06T22:05:44Z</published>
+<updated>2019-06-06T22:05:44Z</updated>
+<title type="text">initial commit</title>
+<link rel="alternate" type="text/html" href="commit/4cfe4a5cc31e5836b018a93fa3eecba2b35c6c80.html" /><author><name>Borislav Kosharov</name>
+<email>bosakmaw@gmail.com</email>
+</author>
+<content type="text">commit 4cfe4a5cc31e5836b018a93fa3eecba2b35c6c80
+Author: Borislav Kosharov &lt;bosakmaw@gmail.com&gt;
+Date:   Fri,  7 Jun 2019 01:05:44 +0300
+
+initial commit
+
+</content>
+</entry>
+</feed>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Changed urls in comments to https - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/fa5479219d07046ddacac319c013d45160270c44.html">fa5479219d07046ddacac319c013d45160270c44</a>
+<b>parent</b> <a href="../commit/440f93c296e40cfb305b23131012f07d31b85769.html">440f93c296e40cfb305b23131012f07d31b85769</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Mon, 25 Sep 2017 22:26:42 +0300
+
+Changed urls in comments to https
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">Example/Example.cs</a></td><td> | </td><td class="num">2</td><td><span class="i">+</span><span class="d">-</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">PastebinAPI/Paste.cs</a></td><td> | </td><td class="num">2</td><td><span class="i">+</span><span class="d">-</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI/User.cs</a></td><td> | </td><td class="num">2</td><td><span class="i">+</span><span class="d">-</span></td></tr>
+</table></pre><pre>3 files changed, 3 insertions(+), 3 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/Example/Example.cs.html">Example/Example.cs</a> b/<a href="../file/Example/Example.cs.html">Example/Example.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -9,7 +9,7 @@ static void Main()
+</a>         {
+             //before using any class in the api you must enter your api dev key
+             Pastebin.DevKey = &quot;your dev key goes here&quot;;
+<a href="#h0-0-3" id="h0-0-3" class="d">-            //you can see yours here: http://pastebin.com/api#1
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+            //you can see yours here: https://pastebin.com/api#1
+</a>             try
+             {
+                 // login and get user object
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a> b/<a href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -20,7 +20,7 @@ internal static Paste FromXML(XElement xpaste)
+</a> 	            &lt;paste_private&gt;0&lt;/paste_private&gt;
+ 	            &lt;paste_format_long&gt;JavaScript&lt;/paste_format_long&gt;
+ 	            &lt;paste_format_short&gt;javascript&lt;/paste_format_short&gt;
+<a href="#h1-0-3" id="h1-0-3" class="d">-	            &lt;paste_url&gt;http://pastebin.com/0b42rwhf&lt;/paste_url&gt;
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+	            &lt;paste_url&gt;https://pastebin.com/0b42rwhf&lt;/paste_url&gt;
+</a> 	            &lt;paste_hits&gt;15&lt;/paste_hits&gt;
+             &lt;/paste&gt;
+              */
+<b>diff --git a/<a id="h2" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -89,7 +89,7 @@ public void RequestPreferences()
+</a>                  &lt;user_name&gt;wiz_kitty&lt;/user_name&gt;
+                  &lt;user_format_short&gt;text&lt;/user_format_short&gt;
+                  &lt;user_expiration&gt;N&lt;/user_expiration&gt;
+<a href="#h2-0-3" id="h2-0-3" class="d">-                 &lt;user_avatar_url&gt;http://pastebin.com/cache/a/1.jpg&lt;/user_avatar_url&gt;
+</a><a href="#h2-0-4" id="h2-0-4" class="i">+                 &lt;user_avatar_url&gt;https://pastebin.com/cache/a/1.jpg&lt;/user_avatar_url&gt;
+</a>                  &lt;user_private&gt;1&lt;/user_private&gt; (0 Public, 1 Unlisted, 2 Private)
+                  &lt;user_website&gt;http://myawesomesite.com&lt;/user_website&gt;
+                  &lt;user_email&gt;oh@dear.com&lt;/user_email&gt;
+</pre>
+</div>
+</body>
+</html>

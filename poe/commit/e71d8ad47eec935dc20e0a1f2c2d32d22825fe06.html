@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>finish implementation - poe - Path of Exile currency utility site
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="poe Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>poe</h1><span class="desc">Path of Exile currency utility site
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/poe.git">https://github.com/nikibobi/poe.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/e71d8ad47eec935dc20e0a1f2c2d32d22825fe06.html">e71d8ad47eec935dc20e0a1f2c2d32d22825fe06</a>
+<b>parent</b> <a href="../commit/e7edd79d426a2b24f65fd1d5c87cb00a71ba876e.html">e7edd79d426a2b24f65fd1d5c87cb00a71ba876e</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Sat,  8 Jun 2019 17:32:10 +0300
+
+finish implementation
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">package-lock.json</a></td><td> | </td><td class="num">41</td><td><span class="i">++++++++++++++++++++++++++++++++++</span><span class="d">-------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">package.json</a></td><td> | </td><td class="num">1</td><td><span class="i">+</span><span class="d"></span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">src/App.tsx</a></td><td> | </td><td class="num">65</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d">--------------</span></td></tr>
+<tr><td class="D">D</td><td><a href="#h3">src/components/CurrencyFilter.tsx</a></td><td> | </td><td class="num">24</td><td><span class="i"></span><span class="d">------------------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h4">src/components/CurrencySelect.tsx</a></td><td> | </td><td class="num">15</td><td><span class="i">++++</span><span class="d">-----------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h5">src/components/CurrencyTable.tsx</a></td><td> | </td><td class="num">53</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++</span><span class="d">------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h6">src/components/FromToInput.tsx</a></td><td> | </td><td class="num">17</td><td><span class="i">+++++++</span><span class="d">----------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h7">src/components/ValueDeltaInput.tsx</a></td><td> | </td><td class="num">17</td><td><span class="i">+++++++</span><span class="d">----------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h8">src/models/CurrencyAmount.tsx</a></td><td> | </td><td class="num">11</td><td><span class="i">+++++++++</span><span class="d">--</span></td></tr>
+</table></pre><pre>9 files changed, 154 insertions(+), 90 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/package-lock.json.html">package-lock.json</a> b/<a href="../file/package-lock.json.html">package-lock.json</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -2795,11 +2795,13 @@
+</a>             },
+             &quot;balanced-match&quot;: {
+               &quot;version&quot;: &quot;1.0.0&quot;,
+<a href="#h0-0-3" id="h0-0-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;brace-expansion&quot;: {
+               &quot;version&quot;: &quot;1.1.11&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-0-10" id="h0-0-10" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;balanced-match&quot;: &quot;^1.0.0&quot;,
+                 &quot;concat-map&quot;: &quot;0.0.1&quot;
+<a href="#h0-1" id="h0-1" class="h">@@ -2812,15 +2814,18 @@
+</a>             },
+             &quot;code-point-at&quot;: {
+               &quot;version&quot;: &quot;1.1.0&quot;,
+<a href="#h0-1-3" id="h0-1-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-1-5" id="h0-1-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;concat-map&quot;: {
+               &quot;version&quot;: &quot;0.0.1&quot;,
+<a href="#h0-1-9" id="h0-1-9" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-1-10" id="h0-1-10" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-1-11" id="h0-1-11" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;console-control-strings&quot;: {
+               &quot;version&quot;: &quot;1.1.0&quot;,
+<a href="#h0-1-15" id="h0-1-15" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-1-16" id="h0-1-16" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-1-17" id="h0-1-17" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;core-util-is&quot;: {
+               &quot;version&quot;: &quot;1.0.2&quot;,
+<a href="#h0-2" id="h0-2" class="h">@@ -2923,7 +2928,8 @@
+</a>             },
+             &quot;inherits&quot;: {
+               &quot;version&quot;: &quot;2.0.3&quot;,
+<a href="#h0-2-3" id="h0-2-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-2-4" id="h0-2-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-2-5" id="h0-2-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;ini&quot;: {
+               &quot;version&quot;: &quot;1.3.5&quot;,
+<a href="#h0-3" id="h0-3" class="h">@@ -2933,6 +2939,7 @@
+</a>             &quot;is-fullwidth-code-point&quot;: {
+               &quot;version&quot;: &quot;1.0.0&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-3-3" id="h0-3-3" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;number-is-nan&quot;: &quot;^1.0.0&quot;
+               }
+<a href="#h0-4" id="h0-4" class="h">@@ -2945,17 +2952,20 @@
+</a>             &quot;minimatch&quot;: {
+               &quot;version&quot;: &quot;3.0.4&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-4-3" id="h0-4-3" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;brace-expansion&quot;: &quot;^1.1.7&quot;
+               }
+             },
+             &quot;minimist&quot;: {
+               &quot;version&quot;: &quot;0.0.8&quot;,
+<a href="#h0-4-10" id="h0-4-10" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-4-11" id="h0-4-11" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-4-12" id="h0-4-12" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;minipass&quot;: {
+               &quot;version&quot;: &quot;2.3.5&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-4-17" id="h0-4-17" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;safe-buffer&quot;: &quot;^5.1.2&quot;,
+                 &quot;yallist&quot;: &quot;^3.0.0&quot;
+<a href="#h0-5" id="h0-5" class="h">@@ -2972,6 +2982,7 @@
+</a>             &quot;mkdirp&quot;: {
+               &quot;version&quot;: &quot;0.5.1&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-5-3" id="h0-5-3" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;minimist&quot;: &quot;0.0.8&quot;
+               }
+<a href="#h0-6" id="h0-6" class="h">@@ -3044,7 +3055,8 @@
+</a>             },
+             &quot;number-is-nan&quot;: {
+               &quot;version&quot;: &quot;1.0.1&quot;,
+<a href="#h0-6-3" id="h0-6-3" class="d">-              &quot;bundled&quot;: true
+</a><a href="#h0-6-4" id="h0-6-4" class="i">+              &quot;bundled&quot;: true,
+</a><a href="#h0-6-5" id="h0-6-5" class="i">+              &quot;optional&quot;: true
+</a>             },
+             &quot;object-assign&quot;: {
+               &quot;version&quot;: &quot;4.1.1&quot;,
+<a href="#h0-7" id="h0-7" class="h">@@ -3054,6 +3066,7 @@
+</a>             &quot;once&quot;: {
+               &quot;version&quot;: &quot;1.4.0&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-7-3" id="h0-7-3" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;wrappy&quot;: &quot;1&quot;
+               }
+<a href="#h0-8" id="h0-8" class="h">@@ -3159,6 +3172,7 @@
+</a>             &quot;string-width&quot;: {
+               &quot;version&quot;: &quot;1.0.2&quot;,
+               &quot;bundled&quot;: true,
+<a href="#h0-8-3" id="h0-8-3" class="i">+              &quot;optional&quot;: true,
+</a>               &quot;requires&quot;: {
+                 &quot;code-point-at&quot;: &quot;^1.0.0&quot;,
+                 &quot;is-fullwidth-code-point&quot;: &quot;^1.0.0&quot;,
+<a href="#h0-9" id="h0-9" class="h">@@ -8109,6 +8123,14 @@
+</a>         }
+       }
+     },
+<a href="#h0-9-3" id="h0-9-3" class="i">+    &quot;mnemonist&quot;: {
+</a><a href="#h0-9-4" id="h0-9-4" class="i">+      &quot;version&quot;: &quot;0.28.0&quot;,
+</a><a href="#h0-9-5" id="h0-9-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/mnemonist/-/mnemonist-0.28.0.tgz&quot;,
+</a><a href="#h0-9-6" id="h0-9-6" class="i">+      &quot;integrity&quot;: &quot;sha512-z6Bmk1xxfB/jvVtnNQa22kJmnTo5aqRU4fEJKwGJy4aKRe420G0zuB+DRxHBrqHU/T5qGFoi43823v7d3RNlpQ==&quot;,
+</a><a href="#h0-9-7" id="h0-9-7" class="i">+      &quot;requires&quot;: {
+</a><a href="#h0-9-8" id="h0-9-8" class="i">+        &quot;obliterator&quot;: &quot;^1.5.0&quot;
+</a><a href="#h0-9-9" id="h0-9-9" class="i">+      }
+</a><a href="#h0-9-10" id="h0-9-10" class="i">+    },
+</a>     &quot;move-concurrently&quot;: {
+       &quot;version&quot;: &quot;1.0.1&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/move-concurrently/-/move-concurrently-1.0.1.tgz&quot;,
+<a href="#h0-10" id="h0-10" class="h">@@ -8456,6 +8478,11 @@
+</a>         &quot;has&quot;: &quot;^1.0.3&quot;
+       }
+     },
+<a href="#h0-10-3" id="h0-10-3" class="i">+    &quot;obliterator&quot;: {
+</a><a href="#h0-10-4" id="h0-10-4" class="i">+      &quot;version&quot;: &quot;1.5.0&quot;,
+</a><a href="#h0-10-5" id="h0-10-5" class="i">+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/obliterator/-/obliterator-1.5.0.tgz&quot;,
+</a><a href="#h0-10-6" id="h0-10-6" class="i">+      &quot;integrity&quot;: &quot;sha512-dENe0UviDf8/auXn0bIBKwCcUr49khvSBWDLlszv/ZB2qz1VxWDmkNKFqO2nfmve7hQb/QIDY7+rc7K3LdJimQ==&quot;
+</a><a href="#h0-10-7" id="h0-10-7" class="i">+    },
+</a>     &quot;obuf&quot;: {
+       &quot;version&quot;: &quot;1.1.2&quot;,
+       &quot;resolved&quot;: &quot;https://registry.npmjs.org/obuf/-/obuf-1.1.2.tgz&quot;,
+<b>diff --git a/<a id="h1" href="../file/package.json.html">package.json</a> b/<a href="../file/package.json.html">package.json</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -7,6 +7,7 @@
+</a>     &quot;@types/node&quot;: &quot;12.0.6&quot;,
+     &quot;@types/react&quot;: &quot;16.8.19&quot;,
+     &quot;@types/react-dom&quot;: &quot;16.8.4&quot;,
+<a href="#h1-0-3" id="h1-0-3" class="i">+    &quot;mnemonist&quot;: &quot;^0.28.0&quot;,
+</a>     &quot;react&quot;: &quot;^16.8.6&quot;,
+     &quot;react-dom&quot;: &quot;^16.8.6&quot;,
+     &quot;react-scripts&quot;: &quot;3.0.1&quot;,
+<b>diff --git a/<a id="h2" href="../file/src/App.tsx.html">src/App.tsx</a> b/<a href="../file/src/App.tsx.html">src/App.tsx</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -1,19 +1,56 @@
+</a> import React from &#39;react&#39;;
+<a href="#h2-0-1" id="h2-0-1" class="d">-import &#39;./App.css&#39;;
+</a><a href="#h2-0-2" id="h2-0-2" class="i">+import { IRangeProps } from &#39;./data/ranges&#39;;
+</a><a href="#h2-0-3" id="h2-0-3" class="i">+import rates from &#39;./data/rates&#39;;
+</a><a href="#h2-0-4" id="h2-0-4" class="i">+import { Currency, currencies } from &#39;./models/Currency&#39;;
+</a><a href="#h2-0-5" id="h2-0-5" class="i">+import { CurrencyAmount } from &#39;./models/CurrencyAmount&#39;;
+</a><a href="#h2-0-6" id="h2-0-6" class="i">+import CurrencySelect from &#39;./components/CurrencySelect&#39;;
+</a><a href="#h2-0-7" id="h2-0-7" class="i">+import FromToInput from &#39;./components/FromToInput&#39;;
+</a><a href="#h2-0-8" id="h2-0-8" class="i">+import ValueDeltaInput from &#39;./components/ValueDeltaInput&#39;;
+</a> import CurrencyTable from &#39;./components/CurrencyTable&#39;;
+<a href="#h2-0-10" id="h2-0-10" class="d">-import CurrencyFilter from &#39;./components/CurrencyFilter&#39;;
+</a><a href="#h2-0-11" id="h2-0-11" class="i">+import &#39;./App.css&#39;;
+</a> 
+<a href="#h2-0-13" id="h2-0-13" class="d">-const App: React.FC = () =&gt; {
+</a><a href="#h2-0-14" id="h2-0-14" class="d">-    return (
+</a><a href="#h2-0-15" id="h2-0-15" class="d">-        &lt;React.Fragment&gt;
+</a><a href="#h2-0-16" id="h2-0-16" class="d">-        &lt;aside&gt;
+</a><a href="#h2-0-17" id="h2-0-17" class="d">-            &lt;CurrencyFilter /&gt;
+</a><a href="#h2-0-18" id="h2-0-18" class="d">-        &lt;/aside&gt;
+</a><a href="#h2-0-19" id="h2-0-19" class="d">-        &lt;section&gt;
+</a><a href="#h2-0-20" id="h2-0-20" class="d">-            &lt;CurrencyTable /&gt;
+</a><a href="#h2-0-21" id="h2-0-21" class="d">-        &lt;/section&gt;
+</a><a href="#h2-0-22" id="h2-0-22" class="d">-        &lt;/React.Fragment&gt;
+</a><a href="#h2-0-23" id="h2-0-23" class="d">-    );
+</a><a href="#h2-0-24" id="h2-0-24" class="i">+interface IAppState {
+</a><a href="#h2-0-25" id="h2-0-25" class="i">+    selected: Currency[]
+</a><a href="#h2-0-26" id="h2-0-26" class="i">+    range: [number, number]
+</a> }
+ 
+<a href="#h2-0-29" id="h2-0-29" class="d">-export default App;
+</a><a href="#h2-0-30" id="h2-0-30" class="i">+export default class App extends React.Component&lt;any, IAppState&gt; {
+</a><a href="#h2-0-31" id="h2-0-31" class="i">+
+</a><a href="#h2-0-32" id="h2-0-32" class="i">+    readonly ranges: { [key: string]: IRangeProps }  = {
+</a><a href="#h2-0-33" id="h2-0-33" class="i">+        value: { min: 0, max: 1000, step: 1 },
+</a><a href="#h2-0-34" id="h2-0-34" class="i">+        delta: { min: 0, max: 1, step: 0.1 },
+</a><a href="#h2-0-35" id="h2-0-35" class="i">+        from: { min: 0, max: 1000, step: 1 },
+</a><a href="#h2-0-36" id="h2-0-36" class="i">+        to: { min: 0, max: 1000, step: 1 },
+</a><a href="#h2-0-37" id="h2-0-37" class="i">+    }
+</a><a href="#h2-0-38" id="h2-0-38" class="i">+
+</a><a href="#h2-0-39" id="h2-0-39" class="i">+    constructor(props: any) {
+</a><a href="#h2-0-40" id="h2-0-40" class="i">+        super(props);
+</a><a href="#h2-0-41" id="h2-0-41" class="i">+        this.state = {
+</a><a href="#h2-0-42" id="h2-0-42" class="i">+            selected: Array.from(currencies.values()),
+</a><a href="#h2-0-43" id="h2-0-43" class="i">+            range: [0, 1]
+</a><a href="#h2-0-44" id="h2-0-44" class="i">+        };
+</a><a href="#h2-0-45" id="h2-0-45" class="i">+    }
+</a><a href="#h2-0-46" id="h2-0-46" class="i">+
+</a><a href="#h2-0-47" id="h2-0-47" class="i">+    handleSelectedChange = (selected: Currency[]) =&gt; {
+</a><a href="#h2-0-48" id="h2-0-48" class="i">+        this.setState({ selected });
+</a><a href="#h2-0-49" id="h2-0-49" class="i">+    }
+</a><a href="#h2-0-50" id="h2-0-50" class="i">+
+</a><a href="#h2-0-51" id="h2-0-51" class="i">+    handleRangeChange = (range: [number, number]) =&gt; {
+</a><a href="#h2-0-52" id="h2-0-52" class="i">+        this.setState({ range });
+</a><a href="#h2-0-53" id="h2-0-53" class="i">+    }
+</a><a href="#h2-0-54" id="h2-0-54" class="i">+
+</a><a href="#h2-0-55" id="h2-0-55" class="i">+    render() {
+</a><a href="#h2-0-56" id="h2-0-56" class="i">+        return (
+</a><a href="#h2-0-57" id="h2-0-57" class="i">+            &lt;React.Fragment&gt;
+</a><a href="#h2-0-58" id="h2-0-58" class="i">+            &lt;aside&gt;
+</a><a href="#h2-0-59" id="h2-0-59" class="i">+                &lt;CurrencySelect selected={this.state.selected} onChange={this.handleSelectedChange} currencies={currencies}/&gt;
+</a><a href="#h2-0-60" id="h2-0-60" class="i">+                &lt;ValueDeltaInput range={this.state.range} onChange={this.handleRangeChange} value={this.ranges.value} delta={this.ranges.delta} baseAlias={CurrencyAmount.base.alias}/&gt;
+</a><a href="#h2-0-61" id="h2-0-61" class="i">+                &lt;FromToInput range={this.state.range} onChange={this.handleRangeChange} from={this.ranges.from} to={this.ranges.to}/&gt;
+</a><a href="#h2-0-62" id="h2-0-62" class="i">+            &lt;/aside&gt;
+</a><a href="#h2-0-63" id="h2-0-63" class="i">+            &lt;section&gt;
+</a><a href="#h2-0-64" id="h2-0-64" class="i">+                &lt;CurrencyTable selected={this.state.selected} range={this.state.range} rates={rates} /&gt;
+</a><a href="#h2-0-65" id="h2-0-65" class="i">+            &lt;/section&gt;
+</a><a href="#h2-0-66" id="h2-0-66" class="i">+            &lt;/React.Fragment&gt;
+</a><a href="#h2-0-67" id="h2-0-67" class="i">+        );
+</a><a href="#h2-0-68" id="h2-0-68" class="i">+    }
+</a><a href="#h2-0-69" id="h2-0-69" class="i">+}
+</a><b>diff --git a/<a id="h3" href="../file/src/components/CurrencyFilter.tsx.html">src/components/CurrencyFilter.tsx</a> b/<a href="../file/src/components/CurrencyFilter.tsx.html">src/components/CurrencyFilter.tsx</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -1,23 +0,0 @@
+</a><a href="#h3-0-0" id="h3-0-0" class="d">-import React from &#39;react&#39;;
+</a><a href="#h3-0-1" id="h3-0-1" class="d">-import CurrencySelect from &#39;./CurrencySelect&#39;;
+</a><a href="#h3-0-2" id="h3-0-2" class="d">-import FromToInput from &#39;./FromToInput&#39;;
+</a><a href="#h3-0-3" id="h3-0-3" class="d">-import { currencies } from &#39;../models/Currency&#39;;
+</a><a href="#h3-0-4" id="h3-0-4" class="d">-import { IRangeProps } from &#39;../data/ranges&#39;;
+</a><a href="#h3-0-5" id="h3-0-5" class="d">-
+</a><a href="#h3-0-6" id="h3-0-6" class="d">-const ranges: { [key: string]: IRangeProps }  = {
+</a><a href="#h3-0-7" id="h3-0-7" class="d">-    value: { min: 1, max: 1000, step: 1 },
+</a><a href="#h3-0-8" id="h3-0-8" class="d">-    delta: { min: 0, max: 1, step: 0.1 },
+</a><a href="#h3-0-9" id="h3-0-9" class="d">-    from: { min: 0, max: 1000, step: 1 },
+</a><a href="#h3-0-10" id="h3-0-10" class="d">-    to: { min: 0, max: 1000, step: 1 },
+</a><a href="#h3-0-11" id="h3-0-11" class="d">-}
+</a><a href="#h3-0-12" id="h3-0-12" class="d">-
+</a><a href="#h3-0-13" id="h3-0-13" class="d">-const CurrencyFilter: React.FC = (props) =&gt; {
+</a><a href="#h3-0-14" id="h3-0-14" class="d">-    return (
+</a><a href="#h3-0-15" id="h3-0-15" class="d">-        &lt;React.Fragment&gt;
+</a><a href="#h3-0-16" id="h3-0-16" class="d">-            &lt;CurrencySelect currencies={currencies}/&gt;
+</a><a href="#h3-0-17" id="h3-0-17" class="d">-            &lt;FromToInput from={ranges.from} to={ranges.to}/&gt;
+</a><a href="#h3-0-18" id="h3-0-18" class="d">-        &lt;/React.Fragment&gt;
+</a><a href="#h3-0-19" id="h3-0-19" class="d">-    );
+</a><a href="#h3-0-20" id="h3-0-20" class="d">-}
+</a><a href="#h3-0-21" id="h3-0-21" class="d">-
+</a><a href="#h3-0-22" id="h3-0-22" class="d">-export default CurrencyFilter;</a><a href="#h3-0-23" id="h3-0-23" class="d">-
+\ No newline at end of file
+</a><b>diff --git a/<a id="h4" href="../file/src/components/CurrencySelect.tsx.html">src/components/CurrencySelect.tsx</a> b/<a href="../file/src/components/CurrencySelect.tsx.html">src/components/CurrencySelect.tsx</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -3,28 +3,21 @@ import { Currency } from &#39;../models/Currency&#39;;
+</a> 
+ export interface ICurrencySelectProps {
+     currencies: Map&lt;string, Currency&gt;
+<a href="#h4-0-3" id="h4-0-3" class="d">-}
+</a><a href="#h4-0-4" id="h4-0-4" class="d">-
+</a><a href="#h4-0-5" id="h4-0-5" class="d">-export interface ICurrencySelectState {
+</a>     selected: Currency[]
+<a href="#h4-0-7" id="h4-0-7" class="i">+    onChange: (currencies: Currency[]) =&gt; void
+</a> }
+ 
+<a href="#h4-0-10" id="h4-0-10" class="d">-export default class CurrencySelect extends React.Component&lt;ICurrencySelectProps, ICurrencySelectState&gt; {
+</a><a href="#h4-0-11" id="h4-0-11" class="d">-
+</a><a href="#h4-0-12" id="h4-0-12" class="d">-    constructor(props: ICurrencySelectProps) {
+</a><a href="#h4-0-13" id="h4-0-13" class="d">-        super(props);
+</a><a href="#h4-0-14" id="h4-0-14" class="d">-        this.state = { selected: Array.from(this.props.currencies.values()) };
+</a><a href="#h4-0-15" id="h4-0-15" class="d">-    }
+</a><a href="#h4-0-16" id="h4-0-16" class="i">+export default class CurrencySelect extends React.Component&lt;ICurrencySelectProps&gt; {
+</a> 
+     public handleChange = (event: React.ChangeEvent&lt;HTMLSelectElement&gt;) =&gt; {
+         const values = Array.from(event.target.selectedOptions).map(x =&gt; x.value);
+         const selected = values.map(alias =&gt; this.props.currencies.get(alias) as Currency);
+<a href="#h4-0-21" id="h4-0-21" class="d">-        this.setState({ selected });
+</a><a href="#h4-0-22" id="h4-0-22" class="i">+        this.props.onChange(selected);
+</a>     }
+ 
+     public render() {
+         return (
+<a href="#h4-0-27" id="h4-0-27" class="d">-            &lt;select id=&quot;include&quot; multiple={true} size={this.props.currencies.size} value={this.state.selected.map(c =&gt; c.alias)} onChange={this.handleChange}&gt;
+</a><a href="#h4-0-28" id="h4-0-28" class="i">+            &lt;select id=&quot;include&quot; multiple={true} size={this.props.currencies.size} value={this.props.selected.map(c =&gt; c.alias)} onChange={this.handleChange}&gt;
+</a>                 {Array.from(this.props.currencies.values()).map(c =&gt; c.toOption())}
+             &lt;/select&gt;
+         );
+<b>diff --git a/<a id="h5" href="../file/src/components/CurrencyTable.tsx.html">src/components/CurrencyTable.tsx</a> b/<a href="../file/src/components/CurrencyTable.tsx.html">src/components/CurrencyTable.tsx</a></b>
+<a href="#h5-0" id="h5-0" class="h">@@ -1,15 +1,45 @@
+</a> import React from &#39;react&#39;;
+<a href="#h5-0-1" id="h5-0-1" class="i">+import Heap from &#39;mnemonist/heap&#39;;
+</a><a href="#h5-0-2" id="h5-0-2" class="i">+import { Currency } from &#39;../models/Currency&#39;;
+</a><a href="#h5-0-3" id="h5-0-3" class="i">+import { CurrencyAmount } from &#39;../models/CurrencyAmount&#39;;
+</a> 
+<a href="#h5-0-5" id="h5-0-5" class="d">-const CurrencyTable: React.FC = () =&gt; {
+</a><a href="#h5-0-6" id="h5-0-6" class="d">-    return (
+</a><a href="#h5-0-7" id="h5-0-7" class="d">-        &lt;table id=&quot;currencies&quot;&gt;
+</a><a href="#h5-0-8" id="h5-0-8" class="d">-            &lt;thead&gt;
+</a><a href="#h5-0-9" id="h5-0-9" class="d">-                &lt;tr&gt;&lt;th&gt;Chaos&lt;/th&gt;&lt;th&gt;Currency&lt;/th&gt;&lt;/tr&gt;
+</a><a href="#h5-0-10" id="h5-0-10" class="d">-            &lt;/thead&gt;
+</a><a href="#h5-0-11" id="h5-0-11" class="d">-            &lt;tbody&gt;
+</a><a href="#h5-0-12" id="h5-0-12" class="d">-            &lt;/tbody&gt;
+</a><a href="#h5-0-13" id="h5-0-13" class="d">-        &lt;/table&gt;
+</a><a href="#h5-0-14" id="h5-0-14" class="d">-    );
+</a><a href="#h5-0-15" id="h5-0-15" class="i">+interface ICurrencyTableProps {
+</a><a href="#h5-0-16" id="h5-0-16" class="i">+    selected: Currency[]
+</a><a href="#h5-0-17" id="h5-0-17" class="i">+    range: [number, number]
+</a><a href="#h5-0-18" id="h5-0-18" class="i">+    rates: Map&lt;string, number&gt;
+</a> }
+ 
+<a href="#h5-0-21" id="h5-0-21" class="d">-export default CurrencyTable;</a><a href="#h5-0-22" id="h5-0-22" class="d">-
+\ No newline at end of file
+</a><a href="#h5-0-23" id="h5-0-23" class="i">+export default class CurrencyTable extends React.Component&lt;ICurrencyTableProps&gt; {
+</a><a href="#h5-0-24" id="h5-0-24" class="i">+
+</a><a href="#h5-0-25" id="h5-0-25" class="i">+    *renderRows(): IterableIterator&lt;JSX.Element&gt; {
+</a><a href="#h5-0-26" id="h5-0-26" class="i">+        const [start, end] = this.props.range;
+</a><a href="#h5-0-27" id="h5-0-27" class="i">+        const amounts = this.props.selected.map(currency =&gt;
+</a><a href="#h5-0-28" id="h5-0-28" class="i">+            new CurrencyAmount(currency, this.props.rates.get(currency.alias) as number));
+</a><a href="#h5-0-29" id="h5-0-29" class="i">+        if (start !== 0) {
+</a><a href="#h5-0-30" id="h5-0-30" class="i">+            amounts.forEach(a =&gt; a.chaos = start);
+</a><a href="#h5-0-31" id="h5-0-31" class="i">+        }
+</a><a href="#h5-0-32" id="h5-0-32" class="i">+
+</a><a href="#h5-0-33" id="h5-0-33" class="i">+        const heap = Heap.from(amounts, CurrencyAmount.comparator);
+</a><a href="#h5-0-34" id="h5-0-34" class="i">+        while (true) {
+</a><a href="#h5-0-35" id="h5-0-35" class="i">+            const amount = heap.pop() as CurrencyAmount;
+</a><a href="#h5-0-36" id="h5-0-36" class="i">+            if (amount.chaos &gt; end)
+</a><a href="#h5-0-37" id="h5-0-37" class="i">+                break;
+</a><a href="#h5-0-38" id="h5-0-38" class="i">+            yield amount.toRow();
+</a><a href="#h5-0-39" id="h5-0-39" class="i">+            amount.next();
+</a><a href="#h5-0-40" id="h5-0-40" class="i">+            heap.push(amount);
+</a><a href="#h5-0-41" id="h5-0-41" class="i">+        }
+</a><a href="#h5-0-42" id="h5-0-42" class="i">+    }
+</a><a href="#h5-0-43" id="h5-0-43" class="i">+
+</a><a href="#h5-0-44" id="h5-0-44" class="i">+    render() {
+</a><a href="#h5-0-45" id="h5-0-45" class="i">+        return (
+</a><a href="#h5-0-46" id="h5-0-46" class="i">+            &lt;table id=&quot;currencies&quot;&gt;
+</a><a href="#h5-0-47" id="h5-0-47" class="i">+                &lt;thead&gt;
+</a><a href="#h5-0-48" id="h5-0-48" class="i">+                    &lt;tr&gt;&lt;th&gt;Chaos&lt;/th&gt;&lt;th&gt;Currency&lt;/th&gt;&lt;/tr&gt;
+</a><a href="#h5-0-49" id="h5-0-49" class="i">+                &lt;/thead&gt;
+</a><a href="#h5-0-50" id="h5-0-50" class="i">+                &lt;tbody&gt;
+</a><a href="#h5-0-51" id="h5-0-51" class="i">+                    {Array.from(this.renderRows())}
+</a><a href="#h5-0-52" id="h5-0-52" class="i">+                &lt;/tbody&gt;
+</a><a href="#h5-0-53" id="h5-0-53" class="i">+            &lt;/table&gt;
+</a><a href="#h5-0-54" id="h5-0-54" class="i">+        );
+</a><a href="#h5-0-55" id="h5-0-55" class="i">+    }
+</a><a href="#h5-0-56" id="h5-0-56" class="i">+}
+</a><b>diff --git a/<a id="h6" href="../file/src/components/FromToInput.tsx.html">src/components/FromToInput.tsx</a> b/<a href="../file/src/components/FromToInput.tsx.html">src/components/FromToInput.tsx</a></b>
+<a href="#h6-0" id="h6-0" class="h">@@ -1,25 +1,22 @@
+</a> import React from &#39;react&#39;;
+<a href="#h6-0-1" id="h6-0-1" class="d">-import { IRangeProps, IRangeState } from &#39;../data/ranges&#39;;
+</a><a href="#h6-0-2" id="h6-0-2" class="i">+import { IRangeProps } from &#39;../data/ranges&#39;;
+</a> 
+ export interface IFromToInputProps {
+     from: IRangeProps
+     to: IRangeProps
+<a href="#h6-0-7" id="h6-0-7" class="i">+    range: [number, number]
+</a><a href="#h6-0-8" id="h6-0-8" class="i">+    onChange: (range: [number, number]) =&gt; void
+</a> }
+ 
+<a href="#h6-0-11" id="h6-0-11" class="d">-export default class FromToInput extends React.Component&lt;IFromToInputProps, IRangeState&gt; {
+</a><a href="#h6-0-12" id="h6-0-12" class="d">-
+</a><a href="#h6-0-13" id="h6-0-13" class="d">-    constructor(props: IFromToInputProps) {
+</a><a href="#h6-0-14" id="h6-0-14" class="d">-        super(props);
+</a><a href="#h6-0-15" id="h6-0-15" class="d">-        this.state = { range: [props.from.min, props.to.min] };
+</a><a href="#h6-0-16" id="h6-0-16" class="d">-    }
+</a><a href="#h6-0-17" id="h6-0-17" class="i">+export default class FromToInput extends React.Component&lt;IFromToInputProps&gt; {
+</a> 
+     public get from(): number {
+<a href="#h6-0-20" id="h6-0-20" class="d">-        const [from, ] = this.state.range;
+</a><a href="#h6-0-21" id="h6-0-21" class="i">+        const [from, ] = this.props.range;
+</a>         return from;
+     }
+ 
+     public get to(): number {
+<a href="#h6-0-26" id="h6-0-26" class="d">-        const [, to] = this.state.range;
+</a><a href="#h6-0-27" id="h6-0-27" class="i">+        const [, to] = this.props.range;
+</a>         return to;
+     }
+ 
+<a href="#h6-1" id="h6-1" class="h">@@ -31,7 +28,7 @@ export default class FromToInput extends React.Component&lt;IFromToInputProps, IRan
+</a>         } else if (event.target.id === &#39;to&#39;) {
+             to = event.target.valueAsNumber;
+         }
+<a href="#h6-1-3" id="h6-1-3" class="d">-        this.setState({ range: [from, to] })
+</a><a href="#h6-1-4" id="h6-1-4" class="i">+        this.props.onChange([from, to]);
+</a>     }
+ 
+     public render() {
+<b>diff --git a/<a id="h7" href="../file/src/components/ValueDeltaInput.tsx.html">src/components/ValueDeltaInput.tsx</a> b/<a href="../file/src/components/ValueDeltaInput.tsx.html">src/components/ValueDeltaInput.tsx</a></b>
+<a href="#h7-0" id="h7-0" class="h">@@ -1,27 +1,24 @@
+</a> import React from &#39;react&#39;;
+<a href="#h7-0-1" id="h7-0-1" class="d">-import { IRangeProps, IRangeState } from &#39;../data/ranges&#39;;
+</a><a href="#h7-0-2" id="h7-0-2" class="i">+import { IRangeProps } from &#39;../data/ranges&#39;;
+</a> 
+ export interface IValueDeltaInputProps {
+     value: IRangeProps
+     delta: IRangeProps
+     baseAlias: string
+<a href="#h7-0-8" id="h7-0-8" class="i">+    range: [number, number]
+</a><a href="#h7-0-9" id="h7-0-9" class="i">+    onChange: (range: [number, number]) =&gt; void
+</a> }
+ 
+<a href="#h7-0-12" id="h7-0-12" class="d">-export default class ValueDeltaInput extends React.Component&lt;IValueDeltaInputProps, IRangeState&gt; {
+</a><a href="#h7-0-13" id="h7-0-13" class="d">-
+</a><a href="#h7-0-14" id="h7-0-14" class="d">-    constructor(props: IValueDeltaInputProps) {
+</a><a href="#h7-0-15" id="h7-0-15" class="d">-        super(props);
+</a><a href="#h7-0-16" id="h7-0-16" class="d">-        this.state = { range: [this.props.value.min, this.props.value.min] };
+</a><a href="#h7-0-17" id="h7-0-17" class="d">-    }
+</a><a href="#h7-0-18" id="h7-0-18" class="i">+export default class ValueDeltaInput extends React.Component&lt;IValueDeltaInputProps&gt; {
+</a> 
+     public get value(): number {
+<a href="#h7-0-21" id="h7-0-21" class="d">-        const { range: [from, to] } = this.state;
+</a><a href="#h7-0-22" id="h7-0-22" class="i">+        const { range: [from, to] } = this.props;
+</a>         const value = (from + to) / 2;
+         return value;
+     }
+ 
+     public get delta(): number {
+<a href="#h7-0-28" id="h7-0-28" class="d">-        const { range: [from, to] } = this.state;
+</a><a href="#h7-0-29" id="h7-0-29" class="i">+        const { range: [from, to] } = this.props;
+</a>         const delta = (to - from) / 2;
+         return delta;
+     }
+<a href="#h7-1" id="h7-1" class="h">@@ -39,7 +36,7 @@ export default class ValueDeltaInput extends React.Component&lt;IValueDeltaInputPro
+</a> 
+     private changeState(value: number, delta: number) {
+         const range: [number, number] = [value - delta, value + delta];
+<a href="#h7-1-3" id="h7-1-3" class="d">-        this.setState({ range });
+</a><a href="#h7-1-4" id="h7-1-4" class="i">+        this.props.onChange(range);
+</a>     }
+ 
+     public render() {
+<b>diff --git a/<a id="h8" href="../file/src/models/CurrencyAmount.tsx.html">src/models/CurrencyAmount.tsx</a> b/<a href="../file/src/models/CurrencyAmount.tsx.html">src/models/CurrencyAmount.tsx</a></b>
+<a href="#h8-0" id="h8-0" class="h">@@ -1,8 +1,11 @@
+</a><a href="#h8-0-0" id="h8-0-0" class="i">+import React from &#39;react&#39;
+</a> import { Currency, currencies } from &quot;./Currency&quot;;
+ 
+ export class CurrencyAmount {
+     static base: Currency = currencies.get(&#39;chaos&#39;) as Currency;
+ 
+<a href="#h8-0-6" id="h8-0-6" class="i">+    static comparator = (a: CurrencyAmount, b: CurrencyAmount) =&gt; a.chaos - b.chaos;
+</a><a href="#h8-0-7" id="h8-0-7" class="i">+
+</a>     currency: Currency;
+     amount: number;
+     rate: number;
+<a href="#h8-1" id="h8-1" class="h">@@ -25,13 +28,17 @@ export class CurrencyAmount {
+</a>         this.amount += 1;
+     }
+ 
+<a href="#h8-1-3" id="h8-1-3" class="d">-    toCell(value: string | number, currency: Currency): JSX.Element {
+</a><a href="#h8-1-4" id="h8-1-4" class="i">+    private get key(): string {
+</a><a href="#h8-1-5" id="h8-1-5" class="i">+        return `${this.currency.alias}-${this.amount}`;
+</a><a href="#h8-1-6" id="h8-1-6" class="i">+    }
+</a><a href="#h8-1-7" id="h8-1-7" class="i">+
+</a><a href="#h8-1-8" id="h8-1-8" class="i">+    private toCell(value: string | number, currency: Currency): JSX.Element {
+</a>         return &lt;td&gt;{value} {currency.toImg()} {currency.name}&lt;/td&gt;;
+     }
+ 
+     toRow(): JSX.Element {
+         const chaos = this.toCell(this.chaos.toFixed(2), CurrencyAmount.base);
+         const currency = this.toCell(this.amount, this.currency);
+<a href="#h8-1-15" id="h8-1-15" class="d">-        return &lt;tr key={this.currency.alias}&gt;{chaos}{currency}&lt;/tr&gt;;
+</a><a href="#h8-1-16" id="h8-1-16" class="i">+        return &lt;tr key={this.key}&gt;{chaos}{currency}&lt;/tr&gt;;
+</a>     }
+ }
+</pre>
+</div>
+</body>
+</html>

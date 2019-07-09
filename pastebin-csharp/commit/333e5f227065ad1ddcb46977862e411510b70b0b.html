@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Created Paste, PastebinException, User and Utills - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/333e5f227065ad1ddcb46977862e411510b70b0b.html">333e5f227065ad1ddcb46977862e411510b70b0b</a>
+<b>parent</b> <a href="../commit/d237ea5a5e8ade7bcae16504f64749e672a0cdcb.html">d237ea5a5e8ade7bcae16504f64749e672a0cdcb</a>
+<b>Author:</b> nikibobi &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Sun, 24 Mar 2013 15:53:18 +0200
+
+Created Paste, PastebinException, User and Utills
+
+Created Paste, PastebinException, User and Utills classes for easier
+use. Also made Pastebin class static and cleaned up the code a bit.
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">Example/Program.cs</a></td><td> | </td><td class="num">19</td><td><span class="i">++++++++++++++++++</span><span class="d">-</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h1">PastebinAPI/Paste.cs</a></td><td> | </td><td class="num">48</td><td><span class="i">++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI/Pastebin.cs</a></td><td> | </td><td class="num">233</td><td><span class="i">+++++++++++</span><span class="d">--------------------------------------------------------------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h3">PastebinAPI/PastebinAPI.csproj</a></td><td> | </td><td class="num">6</td><td><span class="i">++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h4">PastebinAPI/PastebinException.cs</a></td><td> | </td><td class="num">46</td><td><span class="i">++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h5">PastebinAPI/User.cs</a></td><td> | </td><td class="num">69</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h6">PastebinAPI/Utills.cs</a></td><td> | </td><td class="num">44</td><td><span class="i">++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+</table></pre><pre>7 files changed, 262 insertions(+), 203 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/Example/Program.cs.html">Example/Program.cs</a> b/<a href="../file/Example/Program.cs.html">Example/Program.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -10,7 +10,24 @@ class Program
+</a>     {
+         static void Main(string[] args)
+         {
+<a href="#h0-0-3" id="h0-0-3" class="d">-            Pastebin pastebin = new Pastebin(&quot;your key&quot;);
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+            Pastebin.DevKey = &quot;http://pastebin.com/api#1&quot;; //your dev key
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+            try
+</a><a href="#h0-0-6" id="h0-0-6" class="i">+            {
+</a><a href="#h0-0-7" id="h0-0-7" class="i">+                var me = Pastebin.Login(&quot;username&quot;, &quot;password&quot;);
+</a><a href="#h0-0-8" id="h0-0-8" class="i">+                Console.WriteLine(me.GetUserInfo());
+</a><a href="#h0-0-9" id="h0-0-9" class="i">+                Console.WriteLine(me.ListPastes(3));
+</a><a href="#h0-0-10" id="h0-0-10" class="i">+            }
+</a><a href="#h0-0-11" id="h0-0-11" class="i">+            catch(PastebinException ex)
+</a><a href="#h0-0-12" id="h0-0-12" class="i">+            {
+</a><a href="#h0-0-13" id="h0-0-13" class="i">+                if (ex.Parameter == PastebinException.ParameterType.Login)
+</a><a href="#h0-0-14" id="h0-0-14" class="i">+                {
+</a><a href="#h0-0-15" id="h0-0-15" class="i">+                    Console.WriteLine(&quot;Invalid username/password&quot;);
+</a><a href="#h0-0-16" id="h0-0-16" class="i">+                }
+</a><a href="#h0-0-17" id="h0-0-17" class="i">+                else
+</a><a href="#h0-0-18" id="h0-0-18" class="i">+                {
+</a><a href="#h0-0-19" id="h0-0-19" class="i">+                    throw;
+</a><a href="#h0-0-20" id="h0-0-20" class="i">+                }
+</a><a href="#h0-0-21" id="h0-0-21" class="i">+            }
+</a>         }
+     }
+ }
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a> b/<a href="../file/PastebinAPI/Paste.cs.html">PastebinAPI/Paste.cs</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -0,0 +1,48 @@
+</a><a href="#h1-0-0" id="h1-0-0" class="i">+﻿using System;
+</a><a href="#h1-0-1" id="h1-0-1" class="i">+using System.Collections.Generic;
+</a><a href="#h1-0-2" id="h1-0-2" class="i">+using System.Linq;
+</a><a href="#h1-0-3" id="h1-0-3" class="i">+using System.Text;
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+
+</a><a href="#h1-0-5" id="h1-0-5" class="i">+namespace PastebinAPI
+</a><a href="#h1-0-6" id="h1-0-6" class="i">+{
+</a><a href="#h1-0-7" id="h1-0-7" class="i">+    public struct Paste
+</a><a href="#h1-0-8" id="h1-0-8" class="i">+    {
+</a><a href="#h1-0-9" id="h1-0-9" class="i">+        private string url;
+</a><a href="#h1-0-10" id="h1-0-10" class="i">+        private string key;
+</a><a href="#h1-0-11" id="h1-0-11" class="i">+
+</a><a href="#h1-0-12" id="h1-0-12" class="i">+        public string Url
+</a><a href="#h1-0-13" id="h1-0-13" class="i">+        {
+</a><a href="#h1-0-14" id="h1-0-14" class="i">+            get
+</a><a href="#h1-0-15" id="h1-0-15" class="i">+            {
+</a><a href="#h1-0-16" id="h1-0-16" class="i">+                return url;
+</a><a href="#h1-0-17" id="h1-0-17" class="i">+            }
+</a><a href="#h1-0-18" id="h1-0-18" class="i">+            set
+</a><a href="#h1-0-19" id="h1-0-19" class="i">+            {
+</a><a href="#h1-0-20" id="h1-0-20" class="i">+                url = value;
+</a><a href="#h1-0-21" id="h1-0-21" class="i">+                key = url.Replace(&quot;http://pastebin.com/&quot;, &quot;&quot;);
+</a><a href="#h1-0-22" id="h1-0-22" class="i">+            }
+</a><a href="#h1-0-23" id="h1-0-23" class="i">+        }
+</a><a href="#h1-0-24" id="h1-0-24" class="i">+        public string Key
+</a><a href="#h1-0-25" id="h1-0-25" class="i">+        {
+</a><a href="#h1-0-26" id="h1-0-26" class="i">+            get
+</a><a href="#h1-0-27" id="h1-0-27" class="i">+            {
+</a><a href="#h1-0-28" id="h1-0-28" class="i">+                return key;
+</a><a href="#h1-0-29" id="h1-0-29" class="i">+            }
+</a><a href="#h1-0-30" id="h1-0-30" class="i">+            set
+</a><a href="#h1-0-31" id="h1-0-31" class="i">+            {
+</a><a href="#h1-0-32" id="h1-0-32" class="i">+                key = value;
+</a><a href="#h1-0-33" id="h1-0-33" class="i">+                url = &quot;http://pastebin.com/&quot; + key;
+</a><a href="#h1-0-34" id="h1-0-34" class="i">+            }
+</a><a href="#h1-0-35" id="h1-0-35" class="i">+        }
+</a><a href="#h1-0-36" id="h1-0-36" class="i">+
+</a><a href="#h1-0-37" id="h1-0-37" class="i">+        public Paste(string url) : this()
+</a><a href="#h1-0-38" id="h1-0-38" class="i">+        {
+</a><a href="#h1-0-39" id="h1-0-39" class="i">+            Url = url;
+</a><a href="#h1-0-40" id="h1-0-40" class="i">+        }
+</a><a href="#h1-0-41" id="h1-0-41" class="i">+
+</a><a href="#h1-0-42" id="h1-0-42" class="i">+        public string GetRaw()
+</a><a href="#h1-0-43" id="h1-0-43" class="i">+        {
+</a><a href="#h1-0-44" id="h1-0-44" class="i">+            return Utills.PostRequest(&quot;http://pastebin.com/raw.php?i=&quot; + Key, new[]{&quot;&quot;});
+</a><a href="#h1-0-45" id="h1-0-45" class="i">+        }
+</a><a href="#h1-0-46" id="h1-0-46" class="i">+    }
+</a><a href="#h1-0-47" id="h1-0-47" class="i">+}
+</a><b>diff --git a/<a id="h2" href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a> b/<a href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -1,112 +1,41 @@
+</a> ﻿using System;
+ using System.Collections.Generic;
+<a href="#h2-0-2" id="h2-0-2" class="d">-using System.Net;
+</a><a href="#h2-0-3" id="h2-0-3" class="d">-using System.IO;
+</a><a href="#h2-0-4" id="h2-0-4" class="d">-using System.Text;
+</a> 
+ namespace PastebinAPI
+ {
+<a href="#h2-0-8" id="h2-0-8" class="d">-    public class Pastebin
+</a><a href="#h2-0-9" id="h2-0-9" class="i">+    public static class Pastebin
+</a>     {
+<a href="#h2-0-11" id="h2-0-11" class="d">-        #region Errors
+</a><a href="#h2-0-12" id="h2-0-12" class="i">+        internal const string ERROR = &quot;Bad API request&quot;;
+</a> 
+<a href="#h2-0-14" id="h2-0-14" class="d">-        private static readonly Dictionary&lt;string, List&lt;string&gt;&gt; errors = new Dictionary&lt;string, List&lt;string&gt;&gt;
+</a><a href="#h2-0-15" id="h2-0-15" class="i">+        private static bool initialized;
+</a><a href="#h2-0-16" id="h2-0-16" class="i">+        private static string devkey;
+</a><a href="#h2-0-17" id="h2-0-17" class="i">+
+</a><a href="#h2-0-18" id="h2-0-18" class="i">+        public static string DevKey
+</a>         {
+<a href="#h2-0-20" id="h2-0-20" class="i">+            get
+</a>             {
+<a href="#h2-0-22" id="h2-0-22" class="d">-                &quot;paste&quot;, new List&lt;string&gt;
+</a><a href="#h2-0-23" id="h2-0-23" class="d">-                            {
+</a><a href="#h2-0-24" id="h2-0-24" class="d">-                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h2-0-25" id="h2-0-25" class="d">-                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h2-0-26" id="h2-0-26" class="d">-                                &quot;Bad API request, IP blocked&quot;,
+</a><a href="#h2-0-27" id="h2-0-27" class="d">-                                &quot;Bad API request, maximum number of 25 unlisted pastes for your free account&quot;,
+</a><a href="#h2-0-28" id="h2-0-28" class="d">-                                &quot;Bad API request, maximum number of 10 private pastes for your free account&quot;,
+</a><a href="#h2-0-29" id="h2-0-29" class="d">-                                &quot;Bad API request, api_paste_code was empty&quot;,
+</a><a href="#h2-0-30" id="h2-0-30" class="d">-                                &quot;Bad API request, maximum paste file size exceeded&quot;,
+</a><a href="#h2-0-31" id="h2-0-31" class="d">-                                &quot;Bad API request, invalid api_expire_date&quot;,
+</a><a href="#h2-0-32" id="h2-0-32" class="d">-                                &quot;Bad API request, invalid api_paste_private&quot;,
+</a><a href="#h2-0-33" id="h2-0-33" class="d">-                                &quot;Bad API request, invalid api_paste_format&quot;
+</a><a href="#h2-0-34" id="h2-0-34" class="d">-                            }
+</a><a href="#h2-0-35" id="h2-0-35" class="d">-                },
+</a><a href="#h2-0-36" id="h2-0-36" class="d">-            {
+</a><a href="#h2-0-37" id="h2-0-37" class="d">-                &quot;login&quot;, new List&lt;string&gt;
+</a><a href="#h2-0-38" id="h2-0-38" class="d">-                            {
+</a><a href="#h2-0-39" id="h2-0-39" class="d">-                                &quot;Bad API request, use POST request, not GET&quot;,
+</a><a href="#h2-0-40" id="h2-0-40" class="d">-                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h2-0-41" id="h2-0-41" class="d">-                                &quot;Bad API request, invalid login&quot;,
+</a><a href="#h2-0-42" id="h2-0-42" class="d">-                                &quot;Bad API request, account not active&quot;,
+</a><a href="#h2-0-43" id="h2-0-43" class="d">-                                &quot;Bad API request, invalid POST parameters&quot;
+</a><a href="#h2-0-44" id="h2-0-44" class="d">-                            }
+</a><a href="#h2-0-45" id="h2-0-45" class="d">-                },
+</a><a href="#h2-0-46" id="h2-0-46" class="d">-            {
+</a><a href="#h2-0-47" id="h2-0-47" class="d">-                &quot;list&quot;, new List&lt;string&gt;
+</a><a href="#h2-0-48" id="h2-0-48" class="d">-                            {
+</a><a href="#h2-0-49" id="h2-0-49" class="d">-                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h2-0-50" id="h2-0-50" class="d">-                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h2-0-51" id="h2-0-51" class="d">-                                &quot;Bad API request, invalid api_user_key&quot;
+</a><a href="#h2-0-52" id="h2-0-52" class="d">-                            }
+</a><a href="#h2-0-53" id="h2-0-53" class="d">-                },
+</a><a href="#h2-0-54" id="h2-0-54" class="d">-            {
+</a><a href="#h2-0-55" id="h2-0-55" class="d">-                &quot;trends&quot;, new List&lt;string&gt;
+</a><a href="#h2-0-56" id="h2-0-56" class="d">-                            {
+</a><a href="#h2-0-57" id="h2-0-57" class="d">-                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h2-0-58" id="h2-0-58" class="d">-                                &quot;Bad API request, invalid api_dev_key&quot;
+</a><a href="#h2-0-59" id="h2-0-59" class="d">-                            }
+</a><a href="#h2-0-60" id="h2-0-60" class="d">-                },
+</a><a href="#h2-0-61" id="h2-0-61" class="d">-            {
+</a><a href="#h2-0-62" id="h2-0-62" class="d">-                &quot;delete&quot;, new List&lt;string&gt;
+</a><a href="#h2-0-63" id="h2-0-63" class="d">-                            {
+</a><a href="#h2-0-64" id="h2-0-64" class="d">-                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h2-0-65" id="h2-0-65" class="d">-                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h2-0-66" id="h2-0-66" class="d">-                                &quot;Bad API request, invalid api_user_key&quot;,
+</a><a href="#h2-0-67" id="h2-0-67" class="d">-                                &quot;Bad API request, invalid permission to remove paste&quot;
+</a><a href="#h2-0-68" id="h2-0-68" class="d">-                            }
+</a><a href="#h2-0-69" id="h2-0-69" class="d">-                },
+</a><a href="#h2-0-70" id="h2-0-70" class="i">+                return devkey;
+</a><a href="#h2-0-71" id="h2-0-71" class="i">+            }
+</a><a href="#h2-0-72" id="h2-0-72" class="i">+            set
+</a>             {
+<a href="#h2-0-74" id="h2-0-74" class="d">-                &quot;userdetails&quot;, new List&lt;string&gt;
+</a><a href="#h2-0-75" id="h2-0-75" class="d">-                            {
+</a><a href="#h2-0-76" id="h2-0-76" class="d">-                                &quot;Bad API request, invalid api_option&quot;,
+</a><a href="#h2-0-77" id="h2-0-77" class="d">-                                &quot;Bad API request, invalid api_dev_key&quot;,
+</a><a href="#h2-0-78" id="h2-0-78" class="d">-                                &quot;Bad API request, invalid api_user_key&quot;
+</a><a href="#h2-0-79" id="h2-0-79" class="d">-                            }
+</a><a href="#h2-0-80" id="h2-0-80" class="d">-                }
+</a><a href="#h2-0-81" id="h2-0-81" class="d">-        };
+</a><a href="#h2-0-82" id="h2-0-82" class="d">-        #endregion
+</a><a href="#h2-0-83" id="h2-0-83" class="d">-
+</a><a href="#h2-0-84" id="h2-0-84" class="d">-        private readonly string devKey;
+</a><a href="#h2-0-85" id="h2-0-85" class="d">-        private string userKey;
+</a><a href="#h2-0-86" id="h2-0-86" class="d">-
+</a><a href="#h2-0-87" id="h2-0-87" class="d">-        /// &lt;summary&gt;
+</a><a href="#h2-0-88" id="h2-0-88" class="d">-        /// Creates new Pastebin object
+</a><a href="#h2-0-89" id="h2-0-89" class="d">-        /// &lt;/summary&gt;
+</a><a href="#h2-0-90" id="h2-0-90" class="d">-        /// &lt;param name=&quot;devKey&quot;&gt;Your api dev key&lt;/param&gt;
+</a><a href="#h2-0-91" id="h2-0-91" class="d">-        public Pastebin(string devKey)
+</a><a href="#h2-0-92" id="h2-0-92" class="d">-        {
+</a><a href="#h2-0-93" id="h2-0-93" class="d">-            this.devKey = devKey;
+</a><a href="#h2-0-94" id="h2-0-94" class="d">-            userKey = string.Empty;
+</a><a href="#h2-0-95" id="h2-0-95" class="i">+                devkey = value;
+</a><a href="#h2-0-96" id="h2-0-96" class="i">+                initialized = true;
+</a><a href="#h2-0-97" id="h2-0-97" class="i">+            }
+</a>         }
+ 
+<a href="#h2-0-100" id="h2-0-100" class="d">-        public void Login(string username, string password)
+</a><a href="#h2-0-101" id="h2-0-101" class="i">+        public static User Login(string username, string password)
+</a>         {
+<a href="#h2-0-103" id="h2-0-103" class="d">-            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h2-0-104" id="h2-0-104" class="i">+            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_login.php&quot;, new[]
+</a>                                                    {
+<a href="#h2-0-106" id="h2-0-106" class="d">-                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h2-0-107" id="h2-0-107" class="i">+                                                       &quot;api_dev_key=&quot; + DevKey,
+</a>                                                        &quot;api_user_name=&quot; + username,
+                                                        &quot;api_user_password=&quot; + password
+                                                    });
+ 
+<a href="#h2-0-112" id="h2-0-112" class="d">-            var result = PostRequest(@&quot;http://pastebin.com/api/api_login.php&quot;, postData);
+</a><a href="#h2-0-113" id="h2-0-113" class="i">+            if (result.Contains(ERROR))
+</a><a href="#h2-0-114" id="h2-0-114" class="i">+                throw new PastebinException(result);
+</a> 
+<a href="#h2-0-116" id="h2-0-116" class="d">-            if (errors[&quot;login&quot;].Contains(result))
+</a><a href="#h2-0-117" id="h2-0-117" class="d">-                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h2-0-118" id="h2-0-118" class="d">-
+</a><a href="#h2-0-119" id="h2-0-119" class="d">-            userKey = result;
+</a><a href="#h2-0-120" id="h2-0-120" class="d">-        }
+</a><a href="#h2-0-121" id="h2-0-121" class="d">-
+</a><a href="#h2-0-122" id="h2-0-122" class="d">-        public void Logout()
+</a><a href="#h2-0-123" id="h2-0-123" class="d">-        {
+</a><a href="#h2-0-124" id="h2-0-124" class="d">-            if (userKey == string.Empty)
+</a><a href="#h2-0-125" id="h2-0-125" class="d">-                throw new InvalidOperationException(&quot;Must first login to logout&quot;);
+</a><a href="#h2-0-126" id="h2-0-126" class="d">-            userKey = &quot;&quot;;
+</a><a href="#h2-0-127" id="h2-0-127" class="i">+            return new User(DevKey, result);
+</a>         }
+ 
+         /// &lt;summary&gt;
+<a href="#h2-1" id="h2-1" class="h">@@ -117,13 +46,14 @@ public void Logout()
+</a>         /// &lt;param name=&quot;language&quot;&gt;The language for the paste see http://pastebin.com/api#5 for valid formats&lt;/param&gt;
+         /// &lt;param name=&quot;visibility&quot;&gt;The visibility/privacy of the paste&lt;/param&gt;
+         /// &lt;param name=&quot;expiration&quot;&gt;The expiration date of the paste&lt;/param&gt;
+<a href="#h2-1-3" id="h2-1-3" class="i">+        /// &lt;param name=&quot;userKey&quot;&gt;The userKey &lt;/param&gt;
+</a>         /// &lt;returns&gt;Responce from pastebin. If it succeeded it will return the paste url&lt;/returns&gt;
+<a href="#h2-1-5" id="h2-1-5" class="d">-        public string Create(string text, string title = &quot;&quot;, string language = &quot;text&quot;, Visibility visibility = 0, Expiration expiration = null)
+</a><a href="#h2-1-6" id="h2-1-6" class="i">+        public static Paste NewPaste(string text, string title = &quot;&quot;, string language = &quot;text&quot;, Visibility visibility = 0, Expiration expiration = null, string userKey = &quot;&quot;)
+</a>         {
+<a href="#h2-1-8" id="h2-1-8" class="d">-            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h2-1-9" id="h2-1-9" class="i">+            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+</a>                                                    {
+                                                        //required parameters
+<a href="#h2-1-12" id="h2-1-12" class="d">-                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h2-1-13" id="h2-1-13" class="i">+                                                       &quot;api_dev_key=&quot; + DevKey,
+</a>                                                        &quot;api_option=&quot; + &quot;paste&quot;,
+                                                        &quot;api_paste_code=&quot; + Uri.EscapeDataString(text),
+                                                        //optional parameters
+<a href="#h2-2" id="h2-2" class="h">@@ -133,126 +63,25 @@ public string Create(string text, string title = &quot;&quot;, string language = &quot;text&quot;, V
+</a>                                                        &quot;api_paste_private=&quot; + (int) visibility,
+                                                        &quot;api_paste_expire_date=&quot; + expiration
+                                                    });
+<a href="#h2-2-3" id="h2-2-3" class="d">-            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a> 
+<a href="#h2-2-5" id="h2-2-5" class="d">-            if (errors[&quot;paste&quot;].Contains(result))
+</a><a href="#h2-2-6" id="h2-2-6" class="d">-                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h2-2-7" id="h2-2-7" class="i">+            if (result.Contains(ERROR))
+</a><a href="#h2-2-8" id="h2-2-8" class="i">+                throw new PastebinException(result);
+</a> 
+<a href="#h2-2-10" id="h2-2-10" class="d">-            return result;
+</a><a href="#h2-2-11" id="h2-2-11" class="i">+            return new Paste(result);
+</a>         }
+ 
+<a href="#h2-2-14" id="h2-2-14" class="d">-        public string ListPastesByUser(int resultsLimit = 50)
+</a><a href="#h2-2-15" id="h2-2-15" class="i">+        public static string ListTrendingPastes()
+</a>         {
+<a href="#h2-2-17" id="h2-2-17" class="d">-            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h2-2-18" id="h2-2-18" class="i">+            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+</a>                                                    {
+<a href="#h2-2-20" id="h2-2-20" class="d">-                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h2-2-21" id="h2-2-21" class="d">-                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h2-2-22" id="h2-2-22" class="d">-                                                       &quot;api_results_limit=&quot; + resultsLimit,
+</a><a href="#h2-2-23" id="h2-2-23" class="d">-                                                       &quot;api_option=&quot; + &quot;list&quot;
+</a><a href="#h2-2-24" id="h2-2-24" class="d">-                                                   });
+</a><a href="#h2-2-25" id="h2-2-25" class="d">-
+</a><a href="#h2-2-26" id="h2-2-26" class="d">-            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h2-2-27" id="h2-2-27" class="d">-
+</a><a href="#h2-2-28" id="h2-2-28" class="d">-            if (errors[&quot;list&quot;].Contains(result))
+</a><a href="#h2-2-29" id="h2-2-29" class="d">-                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h2-2-30" id="h2-2-30" class="d">-
+</a><a href="#h2-2-31" id="h2-2-31" class="d">-            return result;
+</a><a href="#h2-2-32" id="h2-2-32" class="d">-        }
+</a><a href="#h2-2-33" id="h2-2-33" class="d">-
+</a><a href="#h2-2-34" id="h2-2-34" class="d">-        public string ListTrendingPastes()
+</a><a href="#h2-2-35" id="h2-2-35" class="d">-        {
+</a><a href="#h2-2-36" id="h2-2-36" class="d">-            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h2-2-37" id="h2-2-37" class="d">-                                                   {
+</a><a href="#h2-2-38" id="h2-2-38" class="d">-                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h2-2-39" id="h2-2-39" class="i">+                                                       &quot;api_dev_key=&quot; + DevKey,
+</a>                                                        &quot;api_option=&quot; + &quot;trends&quot;
+                                                    });
+ 
+<a href="#h2-2-43" id="h2-2-43" class="d">-            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h2-2-44" id="h2-2-44" class="d">-
+</a><a href="#h2-2-45" id="h2-2-45" class="d">-            if (errors[&quot;trends&quot;].Contains(result))
+</a><a href="#h2-2-46" id="h2-2-46" class="d">-                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h2-2-47" id="h2-2-47" class="d">-
+</a><a href="#h2-2-48" id="h2-2-48" class="d">-            return result;
+</a><a href="#h2-2-49" id="h2-2-49" class="d">-        }
+</a><a href="#h2-2-50" id="h2-2-50" class="d">-
+</a><a href="#h2-2-51" id="h2-2-51" class="d">-        public void DeletePasteByUser(string pasteKey)
+</a><a href="#h2-2-52" id="h2-2-52" class="d">-        {
+</a><a href="#h2-2-53" id="h2-2-53" class="d">-            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h2-2-54" id="h2-2-54" class="d">-                                                   {
+</a><a href="#h2-2-55" id="h2-2-55" class="d">-                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h2-2-56" id="h2-2-56" class="d">-                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h2-2-57" id="h2-2-57" class="d">-                                                       &quot;api_paste_key=&quot; + pasteKey,
+</a><a href="#h2-2-58" id="h2-2-58" class="d">-                                                       &quot;api_option=&quot; + &quot;delete&quot;
+</a><a href="#h2-2-59" id="h2-2-59" class="d">-                                                   });
+</a><a href="#h2-2-60" id="h2-2-60" class="d">-
+</a><a href="#h2-2-61" id="h2-2-61" class="d">-            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h2-2-62" id="h2-2-62" class="d">-
+</a><a href="#h2-2-63" id="h2-2-63" class="d">-            if (errors[&quot;delete&quot;].Contains(result) || result != &quot;Paste Removed&quot;)
+</a><a href="#h2-2-64" id="h2-2-64" class="d">-                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h2-2-65" id="h2-2-65" class="d">-        }
+</a><a href="#h2-2-66" id="h2-2-66" class="d">-
+</a><a href="#h2-2-67" id="h2-2-67" class="d">-        public string GetUserInfo()
+</a><a href="#h2-2-68" id="h2-2-68" class="d">-        {
+</a><a href="#h2-2-69" id="h2-2-69" class="d">-            var postData = string.Join(&quot;&amp;&quot;, new[]
+</a><a href="#h2-2-70" id="h2-2-70" class="d">-                                                   {
+</a><a href="#h2-2-71" id="h2-2-71" class="d">-                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h2-2-72" id="h2-2-72" class="d">-                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h2-2-73" id="h2-2-73" class="d">-                                                       &quot;api_option=&quot; + &quot;userdetails&quot;
+</a><a href="#h2-2-74" id="h2-2-74" class="d">-                                                   });
+</a><a href="#h2-2-75" id="h2-2-75" class="d">-
+</a><a href="#h2-2-76" id="h2-2-76" class="d">-            var result = PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, postData);
+</a><a href="#h2-2-77" id="h2-2-77" class="d">-
+</a><a href="#h2-2-78" id="h2-2-78" class="d">-            if (errors[&quot;userdetails&quot;].Contains(result))
+</a><a href="#h2-2-79" id="h2-2-79" class="d">-                throw new ArgumentException(&quot;Pastebin API error: &quot; + result);
+</a><a href="#h2-2-80" id="h2-2-80" class="i">+            if (result.Contains(ERROR))
+</a><a href="#h2-2-81" id="h2-2-81" class="i">+                throw new PastebinException(result);
+</a> 
+             return result;
+         }
+<a href="#h2-2-85" id="h2-2-85" class="d">-
+</a><a href="#h2-2-86" id="h2-2-86" class="d">-        public string GetRaw(string pasteKey)
+</a><a href="#h2-2-87" id="h2-2-87" class="d">-        {
+</a><a href="#h2-2-88" id="h2-2-88" class="d">-            var url = &quot;http://pastebin.com/raw.php?i=&quot; + pasteKey;
+</a><a href="#h2-2-89" id="h2-2-89" class="d">-            return PostRequest(url, &quot;&quot;);
+</a><a href="#h2-2-90" id="h2-2-90" class="d">-        }
+</a><a href="#h2-2-91" id="h2-2-91" class="d">-
+</a><a href="#h2-2-92" id="h2-2-92" class="d">-        public static string UrlToPasteKey(string url)
+</a><a href="#h2-2-93" id="h2-2-93" class="d">-        {
+</a><a href="#h2-2-94" id="h2-2-94" class="d">-            return url.Replace(&quot;http://pastebin.com/&quot;, &quot;&quot;);
+</a><a href="#h2-2-95" id="h2-2-95" class="d">-        }
+</a><a href="#h2-2-96" id="h2-2-96" class="d">-
+</a><a href="#h2-2-97" id="h2-2-97" class="d">-        public static string PasteKeyToUrl(string pasteKey)
+</a><a href="#h2-2-98" id="h2-2-98" class="d">-        {
+</a><a href="#h2-2-99" id="h2-2-99" class="d">-            return &quot;http://pastebin.com/&quot; + pasteKey;
+</a><a href="#h2-2-100" id="h2-2-100" class="d">-        }
+</a><a href="#h2-2-101" id="h2-2-101" class="d">-
+</a><a href="#h2-2-102" id="h2-2-102" class="d">-        private static string PostRequest(string url, string postString)
+</a><a href="#h2-2-103" id="h2-2-103" class="d">-        {
+</a><a href="#h2-2-104" id="h2-2-104" class="d">-            WebRequest request = WebRequest.Create(url);
+</a><a href="#h2-2-105" id="h2-2-105" class="d">-            request.Method = &quot;POST&quot;;
+</a><a href="#h2-2-106" id="h2-2-106" class="d">-            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+</a><a href="#h2-2-107" id="h2-2-107" class="d">-            request.ContentType = &quot;application/x-www-form-urlencoded&quot;;
+</a><a href="#h2-2-108" id="h2-2-108" class="d">-            request.ContentLength = byteArray.Length;
+</a><a href="#h2-2-109" id="h2-2-109" class="d">-            using (var dataStream = request.GetRequestStream())
+</a><a href="#h2-2-110" id="h2-2-110" class="d">-            {
+</a><a href="#h2-2-111" id="h2-2-111" class="d">-                dataStream.Write(byteArray, 0, byteArray.Length);
+</a><a href="#h2-2-112" id="h2-2-112" class="d">-            }
+</a><a href="#h2-2-113" id="h2-2-113" class="d">-            using (var response = request.GetResponse())
+</a><a href="#h2-2-114" id="h2-2-114" class="d">-            {
+</a><a href="#h2-2-115" id="h2-2-115" class="d">-                if (((HttpWebResponse)response).StatusDescription != &quot;OK&quot;)
+</a><a href="#h2-2-116" id="h2-2-116" class="d">-                {
+</a><a href="#h2-2-117" id="h2-2-117" class="d">-                    Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+</a><a href="#h2-2-118" id="h2-2-118" class="d">-                }
+</a><a href="#h2-2-119" id="h2-2-119" class="d">-                using (var dataStream = response.GetResponseStream())
+</a><a href="#h2-2-120" id="h2-2-120" class="d">-                {
+</a><a href="#h2-2-121" id="h2-2-121" class="d">-                    if (dataStream != null)
+</a><a href="#h2-2-122" id="h2-2-122" class="d">-                    {
+</a><a href="#h2-2-123" id="h2-2-123" class="d">-                        using (var reader = new StreamReader(dataStream))
+</a><a href="#h2-2-124" id="h2-2-124" class="d">-                        {
+</a><a href="#h2-2-125" id="h2-2-125" class="d">-                            return reader.ReadToEnd();
+</a><a href="#h2-2-126" id="h2-2-126" class="d">-                        }
+</a><a href="#h2-2-127" id="h2-2-127" class="d">-                    }
+</a><a href="#h2-2-128" id="h2-2-128" class="d">-                    throw new NullReferenceException(&quot;dataStream from responce is null&quot;);
+</a><a href="#h2-2-129" id="h2-2-129" class="d">-                }
+</a><a href="#h2-2-130" id="h2-2-130" class="d">-            }
+</a><a href="#h2-2-131" id="h2-2-131" class="d">-        }
+</a>     }
+ }
+<b>diff --git a/<a id="h3" href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a> b/<a href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -40,8 +40,14 @@
+</a>     &lt;Reference Include=&quot;System.Xml&quot; /&gt;
+   &lt;/ItemGroup&gt;
+   &lt;ItemGroup&gt;
+<a href="#h3-0-3" id="h3-0-3" class="i">+    &lt;Compile Include=&quot;Expiration.cs&quot; /&gt;
+</a><a href="#h3-0-4" id="h3-0-4" class="i">+    &lt;Compile Include=&quot;Paste.cs&quot; /&gt;
+</a>     &lt;Compile Include=&quot;Pastebin.cs&quot; /&gt;
+<a href="#h3-0-6" id="h3-0-6" class="i">+    &lt;Compile Include=&quot;PastebinException.cs&quot; /&gt;
+</a>     &lt;Compile Include=&quot;Properties\AssemblyInfo.cs&quot; /&gt;
+<a href="#h3-0-8" id="h3-0-8" class="i">+    &lt;Compile Include=&quot;User.cs&quot; /&gt;
+</a><a href="#h3-0-9" id="h3-0-9" class="i">+    &lt;Compile Include=&quot;Utills.cs&quot; /&gt;
+</a><a href="#h3-0-10" id="h3-0-10" class="i">+    &lt;Compile Include=&quot;Visibility.cs&quot; /&gt;
+</a>   &lt;/ItemGroup&gt;
+   &lt;Import Project=&quot;$(MSBuildToolsPath)\Microsoft.CSharp.targets&quot; /&gt;
+   &lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+<b>diff --git a/<a id="h4" href="../file/PastebinAPI/PastebinException.cs.html">PastebinAPI/PastebinException.cs</a> b/<a href="../file/PastebinAPI/PastebinException.cs.html">PastebinAPI/PastebinException.cs</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -0,0 +1,46 @@
+</a><a href="#h4-0-0" id="h4-0-0" class="i">+﻿using System;
+</a><a href="#h4-0-1" id="h4-0-1" class="i">+using System.Collections.Generic;
+</a><a href="#h4-0-2" id="h4-0-2" class="i">+
+</a><a href="#h4-0-3" id="h4-0-3" class="i">+namespace PastebinAPI
+</a><a href="#h4-0-4" id="h4-0-4" class="i">+{
+</a><a href="#h4-0-5" id="h4-0-5" class="i">+    public class PastebinException : Exception
+</a><a href="#h4-0-6" id="h4-0-6" class="i">+    {
+</a><a href="#h4-0-7" id="h4-0-7" class="i">+        public enum ParameterType
+</a><a href="#h4-0-8" id="h4-0-8" class="i">+        {
+</a><a href="#h4-0-9" id="h4-0-9" class="i">+            None,
+</a><a href="#h4-0-10" id="h4-0-10" class="i">+            DevKey,
+</a><a href="#h4-0-11" id="h4-0-11" class="i">+            ExpireDate,
+</a><a href="#h4-0-12" id="h4-0-12" class="i">+            Option,
+</a><a href="#h4-0-13" id="h4-0-13" class="i">+            PasteFormat,
+</a><a href="#h4-0-14" id="h4-0-14" class="i">+            PastePrivate,
+</a><a href="#h4-0-15" id="h4-0-15" class="i">+            UserKey,
+</a><a href="#h4-0-16" id="h4-0-16" class="i">+            Login,
+</a><a href="#h4-0-17" id="h4-0-17" class="i">+            DeletePastePermision,
+</a><a href="#h4-0-18" id="h4-0-18" class="i">+            PostParameters
+</a><a href="#h4-0-19" id="h4-0-19" class="i">+        }
+</a><a href="#h4-0-20" id="h4-0-20" class="i">+
+</a><a href="#h4-0-21" id="h4-0-21" class="i">+        private static Dictionary&lt;string, ParameterType&gt; parameters = new Dictionary&lt;string, ParameterType&gt;
+</a><a href="#h4-0-22" id="h4-0-22" class="i">+                                                                          {
+</a><a href="#h4-0-23" id="h4-0-23" class="i">+                                                                                {&quot;&quot;, ParameterType.None},
+</a><a href="#h4-0-24" id="h4-0-24" class="i">+                                                                                { &quot;api_dev_key&quot;, ParameterType.DevKey },
+</a><a href="#h4-0-25" id="h4-0-25" class="i">+                                                                                { &quot;api_expire_date&quot;, ParameterType.ExpireDate },
+</a><a href="#h4-0-26" id="h4-0-26" class="i">+                                                                                { &quot;api_option&quot;, ParameterType.Option },
+</a><a href="#h4-0-27" id="h4-0-27" class="i">+                                                                                { &quot;api_paste_format&quot;, ParameterType.PasteFormat },
+</a><a href="#h4-0-28" id="h4-0-28" class="i">+                                                                                { &quot;api_paste_private&quot;, ParameterType.PastePrivate },
+</a><a href="#h4-0-29" id="h4-0-29" class="i">+                                                                                { &quot;api_user_key&quot;, ParameterType.UserKey },
+</a><a href="#h4-0-30" id="h4-0-30" class="i">+                                                                                { &quot;login&quot;, ParameterType.Login },
+</a><a href="#h4-0-31" id="h4-0-31" class="i">+                                                                                { &quot;permission to remove paste&quot;, ParameterType.DeletePastePermision },
+</a><a href="#h4-0-32" id="h4-0-32" class="i">+                                                                                { &quot;POST parameters&quot;, ParameterType.PostParameters }
+</a><a href="#h4-0-33" id="h4-0-33" class="i">+                                                                          };
+</a><a href="#h4-0-34" id="h4-0-34" class="i">+
+</a><a href="#h4-0-35" id="h4-0-35" class="i">+        public ParameterType Parameter { get; private set; }
+</a><a href="#h4-0-36" id="h4-0-36" class="i">+
+</a><a href="#h4-0-37" id="h4-0-37" class="i">+        public PastebinException(string message)
+</a><a href="#h4-0-38" id="h4-0-38" class="i">+            :base(message)
+</a><a href="#h4-0-39" id="h4-0-39" class="i">+        {
+</a><a href="#h4-0-40" id="h4-0-40" class="i">+            if (message.Contains(&quot;Bad API request, invalid &quot;))
+</a><a href="#h4-0-41" id="h4-0-41" class="i">+                Parameter = parameters[message.Replace(&quot;Bad API request, invalid &quot;, &quot;&quot;)];
+</a><a href="#h4-0-42" id="h4-0-42" class="i">+            else Parameter = parameters[&quot;&quot;];
+</a><a href="#h4-0-43" id="h4-0-43" class="i">+        }
+</a><a href="#h4-0-44" id="h4-0-44" class="i">+    }
+</a><a href="#h4-0-45" id="h4-0-45" class="i">+}
+</a><b>diff --git a/<a id="h5" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h5-0" id="h5-0" class="h">@@ -0,0 +1,69 @@
+</a><a href="#h5-0-0" id="h5-0-0" class="i">+﻿using System;
+</a><a href="#h5-0-1" id="h5-0-1" class="i">+using System.Collections.Generic;
+</a><a href="#h5-0-2" id="h5-0-2" class="i">+using System.Linq;
+</a><a href="#h5-0-3" id="h5-0-3" class="i">+using System.Text;
+</a><a href="#h5-0-4" id="h5-0-4" class="i">+
+</a><a href="#h5-0-5" id="h5-0-5" class="i">+namespace PastebinAPI
+</a><a href="#h5-0-6" id="h5-0-6" class="i">+{
+</a><a href="#h5-0-7" id="h5-0-7" class="i">+    public class User
+</a><a href="#h5-0-8" id="h5-0-8" class="i">+    {
+</a><a href="#h5-0-9" id="h5-0-9" class="i">+        private readonly string userKey;
+</a><a href="#h5-0-10" id="h5-0-10" class="i">+        private readonly string devKey;
+</a><a href="#h5-0-11" id="h5-0-11" class="i">+
+</a><a href="#h5-0-12" id="h5-0-12" class="i">+        internal User(string devKey, string userKey)
+</a><a href="#h5-0-13" id="h5-0-13" class="i">+        {
+</a><a href="#h5-0-14" id="h5-0-14" class="i">+            this.devKey = devKey;
+</a><a href="#h5-0-15" id="h5-0-15" class="i">+            this.userKey = userKey;
+</a><a href="#h5-0-16" id="h5-0-16" class="i">+        }
+</a><a href="#h5-0-17" id="h5-0-17" class="i">+
+</a><a href="#h5-0-18" id="h5-0-18" class="i">+        public Paste NewPaste(string text, string title = &quot;&quot;, string language = &quot;text&quot;, Visibility visibility = 0, Expiration expiration = null)
+</a><a href="#h5-0-19" id="h5-0-19" class="i">+        {
+</a><a href="#h5-0-20" id="h5-0-20" class="i">+            return Pastebin.NewPaste(text, title, language, visibility, expiration, userKey);
+</a><a href="#h5-0-21" id="h5-0-21" class="i">+        }
+</a><a href="#h5-0-22" id="h5-0-22" class="i">+
+</a><a href="#h5-0-23" id="h5-0-23" class="i">+        public string ListPastes(int resultsLimit = 50)
+</a><a href="#h5-0-24" id="h5-0-24" class="i">+        {
+</a><a href="#h5-0-25" id="h5-0-25" class="i">+            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+</a><a href="#h5-0-26" id="h5-0-26" class="i">+                                                   {
+</a><a href="#h5-0-27" id="h5-0-27" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h5-0-28" id="h5-0-28" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h5-0-29" id="h5-0-29" class="i">+                                                       &quot;api_results_limit=&quot; + resultsLimit,
+</a><a href="#h5-0-30" id="h5-0-30" class="i">+                                                       &quot;api_option=&quot; + &quot;list&quot;
+</a><a href="#h5-0-31" id="h5-0-31" class="i">+                                                   });
+</a><a href="#h5-0-32" id="h5-0-32" class="i">+
+</a><a href="#h5-0-33" id="h5-0-33" class="i">+            if (result.Contains(Pastebin.ERROR))
+</a><a href="#h5-0-34" id="h5-0-34" class="i">+                throw new PastebinException(result);
+</a><a href="#h5-0-35" id="h5-0-35" class="i">+
+</a><a href="#h5-0-36" id="h5-0-36" class="i">+            return result;
+</a><a href="#h5-0-37" id="h5-0-37" class="i">+        }
+</a><a href="#h5-0-38" id="h5-0-38" class="i">+
+</a><a href="#h5-0-39" id="h5-0-39" class="i">+        public void DeletePaste(Paste paste)
+</a><a href="#h5-0-40" id="h5-0-40" class="i">+        {
+</a><a href="#h5-0-41" id="h5-0-41" class="i">+            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+</a><a href="#h5-0-42" id="h5-0-42" class="i">+                                                   {
+</a><a href="#h5-0-43" id="h5-0-43" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h5-0-44" id="h5-0-44" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h5-0-45" id="h5-0-45" class="i">+                                                       &quot;api_paste_key=&quot; + paste.Key,
+</a><a href="#h5-0-46" id="h5-0-46" class="i">+                                                       &quot;api_option=&quot; + &quot;delete&quot;
+</a><a href="#h5-0-47" id="h5-0-47" class="i">+                                                   });
+</a><a href="#h5-0-48" id="h5-0-48" class="i">+
+</a><a href="#h5-0-49" id="h5-0-49" class="i">+            if (result.Contains(Pastebin.ERROR))
+</a><a href="#h5-0-50" id="h5-0-50" class="i">+                throw new PastebinException(result);
+</a><a href="#h5-0-51" id="h5-0-51" class="i">+        }
+</a><a href="#h5-0-52" id="h5-0-52" class="i">+
+</a><a href="#h5-0-53" id="h5-0-53" class="i">+        public string GetUserInfo()
+</a><a href="#h5-0-54" id="h5-0-54" class="i">+        {
+</a><a href="#h5-0-55" id="h5-0-55" class="i">+            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+</a><a href="#h5-0-56" id="h5-0-56" class="i">+                                                   {
+</a><a href="#h5-0-57" id="h5-0-57" class="i">+                                                       &quot;api_dev_key=&quot; + devKey,
+</a><a href="#h5-0-58" id="h5-0-58" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h5-0-59" id="h5-0-59" class="i">+                                                       &quot;api_option=&quot; + &quot;userdetails&quot;
+</a><a href="#h5-0-60" id="h5-0-60" class="i">+                                                   });
+</a><a href="#h5-0-61" id="h5-0-61" class="i">+
+</a><a href="#h5-0-62" id="h5-0-62" class="i">+            if (result.Contains(Pastebin.ERROR))
+</a><a href="#h5-0-63" id="h5-0-63" class="i">+                throw new PastebinException(result);
+</a><a href="#h5-0-64" id="h5-0-64" class="i">+
+</a><a href="#h5-0-65" id="h5-0-65" class="i">+            return result;
+</a><a href="#h5-0-66" id="h5-0-66" class="i">+        }
+</a><a href="#h5-0-67" id="h5-0-67" class="i">+    }
+</a><a href="#h5-0-68" id="h5-0-68" class="i">+}
+</a><b>diff --git a/<a id="h6" href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a> b/<a href="../file/PastebinAPI/Utills.cs.html">PastebinAPI/Utills.cs</a></b>
+<a href="#h6-0" id="h6-0" class="h">@@ -0,0 +1,44 @@
+</a><a href="#h6-0-0" id="h6-0-0" class="i">+﻿using System;
+</a><a href="#h6-0-1" id="h6-0-1" class="i">+using System.Collections.Generic;
+</a><a href="#h6-0-2" id="h6-0-2" class="i">+using System.IO;
+</a><a href="#h6-0-3" id="h6-0-3" class="i">+using System.Linq;
+</a><a href="#h6-0-4" id="h6-0-4" class="i">+using System.Net;
+</a><a href="#h6-0-5" id="h6-0-5" class="i">+using System.Text;
+</a><a href="#h6-0-6" id="h6-0-6" class="i">+
+</a><a href="#h6-0-7" id="h6-0-7" class="i">+namespace PastebinAPI
+</a><a href="#h6-0-8" id="h6-0-8" class="i">+{
+</a><a href="#h6-0-9" id="h6-0-9" class="i">+    class Utills
+</a><a href="#h6-0-10" id="h6-0-10" class="i">+    {
+</a><a href="#h6-0-11" id="h6-0-11" class="i">+        public static string PostRequest(string url, string[] parameters)
+</a><a href="#h6-0-12" id="h6-0-12" class="i">+        {
+</a><a href="#h6-0-13" id="h6-0-13" class="i">+            string postString = string.Join(&quot;&amp;&quot;, parameters);
+</a><a href="#h6-0-14" id="h6-0-14" class="i">+            WebRequest request = WebRequest.Create(url);
+</a><a href="#h6-0-15" id="h6-0-15" class="i">+            request.Method = &quot;POST&quot;;
+</a><a href="#h6-0-16" id="h6-0-16" class="i">+            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+</a><a href="#h6-0-17" id="h6-0-17" class="i">+            request.ContentType = &quot;application/x-www-form-urlencoded&quot;;
+</a><a href="#h6-0-18" id="h6-0-18" class="i">+            request.ContentLength = byteArray.Length;
+</a><a href="#h6-0-19" id="h6-0-19" class="i">+            using (var dataStream = request.GetRequestStream())
+</a><a href="#h6-0-20" id="h6-0-20" class="i">+            {
+</a><a href="#h6-0-21" id="h6-0-21" class="i">+                dataStream.Write(byteArray, 0, byteArray.Length);
+</a><a href="#h6-0-22" id="h6-0-22" class="i">+            }
+</a><a href="#h6-0-23" id="h6-0-23" class="i">+            using (var response = request.GetResponse())
+</a><a href="#h6-0-24" id="h6-0-24" class="i">+            {
+</a><a href="#h6-0-25" id="h6-0-25" class="i">+                if (((HttpWebResponse)response).StatusDescription != &quot;OK&quot;)
+</a><a href="#h6-0-26" id="h6-0-26" class="i">+                {
+</a><a href="#h6-0-27" id="h6-0-27" class="i">+                    Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+</a><a href="#h6-0-28" id="h6-0-28" class="i">+                }
+</a><a href="#h6-0-29" id="h6-0-29" class="i">+                using (var dataStream = response.GetResponseStream())
+</a><a href="#h6-0-30" id="h6-0-30" class="i">+                {
+</a><a href="#h6-0-31" id="h6-0-31" class="i">+                    if (dataStream != null)
+</a><a href="#h6-0-32" id="h6-0-32" class="i">+                    {
+</a><a href="#h6-0-33" id="h6-0-33" class="i">+                        using (var reader = new StreamReader(dataStream))
+</a><a href="#h6-0-34" id="h6-0-34" class="i">+                        {
+</a><a href="#h6-0-35" id="h6-0-35" class="i">+                            return reader.ReadToEnd();
+</a><a href="#h6-0-36" id="h6-0-36" class="i">+                        }
+</a><a href="#h6-0-37" id="h6-0-37" class="i">+                    }
+</a><a href="#h6-0-38" id="h6-0-38" class="i">+                    throw new NullReferenceException(&quot;dataStream from responce is null&quot;);
+</a><a href="#h6-0-39" id="h6-0-39" class="i">+                }
+</a><a href="#h6-0-40" id="h6-0-40" class="i">+            }
+</a><a href="#h6-0-41" id="h6-0-41" class="i">+        }
+</a><a href="#h6-0-42" id="h6-0-42" class="i">+    }
+</a><a href="#h6-0-43" id="h6-0-43" class="i">+}
+</a></pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Changed NewPaste signiture - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/65a763b8406df3602de94f4aa68c7fe2d6eb384f.html">65a763b8406df3602de94f4aa68c7fe2d6eb384f</a>
+<b>parent</b> <a href="../commit/c8c28ec2513347889401b5cd8a65ff26b130d2eb.html">c8c28ec2513347889401b5cd8a65ff26b130d2eb</a>
+<b>Author:</b> nikibobi &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Sun, 24 Mar 2013 18:01:59 +0200
+
+Changed NewPaste signiture
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Pastebin.cs</a></td><td> | </td><td class="num">52</td><td><span class="i">+++++++++++++++++++++++++++++++</span><span class="d">---------------------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">PastebinAPI/User.cs</a></td><td> | </td><td class="num">4</td><td><span class="i">++</span><span class="d">--</span></td></tr>
+</table></pre><pre>2 files changed, 33 insertions(+), 23 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a> b/<a href="../file/PastebinAPI/Pastebin.cs.html">PastebinAPI/Pastebin.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -23,6 +23,34 @@ public static string DevKey
+</a>             }
+         }
+ 
+<a href="#h0-0-3" id="h0-0-3" class="i">+        internal static Paste NewPaste(string userKey, string text, string title = &quot;&quot;, PasteFormat format = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+        {
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+</a><a href="#h0-0-6" id="h0-0-6" class="i">+                                                   {
+</a><a href="#h0-0-7" id="h0-0-7" class="i">+                                                       //required parameters
+</a><a href="#h0-0-8" id="h0-0-8" class="i">+                                                       &quot;api_dev_key=&quot; + DevKey,
+</a><a href="#h0-0-9" id="h0-0-9" class="i">+                                                       &quot;api_option=&quot; + &quot;paste&quot;,
+</a><a href="#h0-0-10" id="h0-0-10" class="i">+                                                       &quot;api_paste_code=&quot; + Uri.EscapeDataString(text),
+</a><a href="#h0-0-11" id="h0-0-11" class="i">+                                                       //optional parameters
+</a><a href="#h0-0-12" id="h0-0-12" class="i">+                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h0-0-13" id="h0-0-13" class="i">+                                                       &quot;api_paste_name=&quot; + Uri.EscapeDataString(title),
+</a><a href="#h0-0-14" id="h0-0-14" class="i">+                                                       &quot;api_paste_format=&quot; + (format ?? PasteFormat.Default),
+</a><a href="#h0-0-15" id="h0-0-15" class="i">+                                                       &quot;api_paste_private=&quot; + (int)visibility,
+</a><a href="#h0-0-16" id="h0-0-16" class="i">+                                                       &quot;api_paste_expire_date=&quot; + (expiration ?? Expiration.Default)
+</a><a href="#h0-0-17" id="h0-0-17" class="i">+                                                   });
+</a><a href="#h0-0-18" id="h0-0-18" class="i">+
+</a><a href="#h0-0-19" id="h0-0-19" class="i">+            if (result.Contains(ERROR))
+</a><a href="#h0-0-20" id="h0-0-20" class="i">+                throw new PastebinException(result);
+</a><a href="#h0-0-21" id="h0-0-21" class="i">+
+</a><a href="#h0-0-22" id="h0-0-22" class="i">+            return new Paste(result);
+</a><a href="#h0-0-23" id="h0-0-23" class="i">+        }
+</a><a href="#h0-0-24" id="h0-0-24" class="i">+
+</a><a href="#h0-0-25" id="h0-0-25" class="i">+        /// &lt;summary&gt;
+</a><a href="#h0-0-26" id="h0-0-26" class="i">+        /// Creates new user
+</a><a href="#h0-0-27" id="h0-0-27" class="i">+        /// &lt;/summary&gt;
+</a><a href="#h0-0-28" id="h0-0-28" class="i">+        /// &lt;param name=&quot;username&quot;&gt;The username&lt;/param&gt;
+</a><a href="#h0-0-29" id="h0-0-29" class="i">+        /// &lt;param name=&quot;password&quot;&gt;The password&lt;/param&gt;
+</a><a href="#h0-0-30" id="h0-0-30" class="i">+        /// &lt;returns&gt;User object&lt;/returns&gt;
+</a>         public static User Login(string username, string password)
+         {
+             var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_login.php&quot;, new[]
+<a href="#h0-1" id="h0-1" class="h">@@ -43,31 +71,13 @@ public static User Login(string username, string password)
+</a>         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;text&quot;&gt;The text/code of the paste&lt;/param&gt;
+         /// &lt;param name=&quot;title&quot;&gt;The title of the paste&lt;/param&gt;
+<a href="#h0-1-3" id="h0-1-3" class="d">-        /// &lt;param name=&quot;language&quot;&gt;The language for the paste see http://pastebin.com/api#5 for valid formats&lt;/param&gt;
+</a><a href="#h0-1-4" id="h0-1-4" class="i">+        /// &lt;param name=&quot;format&quot;&gt;The language for the paste see http://pastebin.com/api#5 for valid formats&lt;/param&gt;
+</a>         /// &lt;param name=&quot;visibility&quot;&gt;The visibility/privacy of the paste&lt;/param&gt;
+         /// &lt;param name=&quot;expiration&quot;&gt;The expiration date of the paste&lt;/param&gt;
+<a href="#h0-1-7" id="h0-1-7" class="d">-        /// &lt;param name=&quot;userKey&quot;&gt;The userKey &lt;/param&gt;
+</a>         /// &lt;returns&gt;Responce from pastebin. If it succeeded it will return the paste url&lt;/returns&gt;
+<a href="#h0-1-9" id="h0-1-9" class="d">-        public static Paste NewPaste(string text, string title = &quot;&quot;, string language = &quot;text&quot;, Visibility visibility = 0, Expiration expiration = null, string userKey = &quot;&quot;)
+</a><a href="#h0-1-10" id="h0-1-10" class="i">+        public static Paste NewPaste(string text, string title = &quot;&quot;, PasteFormat format = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a>         {
+<a href="#h0-1-12" id="h0-1-12" class="d">-            var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+</a><a href="#h0-1-13" id="h0-1-13" class="d">-                                                   {
+</a><a href="#h0-1-14" id="h0-1-14" class="d">-                                                       //required parameters
+</a><a href="#h0-1-15" id="h0-1-15" class="d">-                                                       &quot;api_dev_key=&quot; + DevKey,
+</a><a href="#h0-1-16" id="h0-1-16" class="d">-                                                       &quot;api_option=&quot; + &quot;paste&quot;,
+</a><a href="#h0-1-17" id="h0-1-17" class="d">-                                                       &quot;api_paste_code=&quot; + Uri.EscapeDataString(text),
+</a><a href="#h0-1-18" id="h0-1-18" class="d">-                                                       //optional parameters
+</a><a href="#h0-1-19" id="h0-1-19" class="d">-                                                       &quot;api_user_key=&quot; + userKey,
+</a><a href="#h0-1-20" id="h0-1-20" class="d">-                                                       &quot;api_paste_name=&quot; + Uri.EscapeDataString(title),
+</a><a href="#h0-1-21" id="h0-1-21" class="d">-                                                       &quot;api_paste_format=&quot; + language,
+</a><a href="#h0-1-22" id="h0-1-22" class="d">-                                                       &quot;api_paste_private=&quot; + (int) visibility,
+</a><a href="#h0-1-23" id="h0-1-23" class="d">-                                                       &quot;api_paste_expire_date=&quot; + expiration
+</a><a href="#h0-1-24" id="h0-1-24" class="d">-                                                   });
+</a><a href="#h0-1-25" id="h0-1-25" class="d">-
+</a><a href="#h0-1-26" id="h0-1-26" class="d">-            if (result.Contains(ERROR))
+</a><a href="#h0-1-27" id="h0-1-27" class="d">-                throw new PastebinException(result);
+</a><a href="#h0-1-28" id="h0-1-28" class="d">-
+</a><a href="#h0-1-29" id="h0-1-29" class="d">-            return new Paste(result);
+</a><a href="#h0-1-30" id="h0-1-30" class="i">+            return NewPaste(&quot;&quot;, text, title, format, visibility, expiration);
+</a>         }
+ 
+         public static string ListTrendingPastes()
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -16,9 +16,9 @@ internal User(string devKey, string userKey)
+</a>             this.userKey = userKey;
+         }
+ 
+<a href="#h1-0-3" id="h1-0-3" class="d">-        public Paste NewPaste(string text, string title = &quot;&quot;, string language = &quot;text&quot;, Visibility visibility = 0, Expiration expiration = null)
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+        public Paste NewPaste(string text, string title = &quot;&quot;, PasteFormat format = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+</a>         {
+<a href="#h1-0-6" id="h1-0-6" class="d">-            return Pastebin.NewPaste(text, title, language, visibility, expiration, userKey);
+</a><a href="#h1-0-7" id="h1-0-7" class="i">+            return Pastebin.NewPaste(userKey, text, title, format, visibility, expiration);
+</a>         }
+ 
+         public string ListPastes(int resultsLimit = 50)
+</pre>
+</div>
+</body>
+</html>

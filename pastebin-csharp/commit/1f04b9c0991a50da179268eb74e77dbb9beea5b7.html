@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Implemented XML UserInfo parsing - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/1f04b9c0991a50da179268eb74e77dbb9beea5b7.html">1f04b9c0991a50da179268eb74e77dbb9beea5b7</a>
+<b>parent</b> <a href="../commit/af317ff62f3d33732780fad39d213cb9bbd4875d.html">af317ff62f3d33732780fad39d213cb9bbd4875d</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Sun,  2 Jun 2013 21:11:01 +0300
+
+Implemented XML UserInfo parsing
+
+and changed Expiration a little
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">PastebinAPI/Expiration.cs</a></td><td> | </td><td class="num">31</td><td><span class="i">++++++++++++++++++++++</span><span class="d">---------</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">PastebinAPI/PastebinAPI.csproj</a></td><td> | </td><td class="num">1</td><td><span class="i">+</span><span class="d"></span></td></tr>
+<tr><td class="M">M</td><td><a href="#h2">PastebinAPI/User.cs</a></td><td> | </td><td class="num">4</td><td><span class="i">++</span><span class="d">--</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h3">PastebinAPI/UserInfo.cs</a></td><td> | </td><td class="num">53</td><td><span class="i">+++++++++++++++++++++++++++++++++++++++++++++++++++++</span><span class="d"></span></td></tr>
+</table></pre><pre>4 files changed, 78 insertions(+), 11 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a> b/<a href="../file/PastebinAPI/Expiration.cs.html">PastebinAPI/Expiration.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,15 +1,28 @@
+</a><a href="#h0-0-0" id="h0-0-0" class="d">-﻿namespace PastebinAPI
+</a><a href="#h0-0-1" id="h0-0-1" class="i">+﻿using System.Linq;
+</a><a href="#h0-0-2" id="h0-0-2" class="i">+using System.Collections;
+</a><a href="#h0-0-3" id="h0-0-3" class="i">+using System.Collections.Generic;
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+
+</a><a href="#h0-0-5" id="h0-0-5" class="i">+namespace PastebinAPI
+</a> {
+     public class Expiration
+     {
+<a href="#h0-0-9" id="h0-0-9" class="d">-        public static readonly Expiration Never = new Expiration(&quot;N&quot;);
+</a><a href="#h0-0-10" id="h0-0-10" class="d">-        public static readonly Expiration TenMinutes = new Expiration(&quot;10M&quot;);
+</a><a href="#h0-0-11" id="h0-0-11" class="d">-        public static readonly Expiration OneHour = new Expiration(&quot;1H&quot;);
+</a><a href="#h0-0-12" id="h0-0-12" class="d">-        public static readonly Expiration OneDay = new Expiration(&quot;1D&quot;);
+</a><a href="#h0-0-13" id="h0-0-13" class="d">-        public static readonly Expiration OneWeek = new Expiration(&quot;1W&quot;);
+</a><a href="#h0-0-14" id="h0-0-14" class="d">-        public static readonly Expiration TwoWeeks = new Expiration(&quot;2W&quot;);
+</a><a href="#h0-0-15" id="h0-0-15" class="d">-        public static readonly Expiration OneMonth = new Expiration(&quot;1M&quot;);
+</a><a href="#h0-0-16" id="h0-0-16" class="d">-        public static readonly Expiration Default = Never;
+</a><a href="#h0-0-17" id="h0-0-17" class="i">+        public static Expiration Never { get { return Expirations[&quot;N&quot;]; } }
+</a><a href="#h0-0-18" id="h0-0-18" class="i">+        public static Expiration TenMinutes { get { return Expirations[&quot;10M&quot;]; } }
+</a><a href="#h0-0-19" id="h0-0-19" class="i">+        public static Expiration OneHour { get { return Expirations[&quot;1H&quot;]; } }
+</a><a href="#h0-0-20" id="h0-0-20" class="i">+        public static Expiration OneDay { get { return Expirations[&quot;1D&quot;]; } }
+</a><a href="#h0-0-21" id="h0-0-21" class="i">+        public static Expiration OneWeek { get { return Expirations[&quot;1W&quot;]; } }
+</a><a href="#h0-0-22" id="h0-0-22" class="i">+        public static Expiration TwoWeeks { get { return Expirations[&quot;2W&quot;]; } }
+</a><a href="#h0-0-23" id="h0-0-23" class="i">+        public static Expiration OneMonth { get { return Expirations[&quot;2W&quot;]; } }
+</a><a href="#h0-0-24" id="h0-0-24" class="i">+        public static Expiration Default { get { return Never; } }
+</a><a href="#h0-0-25" id="h0-0-25" class="i">+        public static IEnumerable&lt;Expiration&gt; All { get { return Expirations.Values; } }
+</a><a href="#h0-0-26" id="h0-0-26" class="i">+
+</a><a href="#h0-0-27" id="h0-0-27" class="i">+        internal static readonly Dictionary&lt;string, Expiration&gt; Expirations;
+</a><a href="#h0-0-28" id="h0-0-28" class="i">+
+</a><a href="#h0-0-29" id="h0-0-29" class="i">+        static Expiration()
+</a><a href="#h0-0-30" id="h0-0-30" class="i">+        {
+</a><a href="#h0-0-31" id="h0-0-31" class="i">+            //lol wtf this is realy hacky xD
+</a><a href="#h0-0-32" id="h0-0-32" class="i">+            Expirations = (new[] { &quot;N&quot;, &quot;10M&quot;, &quot;1H&quot;, &quot;1D&quot;, &quot;1W&quot;, &quot;2W&quot;, &quot;1M&quot; }).ToDictionary(s=&gt;s, s=&gt;new Expiration(s));
+</a><a href="#h0-0-33" id="h0-0-33" class="i">+        }
+</a> 
+         private readonly string value;
+         private Expiration(string value)
+<b>diff --git a/<a id="h1" href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a> b/<a href="../file/PastebinAPI/PastebinAPI.csproj.html">PastebinAPI/PastebinAPI.csproj</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -47,6 +47,7 @@
+</a>     &lt;Compile Include=&quot;PasteFormat.cs&quot; /&gt;
+     &lt;Compile Include=&quot;Properties\AssemblyInfo.cs&quot; /&gt;
+     &lt;Compile Include=&quot;User.cs&quot; /&gt;
+<a href="#h1-0-3" id="h1-0-3" class="i">+    &lt;Compile Include=&quot;UserInfo.cs&quot; /&gt;
+</a>     &lt;Compile Include=&quot;Utills.cs&quot; /&gt;
+     &lt;Compile Include=&quot;Visibility.cs&quot; /&gt;
+   &lt;/ItemGroup&gt;
+<b>diff --git a/<a id="h2" href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a> b/<a href="../file/PastebinAPI/User.cs.html">PastebinAPI/User.cs</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -46,7 +46,7 @@ public void DeletePaste(Paste paste)
+</a>                 throw new PastebinException(result);
+         }
+ 
+<a href="#h2-0-3" id="h2-0-3" class="d">-        public string GetUserInfo()
+</a><a href="#h2-0-4" id="h2-0-4" class="i">+        public UserInfo GetUserInfo()
+</a>         {
+             var result = Utills.PostRequest(@&quot;http://pastebin.com/api/api_post.php&quot;, new[]
+                                                    {
+<a href="#h2-1" id="h2-1" class="h">@@ -58,7 +58,7 @@ public string GetUserInfo()
+</a>             if (result.Contains(Pastebin.ERROR))
+                 throw new PastebinException(result);
+ 
+<a href="#h2-1-3" id="h2-1-3" class="d">-            return result;
+</a><a href="#h2-1-4" id="h2-1-4" class="i">+            return UserInfo.Parse(result);
+</a>         }
+     }
+ }
+<b>diff --git a/<a id="h3" href="../file/PastebinAPI/UserInfo.cs.html">PastebinAPI/UserInfo.cs</a> b/<a href="../file/PastebinAPI/UserInfo.cs.html">PastebinAPI/UserInfo.cs</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -0,0 +1,53 @@
+</a><a href="#h3-0-0" id="h3-0-0" class="i">+﻿using System;
+</a><a href="#h3-0-1" id="h3-0-1" class="i">+using System.Collections.Generic;
+</a><a href="#h3-0-2" id="h3-0-2" class="i">+using System.Linq;
+</a><a href="#h3-0-3" id="h3-0-3" class="i">+using System.Xml;
+</a><a href="#h3-0-4" id="h3-0-4" class="i">+using System.Xml.Linq;
+</a><a href="#h3-0-5" id="h3-0-5" class="i">+using System.Text;
+</a><a href="#h3-0-6" id="h3-0-6" class="i">+
+</a><a href="#h3-0-7" id="h3-0-7" class="i">+namespace PastebinAPI
+</a><a href="#h3-0-8" id="h3-0-8" class="i">+{
+</a><a href="#h3-0-9" id="h3-0-9" class="i">+    public struct UserInfo
+</a><a href="#h3-0-10" id="h3-0-10" class="i">+    {
+</a><a href="#h3-0-11" id="h3-0-11" class="i">+        /* Example xml
+</a><a href="#h3-0-12" id="h3-0-12" class="i">+        &lt;user&gt;
+</a><a href="#h3-0-13" id="h3-0-13" class="i">+	        &lt;user_name&gt;wiz_kitty&lt;/user_name&gt;
+</a><a href="#h3-0-14" id="h3-0-14" class="i">+	        &lt;user_format_short&gt;text&lt;/user_format_short&gt;
+</a><a href="#h3-0-15" id="h3-0-15" class="i">+	        &lt;user_expiration&gt;N&lt;/user_expiration&gt;
+</a><a href="#h3-0-16" id="h3-0-16" class="i">+	        &lt;user_avatar_url&gt;http://pastebin.com/cache/a/1.jpg&lt;/user_avatar_url&gt;
+</a><a href="#h3-0-17" id="h3-0-17" class="i">+	        &lt;user_private&gt;1&lt;/user_private&gt; (0 Public, 1 Unlisted, 2 Private)
+</a><a href="#h3-0-18" id="h3-0-18" class="i">+	        &lt;user_website&gt;http://myawesomesite.com&lt;/user_website&gt;
+</a><a href="#h3-0-19" id="h3-0-19" class="i">+	        &lt;user_email&gt;oh@dear.com&lt;/user_email&gt;
+</a><a href="#h3-0-20" id="h3-0-20" class="i">+	        &lt;user_location&gt;New York&lt;/user_location&gt;
+</a><a href="#h3-0-21" id="h3-0-21" class="i">+	        &lt;user_account_type&gt;1&lt;/user_account_type&gt; (0 normal, 1 PRO)
+</a><a href="#h3-0-22" id="h3-0-22" class="i">+        &lt;/user&gt;
+</a><a href="#h3-0-23" id="h3-0-23" class="i">+         */
+</a><a href="#h3-0-24" id="h3-0-24" class="i">+        internal static UserInfo Parse(string s)
+</a><a href="#h3-0-25" id="h3-0-25" class="i">+        {
+</a><a href="#h3-0-26" id="h3-0-26" class="i">+            XDocument xml = XDocument.Parse(s);
+</a><a href="#h3-0-27" id="h3-0-27" class="i">+            UserInfo userInfo = new UserInfo()
+</a><a href="#h3-0-28" id="h3-0-28" class="i">+            {
+</a><a href="#h3-0-29" id="h3-0-29" class="i">+                Name = xml.Element(&quot;user_name&quot;).Value,
+</a><a href="#h3-0-30" id="h3-0-30" class="i">+                FormatShort = xml.Element(&quot;user_format_short&quot;).Value,
+</a><a href="#h3-0-31" id="h3-0-31" class="i">+                Expiration = Expiration.Expirations[xml.Element(&quot;user_expiration&quot;).Value],
+</a><a href="#h3-0-32" id="h3-0-32" class="i">+                AvatarURL = xml.Element(&quot;user_avatar_url&quot;).Value,
+</a><a href="#h3-0-33" id="h3-0-33" class="i">+                Visibility = (Visibility)int.Parse(xml.Element(&quot;user_private&quot;).Value),
+</a><a href="#h3-0-34" id="h3-0-34" class="i">+                Website = xml.Element(&quot;user_website&quot;).Value,
+</a><a href="#h3-0-35" id="h3-0-35" class="i">+                Email = xml.Element(&quot;user_email&quot;).Value,
+</a><a href="#h3-0-36" id="h3-0-36" class="i">+                Location = xml.Element(&quot;user_location&quot;).Value,
+</a><a href="#h3-0-37" id="h3-0-37" class="i">+                IsPro = int.Parse(xml.Element(&quot;user_account_type&quot;).Value) == 1,
+</a><a href="#h3-0-38" id="h3-0-38" class="i">+            };
+</a><a href="#h3-0-39" id="h3-0-39" class="i">+            return userInfo;
+</a><a href="#h3-0-40" id="h3-0-40" class="i">+        }
+</a><a href="#h3-0-41" id="h3-0-41" class="i">+
+</a><a href="#h3-0-42" id="h3-0-42" class="i">+        public string Name { get; private set; }
+</a><a href="#h3-0-43" id="h3-0-43" class="i">+        public string FormatShort { get; private set; }
+</a><a href="#h3-0-44" id="h3-0-44" class="i">+        public Expiration Expiration { get; private set; }
+</a><a href="#h3-0-45" id="h3-0-45" class="i">+        public string AvatarURL { get; private set; }
+</a><a href="#h3-0-46" id="h3-0-46" class="i">+        public Visibility Visibility { get; private set; }
+</a><a href="#h3-0-47" id="h3-0-47" class="i">+        public string Website { get; private set; }
+</a><a href="#h3-0-48" id="h3-0-48" class="i">+        public string Email { get; private set; }
+</a><a href="#h3-0-49" id="h3-0-49" class="i">+        public string Location { get; private set; }
+</a><a href="#h3-0-50" id="h3-0-50" class="i">+        public bool IsPro { get; private set; }
+</a><a href="#h3-0-51" id="h3-0-51" class="i">+    }
+</a><a href="#h3-0-52" id="h3-0-52" class="i">+}
+</a></pre>
+</div>
+</body>
+</html>

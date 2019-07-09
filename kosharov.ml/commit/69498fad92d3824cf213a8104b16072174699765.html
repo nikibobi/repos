@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>change theme and add logo - kosharov.ml - My personal blog about programming and math
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="kosharov.ml Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>kosharov.ml</h1><span class="desc">My personal blog about programming and math
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/kosharov.ml.git">https://github.com/nikibobi/kosharov.ml.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/.gitmodules.html">Submodules</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/69498fad92d3824cf213a8104b16072174699765.html">69498fad92d3824cf213a8104b16072174699765</a>
+<b>parent</b> <a href="../commit/21dc0515605ebe5955db97096f5c7bb40a20a301.html">21dc0515605ebe5955db97096f5c7bb40a20a301</a>
+<b>Author:</b> bosak &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Thu,  7 Feb 2019 21:16:13 +0200
+
+change theme and add logo
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">.gitmodules</a></td><td> | </td><td class="num">6</td><td><span class="i">+++</span><span class="d">---</span></td></tr>
+<tr><td class="M">M</td><td><a href="#h1">config.toml</a></td><td> | </td><td class="num">47</td><td><span class="i">++++++++++++++++++</span><span class="d">-----------------------------</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h2">static/img/logo.jpeg</a></td><td> | </td><td class="num">0</td><td><span class="i"></span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h3">themes/cocoa-eh</a></td><td> | </td><td class="num">1</td><td><span class="i">+</span><span class="d"></span></td></tr>
+<tr><td class="D">D</td><td><a href="#h4">themes/terminal</a></td><td> | </td><td class="num">1</td><td><span class="i"></span><span class="d">-</span></td></tr>
+</table></pre><pre>5 files changed, 22 insertions(+), 33 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/.gitmodules.html">.gitmodules</a> b/<a href="../file/.gitmodules.html">.gitmodules</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,7 +1,7 @@
+</a><a href="#h0-0-0" id="h0-0-0" class="d">-[submodule &quot;themes/terminal&quot;]
+</a><a href="#h0-0-1" id="h0-0-1" class="d">-	path = themes/terminal
+</a><a href="#h0-0-2" id="h0-0-2" class="d">-	url = https://github.com/panr/hugo-theme-terminal.git
+</a> [submodule &quot;public&quot;]
+ 	path = public
+ 	url = git@github.com:nikibobi/nikibobi.github.io.git
+ 	branch = master
+<a href="#h0-0-7" id="h0-0-7" class="i">+[submodule &quot;themes/cocoa-eh&quot;]
+</a><a href="#h0-0-8" id="h0-0-8" class="i">+	path = themes/cocoa-eh
+</a><a href="#h0-0-9" id="h0-0-9" class="i">+	url = https://github.com/mtn/cocoa-eh-hugo-theme.git
+</a><b>diff --git a/<a id="h1" href="../file/config.toml.html">config.toml</a> b/<a href="../file/config.toml.html">config.toml</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -1,33 +1,22 @@
+</a> baseURL = &quot;https://nikibobi.github.io/&quot;
+<a href="#h1-0-1" id="h1-0-1" class="d">-languageCode = &quot;en-us&quot;
+</a><a href="#h1-0-2" id="h1-0-2" class="d">-title = &quot;Borislav Kosharov&quot;
+</a><a href="#h1-0-3" id="h1-0-3" class="i">+languageCode = &quot;en-US&quot;
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+title = &quot;kosharov.ml&quot;
+</a> subtitle = &quot;Thoughts on programming and math&quot;
+<a href="#h1-0-6" id="h1-0-6" class="d">-theme = &quot;terminal&quot;
+</a><a href="#h1-0-7" id="h1-0-7" class="i">+theme = &quot;cocoa-eh&quot;
+</a> 
+ [params]
+<a href="#h1-0-10" id="h1-0-10" class="d">-  # dir name of your blog content (default is `content/posts`)
+</a><a href="#h1-0-11" id="h1-0-11" class="d">-  contentTypeName = &quot;posts&quot;
+</a><a href="#h1-0-12" id="h1-0-12" class="d">-  # [&quot;orange&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;green&quot;, &quot;pink&quot;]
+</a><a href="#h1-0-13" id="h1-0-13" class="d">-  themeColor = &quot;blue&quot;
+</a><a href="#h1-0-14" id="h1-0-14" class="d">-
+</a><a href="#h1-0-15" id="h1-0-15" class="d">-[languages]
+</a><a href="#h1-0-16" id="h1-0-16" class="d">-  [languages.en]
+</a><a href="#h1-0-17" id="h1-0-17" class="d">-    keywords = &quot;&quot;
+</a><a href="#h1-0-18" id="h1-0-18" class="d">-    copyright = &quot;&quot;
+</a><a href="#h1-0-19" id="h1-0-19" class="d">-    menuMore = &quot;Show more&quot;
+</a><a href="#h1-0-20" id="h1-0-20" class="d">-    readMore = &quot;Read more&quot;
+</a><a href="#h1-0-21" id="h1-0-21" class="d">-    readOtherPosts = &quot;Read other posts&quot;
+</a><a href="#h1-0-22" id="h1-0-22" class="d">-
+</a><a href="#h1-0-23" id="h1-0-23" class="d">-    [languages.en.params.logo]
+</a><a href="#h1-0-24" id="h1-0-24" class="d">-      logoText = &quot;kosharov.ml&quot;
+</a><a href="#h1-0-25" id="h1-0-25" class="d">-      logoHomeLink = &quot;/posts&quot;
+</a><a href="#h1-0-26" id="h1-0-26" class="d">-
+</a><a href="#h1-0-27" id="h1-0-27" class="d">-    [languages.en.menu]
+</a><a href="#h1-0-28" id="h1-0-28" class="d">-      [[languages.en.menu.main]]
+</a><a href="#h1-0-29" id="h1-0-29" class="d">-        identifier = &quot;blog&quot;
+</a><a href="#h1-0-30" id="h1-0-30" class="d">-        name = &quot;Blog&quot;
+</a><a href="#h1-0-31" id="h1-0-31" class="d">-        url = &quot;/posts&quot;
+</a><a href="#h1-0-32" id="h1-0-32" class="d">-      [[languages.en.menu.main]]
+</a><a href="#h1-0-33" id="h1-0-33" class="d">-        identifier = &quot;about&quot;
+</a><a href="#h1-0-34" id="h1-0-34" class="d">-        name = &quot;About&quot;
+</a><a href="#h1-0-35" id="h1-0-35" class="d">-        url = &quot;/about&quot;
+</a><a href="#h1-0-36" id="h1-0-36" class="i">+  dateform = &quot;Jan 2, 2006&quot;
+</a><a href="#h1-0-37" id="h1-0-37" class="i">+  dateformfull = &quot;Mon Jan 2 2006 15:04:05 MST&quot;
+</a><a href="#h1-0-38" id="h1-0-38" class="i">+  description = &quot;Thoughts on programming and math&quot;
+</a><a href="#h1-0-39" id="h1-0-39" class="i">+  logofile = &quot;img/logo.jpeg&quot;
+</a><a href="#h1-0-40" id="h1-0-40" class="i">+  faviconfile = &quot;&quot;
+</a><a href="#h1-0-41" id="h1-0-41" class="i">+  highlightjs = true
+</a><a href="#h1-0-42" id="h1-0-42" class="i">+  progressively = true
+</a><a href="#h1-0-43" id="h1-0-43" class="i">+  uselatex = true
+</a><a href="#h1-0-44" id="h1-0-44" class="i">+  github = &quot;nikibobi&quot;
+</a><a href="#h1-0-45" id="h1-0-45" class="i">+  email = &quot;bosakmaw@gmail.com&quot;
+</a><a href="#h1-0-46" id="h1-0-46" class="i">+  linkedin = &quot;borislav-kosharov-455b59163&quot;
+</a><a href="#h1-0-47" id="h1-0-47" class="i">+  twitter = &quot;bosakmaw&quot;
+</a><a href="#h1-0-48" id="h1-0-48" class="i">+  social_banner = &quot;img/banner.png&quot;
+</a><a href="#h1-0-49" id="h1-0-49" class="i">+  posts_navigation = true
+</a><a href="#h1-0-50" id="h1-0-50" class="i">+  small_banner_logo = true
+</a><b>diff --git a/<a id="h2" href="../file/static/img/logo.jpeg.html">static/img/logo.jpeg</a> b/<a href="../file/static/img/logo.jpeg.html">static/img/logo.jpeg</a></b>
+Binary files differ.
+<b>diff --git a/<a id="h3" href="../file/themes/cocoa-eh.html">themes/cocoa-eh</a> b/<a href="../file/themes/cocoa-eh.html">themes/cocoa-eh</a></b>
+<a href="#h3-0" id="h3-0" class="h">@@ -0,0 +1 @@
+</a><a href="#h3-0-0" id="h3-0-0" class="i">+Subproject commit fa031e93c16f46fd254100927264193f7f442baf
+</a><b>diff --git a/<a id="h4" href="../file/themes/terminal.html">themes/terminal</a> b/<a href="../file/themes/terminal.html">themes/terminal</a></b>
+<a href="#h4-0" id="h4-0" class="h">@@ -1 +0,0 @@
+</a><a href="#h4-0-0" id="h4-0-0" class="d">-Subproject commit e6f88474602c71068b6aeecd805db3e03555160e
+</a></pre>
+</div>
+</body>
+</html>

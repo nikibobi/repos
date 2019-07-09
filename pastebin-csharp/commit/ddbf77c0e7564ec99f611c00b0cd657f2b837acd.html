@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Added Pastebin.NewPaste to example - pastebin-csharp - Simple and easy to use API for Pastebin in C#
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="pastebin-csharp Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>pastebin-csharp</h1><span class="desc">Simple and easy to use API for Pastebin in C#
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/pastebin-csharp.git">https://github.com/nikibobi/pastebin-csharp.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/ddbf77c0e7564ec99f611c00b0cd657f2b837acd.html">ddbf77c0e7564ec99f611c00b0cd657f2b837acd</a>
+<b>parent</b> <a href="../commit/19cb8367334a279e2cee57aaaa8ebd9604f3980a.html">19cb8367334a279e2cee57aaaa8ebd9604f3980a</a>
+<b>Author:</b> nikibobi &lt;<a href="mailto:boby_dsm@abv.bg">boby_dsm@abv.bg</a>&gt;
+<b>Date:</b>   Sun, 24 Mar 2013 18:12:58 +0200
+
+Added Pastebin.NewPaste to example
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">Example/Program.cs</a></td><td> | </td><td class="num">6</td><td><span class="i">+++++</span><span class="d">-</span></td></tr>
+</table></pre><pre>1 file changed, 5 insertions(+), 1 deletion(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/Example/Program.cs.html">Example/Program.cs</a> b/<a href="../file/Example/Program.cs.html">Example/Program.cs</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -18,8 +18,12 @@ static void Main(string[] args)
+</a>                 Console.WriteLine(&quot;URL: {0}&quot;,newPaste.Url);
+                 Console.WriteLine(&quot;Paste key: {0}&quot;, newPaste.Key);
+                 Console.WriteLine(&quot;Content: {0}&quot;, newPaste.GetRaw());
+<a href="#h0-0-3" id="h0-0-3" class="d">-                me.DeletePaste(newPaste); //deletes a paste created by user
+</a><a href="#h0-0-4" id="h0-0-4" class="i">+                me.DeletePaste(newPaste); //deletes the paste we just created
+</a>                 Console.WriteLine(Pastebin.ListTrendingPastes()); //lists all pastes when you click on trending pastes
+<a href="#h0-0-6" id="h0-0-6" class="i">+
+</a><a href="#h0-0-7" id="h0-0-7" class="i">+                //you can create pastes directly from Pastebin static class but they are created as guests
+</a><a href="#h0-0-8" id="h0-0-8" class="i">+                Paste anotherPaste = Pastebin.NewPaste(&quot;another paste&quot;, &quot;MyPasteTitle2&quot;, PasteFormat.CSharp, Visibility.Unlisted, Expiration.OneHour);
+</a><a href="#h0-0-9" id="h0-0-9" class="i">+                Console.WriteLine(anotherPaste.Url);
+</a>             }
+             catch(PastebinException ex) //api throws PastebinException
+             {
+</pre>
+</div>
+</body>
+</html>

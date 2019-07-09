@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>add basic markup and split into components - poe - Path of Exile currency utility site
+</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="alternate" type="application/atom+xml" title="poe Atom Feed" href="../atom.xml" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<table><tr><td><a href="../../"><img src="../logo.png" alt="" width="32" height="32" /></a></td><td><h1>poe</h1><span class="desc">Path of Exile currency utility site
+</span></td></tr><tr class="url"><td></td><td>git clone <a href="https://github.com/nikibobi/poe.git">https://github.com/nikibobi/poe.git</a></td></tr><tr><td></td><td>
+<a href="../log.html">Log</a> | <a href="../files.html">Files</a> | <a href="../refs.html">Refs</a> | <a href="../file/README.md.html">README</a> | <a href="../file/LICENSE.html">LICENSE</a></td></tr></table>
+<hr/>
+<div id="content">
+<pre><b>commit</b> <a href="../commit/87431a7fb002ab3ece0880373dfea573af9d8f77.html">87431a7fb002ab3ece0880373dfea573af9d8f77</a>
+<b>parent</b> <a href="../commit/f66954cca1e6ed29a26741b1c20f87fd8a305e27.html">f66954cca1e6ed29a26741b1c20f87fd8a305e27</a>
+<b>Author:</b> Borislav Kosharov &lt;<a href="mailto:bosakmaw@gmail.com">bosakmaw@gmail.com</a>&gt;
+<b>Date:</b>   Fri,  7 Jun 2019 01:36:31 +0300
+
+add basic markup and split into components
+
+<b>Diffstat:</b>
+<table><tr><td class="M">M</td><td><a href="#h0">src/App.tsx</a></td><td> | </td><td class="num">30</td><td><span class="i">++++++++++++</span><span class="d">------------------</span></td></tr>
+<tr><td class="A">A</td><td><a href="#h1">src/components/CurrencyPicker.tsx</a></td><td> | </td><td class="num">19</td><td><span class="i">+++++++++++++++++++</span><span class="d"></span></td></tr>
+<tr><td class="A">A</td><td><a href="#h2">src/components/CurrencyTable.tsx</a></td><td> | </td><td class="num">16</td><td><span class="i">++++++++++++++++</span><span class="d"></span></td></tr>
+</table></pre><pre>3 files changed, 47 insertions(+), 18 deletions(-)
+<hr/><b>diff --git a/<a id="h0" href="../file/src/App.tsx.html">src/App.tsx</a> b/<a href="../file/src/App.tsx.html">src/App.tsx</a></b>
+<a href="#h0-0" id="h0-0" class="h">@@ -1,25 +1,19 @@
+</a> import React from &#39;react&#39;;
+ import &#39;./App.css&#39;;
+<a href="#h0-0-2" id="h0-0-2" class="i">+import CurrencyTable from &#39;./components/CurrencyTable&#39;;
+</a><a href="#h0-0-3" id="h0-0-3" class="i">+import CurrencyPicker from &#39;./components/CurrencyPicker&#39;;
+</a> 
+ const App: React.FC = () =&gt; {
+<a href="#h0-0-6" id="h0-0-6" class="d">-  return (
+</a><a href="#h0-0-7" id="h0-0-7" class="d">-    &lt;div className=&quot;App&quot;&gt;
+</a><a href="#h0-0-8" id="h0-0-8" class="d">-      &lt;header className=&quot;App-header&quot;&gt;
+</a><a href="#h0-0-9" id="h0-0-9" class="d">-        &lt;img src={logo} className=&quot;App-logo&quot; alt=&quot;logo&quot; /&gt;
+</a><a href="#h0-0-10" id="h0-0-10" class="d">-        &lt;p&gt;
+</a><a href="#h0-0-11" id="h0-0-11" class="d">-          Edit &lt;code&gt;src/App.tsx&lt;/code&gt; and save to reload.
+</a><a href="#h0-0-12" id="h0-0-12" class="d">-        &lt;/p&gt;
+</a><a href="#h0-0-13" id="h0-0-13" class="d">-        &lt;a
+</a><a href="#h0-0-14" id="h0-0-14" class="d">-          className=&quot;App-link&quot;
+</a><a href="#h0-0-15" id="h0-0-15" class="d">-          href=&quot;https://reactjs.org&quot;
+</a><a href="#h0-0-16" id="h0-0-16" class="d">-          target=&quot;_blank&quot;
+</a><a href="#h0-0-17" id="h0-0-17" class="d">-          rel=&quot;noopener noreferrer&quot;
+</a><a href="#h0-0-18" id="h0-0-18" class="d">-        &gt;
+</a><a href="#h0-0-19" id="h0-0-19" class="d">-          Learn React
+</a><a href="#h0-0-20" id="h0-0-20" class="d">-        &lt;/a&gt;
+</a><a href="#h0-0-21" id="h0-0-21" class="d">-      &lt;/header&gt;
+</a><a href="#h0-0-22" id="h0-0-22" class="d">-    &lt;/div&gt;
+</a><a href="#h0-0-23" id="h0-0-23" class="d">-  );
+</a><a href="#h0-0-24" id="h0-0-24" class="i">+    return (
+</a><a href="#h0-0-25" id="h0-0-25" class="i">+        &lt;React.Fragment&gt;
+</a><a href="#h0-0-26" id="h0-0-26" class="i">+        &lt;aside&gt;
+</a><a href="#h0-0-27" id="h0-0-27" class="i">+            &lt;CurrencyPicker /&gt;
+</a><a href="#h0-0-28" id="h0-0-28" class="i">+        &lt;/aside&gt;
+</a><a href="#h0-0-29" id="h0-0-29" class="i">+        &lt;section&gt;
+</a><a href="#h0-0-30" id="h0-0-30" class="i">+            &lt;CurrencyTable /&gt;
+</a><a href="#h0-0-31" id="h0-0-31" class="i">+        &lt;/section&gt;
+</a><a href="#h0-0-32" id="h0-0-32" class="i">+        &lt;/React.Fragment&gt;
+</a><a href="#h0-0-33" id="h0-0-33" class="i">+    );
+</a> }
+ 
+ export default App;
+<b>diff --git a/<a id="h1" href="../file/src/components/CurrencyPicker.tsx.html">src/components/CurrencyPicker.tsx</a> b/<a href="../file/src/components/CurrencyPicker.tsx.html">src/components/CurrencyPicker.tsx</a></b>
+<a href="#h1-0" id="h1-0" class="h">@@ -0,0 +1,18 @@
+</a><a href="#h1-0-0" id="h1-0-0" class="i">+import React from &#39;react&#39;;
+</a><a href="#h1-0-1" id="h1-0-1" class="i">+
+</a><a href="#h1-0-2" id="h1-0-2" class="i">+const CurrencyPicker: React.FC = () =&gt; {
+</a><a href="#h1-0-3" id="h1-0-3" class="i">+    return (
+</a><a href="#h1-0-4" id="h1-0-4" class="i">+        &lt;React.Fragment&gt;
+</a><a href="#h1-0-5" id="h1-0-5" class="i">+            &lt;select id=&quot;include&quot; multiple&gt;
+</a><a href="#h1-0-6" id="h1-0-6" class="i">+            &lt;/select&gt;
+</a><a href="#h1-0-7" id="h1-0-7" class="i">+            &lt;div className=&quot;group&quot;&gt;
+</a><a href="#h1-0-8" id="h1-0-8" class="i">+                &lt;input type=&quot;number&quot; id=&quot;value&quot; min=&quot;1&quot; max=&quot;1000&quot; step=&quot;1&quot; placeholder=&quot;chaos&quot; /&gt;&lt;span className=&quot;gap&quot;&gt;&amp;plusmn;&lt;/span&gt;&lt;input type=&quot;number&quot; id=&quot;delta&quot; min=&quot;0&quot; max=&quot;1&quot; step=&quot;0.01&quot; placeholder=&quot;delta&quot; /&gt;
+</a><a href="#h1-0-9" id="h1-0-9" class="i">+            &lt;/div&gt;
+</a><a href="#h1-0-10" id="h1-0-10" class="i">+            &lt;div className=&quot;group&quot;&gt;
+</a><a href="#h1-0-11" id="h1-0-11" class="i">+                &lt;input type=&quot;number&quot; id=&quot;from&quot; min=&quot;0&quot; max=&quot;1000&quot; step=&quot;1&quot; placeholder=&quot;from&quot; /&gt;&lt;span className=&quot;gap&quot;&gt;&amp;divide;&lt;/span&gt;&lt;input type=&quot;number&quot; id=&quot;to&quot; min=&quot;0&quot; max=&quot;1000&quot; step=&quot;1&quot; placeholder=&quot;to&quot; /&gt;
+</a><a href="#h1-0-12" id="h1-0-12" class="i">+            &lt;/div&gt;
+</a><a href="#h1-0-13" id="h1-0-13" class="i">+        &lt;/React.Fragment&gt;
+</a><a href="#h1-0-14" id="h1-0-14" class="i">+    );
+</a><a href="#h1-0-15" id="h1-0-15" class="i">+}
+</a><a href="#h1-0-16" id="h1-0-16" class="i">+
+</a><a href="#h1-0-17" id="h1-0-17" class="i">+export default CurrencyPicker;</a><a href="#h1-0-18" id="h1-0-18" class="i">+
+\ No newline at end of file
+</a><b>diff --git a/<a id="h2" href="../file/src/components/CurrencyTable.tsx.html">src/components/CurrencyTable.tsx</a> b/<a href="../file/src/components/CurrencyTable.tsx.html">src/components/CurrencyTable.tsx</a></b>
+<a href="#h2-0" id="h2-0" class="h">@@ -0,0 +1,15 @@
+</a><a href="#h2-0-0" id="h2-0-0" class="i">+import React from &#39;react&#39;;
+</a><a href="#h2-0-1" id="h2-0-1" class="i">+
+</a><a href="#h2-0-2" id="h2-0-2" class="i">+const CurrencyTable: React.FC = () =&gt; {
+</a><a href="#h2-0-3" id="h2-0-3" class="i">+    return (
+</a><a href="#h2-0-4" id="h2-0-4" class="i">+        &lt;table id=&quot;currencies&quot;&gt;
+</a><a href="#h2-0-5" id="h2-0-5" class="i">+            &lt;thead&gt;
+</a><a href="#h2-0-6" id="h2-0-6" class="i">+                &lt;tr&gt;&lt;th&gt;Chaos&lt;/th&gt;&lt;th&gt;Currency&lt;/th&gt;&lt;/tr&gt;
+</a><a href="#h2-0-7" id="h2-0-7" class="i">+            &lt;/thead&gt;
+</a><a href="#h2-0-8" id="h2-0-8" class="i">+            &lt;tbody&gt;
+</a><a href="#h2-0-9" id="h2-0-9" class="i">+            &lt;/tbody&gt;
+</a><a href="#h2-0-10" id="h2-0-10" class="i">+        &lt;/table&gt;
+</a><a href="#h2-0-11" id="h2-0-11" class="i">+    );
+</a><a href="#h2-0-12" id="h2-0-12" class="i">+}
+</a><a href="#h2-0-13" id="h2-0-13" class="i">+
+</a><a href="#h2-0-14" id="h2-0-14" class="i">+export default CurrencyTable;</a><a href="#h2-0-15" id="h2-0-15" class="i">+
+\ No newline at end of file
+</a></pre>
+</div>
+</body>
+</html>
